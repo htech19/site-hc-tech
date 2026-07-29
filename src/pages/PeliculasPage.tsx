@@ -160,7 +160,7 @@ const PeliculasPage = () => {
           <div className="flex items-center gap-2">
             {[
               {
-                href: "https://wa.me/551190562933?text=Olá! Vi a tabela de compatibilidade e gostaria de um orçamento.",
+                href: "https://wa.me/5511940562933?text=Olá! Vi a tabela de compatibilidade e gostaria de um orçamento.",
                 icon: <MessageCircle size={14} />,
                 label: "WhatsApp",
               },
@@ -461,7 +461,7 @@ const PeliculasPage = () => {
                     style={{ borderTop: `1px solid ${C.border}` }}
                   >
                     <a
-                      href={`https://wa.me/551190562933?text=Olá! Preciso de película para ${f.model}`}
+                      href={`https://wa.me/5511940562933?text=Olá! Preciso de película para ${f.model}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 text-xs font-medium transition-colors duration-150"
@@ -538,7 +538,7 @@ const PeliculasPage = () => {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 {/* Botão primário — WhatsApp */}
                 <a
-                  href="https://wa.me/551190562933?text=Olá! Preciso de ajuda para encontrar minha película."
+                  href="https://wa.me/5511940562933?text=Olá! Preciso de ajuda para encontrar minha película."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-150 hover:scale-105 active:scale-95"

@@ -1,5 +1,5 @@
 // Botão flutuante WhatsApp (substitui o Assistente Maia)
-const WA = "551194056293";
+const WA = "5511940562933";
 const MSG = encodeURIComponent("Olá! Vim pelo site da HC Tech.");
 
 export default function ChatWidget() {

@@ -139,7 +139,7 @@ export default function LojaPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.25 }}
-                  className="group relative bg-gradient-to-b from-zinc-900 to-zinc-950 rounded-2xl overflow-hidden border border-white/5 hover:border-[#00A651]/40 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,166,81,0.15)] hover:-translate-y-1"
+                  className="group relative flex flex-col h-full bg-gradient-to-b from-zinc-900 to-zinc-950 rounded-2xl overflow-hidden border border-white/5 hover:border-[#00A651]/40 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,166,81,0.15)] hover:-translate-y-1"
                 >
                   {/* SELOS */}
                   <div className="absolute top-2 left-2 z-10 flex flex-col gap-1.5">
@@ -172,9 +172,11 @@ export default function LojaPage() {
                   <div className="relative aspect-square bg-zinc-800/50 overflow-hidden">
                     <img
                       src={product.image}
-                      alt={product.name}
+                      alt={`${product.name} — ${product.category} | HC Tech`}
                       loading="lazy"
                       decoding="async"
+                      width={800}
+                      height={800}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     {/* Overlay de ações no hover */}
@@ -199,7 +201,7 @@ export default function LojaPage() {
                   </div>
 
                   {/* INFO */}
-                  <div className="p-3">
+                  <div className="p-3 flex flex-col flex-1">
                     <span className="text-[#00A651] text-[8px] font-black uppercase tracking-wider line-clamp-1">
                       {product.category}
                     </span>
@@ -214,7 +216,7 @@ export default function LojaPage() {
                       href={product.whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 flex items-center justify-center gap-1.5 w-full bg-[#00A651]/10 hover:bg-[#00A651] text-[#00A651] hover:text-black font-black text-[10px] uppercase tracking-widest py-2.5 rounded-xl transition-all border border-[#00A651]/30 hover:border-[#00A651]"
+                      className="mt-auto pt-3 flex items-center justify-center gap-1.5 w-full bg-[#00A651]/10 hover:bg-[#00A651] text-[#00A651] hover:text-black font-black text-[10px] uppercase tracking-widest py-2.5 rounded-xl transition-all border border-[#00A651]/30 hover:border-[#00A651]"
                     >
                       <MessageCircle size={12} /> Comprar
                     </a>

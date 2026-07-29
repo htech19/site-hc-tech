@@ -18,7 +18,7 @@ const ContactSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const msg = `Olá! Meu nome é ${form.nome}.%0ATelefone: ${form.telefone}%0AModelo: ${form.modelo}%0AProblema: ${form.problema}%0AMensagem: ${form.mensagem}`;
-    window.open(`https://wa.me/551190562933?text=${msg}`, "_blank");
+    window.open(`https://wa.me/5511940562933?text=${msg}`, "_blank");
   };
 
   const inputClasses =
