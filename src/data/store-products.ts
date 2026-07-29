@@ -9,7 +9,7 @@ export interface Product {
   whatsappUrl: string;
 }
 
-const SEU_NUMERO = "551194056293";
+const SEU_NUMERO = "5511940562933";
 const generateWaLink = (productName: string) =>
   `https://wa.me/${SEU_NUMERO}?text=${encodeURIComponent(`Olá! Tenho interesse no produto: ${productName}`)}`;
 

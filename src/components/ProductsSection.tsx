@@ -211,7 +211,7 @@ export function HeroSection() {
           }}>
             Ver Produtos
           </a>
-          <a href="https://wa.me/551190562933" target="_blank" rel="noopener noreferrer" style={{
+          <a href="https://wa.me/5511940562933" target="_blank" rel="noopener noreferrer" style={{
             padding:"14px 36px", borderRadius:99,
             background:"transparent", color:C.white, fontWeight:700, fontSize:14,
             textDecoration:"none", border:"1.5px solid rgba(255,255,255,.25)",
@@ -468,7 +468,7 @@ export default function ProductsSection() {
                   </div>
 
                   <a
-                    href={`https://wa.me/551190562933?text=Olá! Tenho interesse: ${selected.name}`}
+                    href={`https://wa.me/5511940562933?text=Olá! Tenho interesse: ${selected.name}`}
                     target="_blank" rel="noopener noreferrer"
                     style={{
                       display:"flex", alignItems:"center", justifyContent:"center",
