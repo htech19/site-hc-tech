@@ -201,7 +201,7 @@ export default function LojaPage() {
                   </div>
 
                   {/* INFO */}
-                  <div className="p-3">
+                  <div className="p-3 flex flex-col flex-1">
                     <span className="text-[#00A651] text-[8px] font-black uppercase tracking-wider line-clamp-1">
                       {product.category}
                     </span>
@@ -216,7 +216,7 @@ export default function LojaPage() {
                       href={product.whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 flex items-center justify-center gap-1.5 w-full bg-[#00A651]/10 hover:bg-[#00A651] text-[#00A651] hover:text-black font-black text-[10px] uppercase tracking-widest py-2.5 rounded-xl transition-all border border-[#00A651]/30 hover:border-[#00A651]"
+                      className="mt-auto pt-3 flex items-center justify-center gap-1.5 w-full bg-[#00A651]/10 hover:bg-[#00A651] text-[#00A651] hover:text-black font-black text-[10px] uppercase tracking-widest py-2.5 rounded-xl transition-all border border-[#00A651]/30 hover:border-[#00A651]"
                     >
                       <MessageCircle size={12} /> Comprar
                     </a>
