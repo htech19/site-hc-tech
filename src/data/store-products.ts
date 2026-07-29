@@ -13,30 +13,6 @@ const SEU_NUMERO = "5511940562933";
 const generateWaLink = (productName: string) =>
   `https://wa.me/${SEU_NUMERO}?text=${encodeURIComponent(`Olá! Tenho interesse no produto: ${productName}`)}`;
 
-const IMG = {
-  fone:         "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80",
-  headphone:    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&q=80",
-  headset:      "https://images.unsplash.com/photo-1599669454699-248893623440?w=400&q=80",
-  headsetGamer: "https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=400&q=80",
-  cabo:         "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
-  caboHdmi:     "https://images.unsplash.com/photo-1601999009162-2459b9d55a86?w=400&q=80",
-  carregador:   "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&q=80",
-  veicular:     "https://images.unsplash.com/photo-1619641196980-b4c2f2d2765b?w=400&q=80",
-  powerbank:    "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&q=80",
-  caixa:        "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&q=80",
-  teclado:      "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80",
-  mouse:        "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&q=80",
-  cartao:       "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80",
-  pendrive:     "https://images.unsplash.com/photo-1618410320928-25b4b1ed25e9?w=400&q=80",
-  suporte:      "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=400&q=80",
-  lanterna:     "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
-  somAuto:      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&q=80",
-  drone:        "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=400&q=80",
-  camera:       "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&q=80",
-  smartwatch:   "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
-  marmita:      "https://images.unsplash.com/photo-1585338447937-7082f8fc763d?w=400&q=80",
-  maquina:      "https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&q=80",
-};
 
 export const products: Product[] = [
   // == FONES & HEADSETS ==
