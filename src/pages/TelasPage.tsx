@@ -52,7 +52,7 @@ const TelaCard = ({ t }: { t: Tela }) => {
   const estoque = EM_ESTOQUE.has(t.qualidade);
   const Icone = t.tipo.toUpperCase().includes("TABLET") ? Tablet : Smartphone;
   return (
-    <article className="group flex h-full flex-col rounded-xl border border-border bg-card/60 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-card hover:shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.45)]">
+    <article className="group flex h-full flex-col rounded-xl border border-border bg-card/95 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-card hover:shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.45)]">
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
@@ -276,7 +276,7 @@ const TelasPage = () => {
       {/* Resultados */}
       <main className="container mx-auto max-w-6xl px-4 py-8">
         {filtered.length === 0 ? (
-          <div className="rounded-xl border border-border bg-card/60 p-10 text-center">
+          <div className="rounded-xl border border-border bg-card/95 p-10 text-center">
             <p className="text-base font-medium">Nenhuma tela encontrada</p>
             <p className="mt-1 text-sm text-muted-foreground">
               Tente outro termo ou fale com a gente — temos acesso a modelos fora da tabela.
