@@ -106,6 +106,22 @@ export const products: Product[] = [
   // == UTILIDADES ==
   { id: 71, name: "Marmita Elétrica LEY-2200",   price: "R$ 129,00", category: "Utilidades", image: "/images/produtos/marmita-eletrica-ley-2200.jpg", whatsappUrl: generateWaLink("Marmita Elétrica LEY-2200") },
   { id: 72, name: "Máquina de Cabelo Al-2927",   price: "R$ 59,90",  category: "Utilidades", image: "/images/produtos/maquina-de-cabelo-al-2927.jpg", whatsappUrl: generateWaLink("Máquina de Cabelo Al-2927") },
+
+  // == SSDs & ARMAZENAMENTO ==
+  { id: 73, name: "SSD TGT Seal 120GB", price: "R$ 249,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD TGT Seal 120GB") },
+  { id: 74, name: "SSD Kootion 128GB", price: "R$ 249,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Kootion 128GB") },
+  { id: 75, name: "SSD Kootion 240GB", price: "R$ 369,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Kootion 240GB") },
+  { id: 76, name: "SSD Adata 240GB", price: "R$ 399,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Adata 240GB") },
+  { id: 77, name: "SSD MSI 240GB", price: "R$ 399,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD MSI 240GB") },
+  { id: 78, name: "SSD Gigabyte 240GB", price: "R$ 399,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Gigabyte 240GB") },
+  { id: 79, name: "SSD Kootion 256GB", price: "R$ 379,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Kootion 256GB") },
+  { id: 80, name: "SSD Lexar 256GB", price: "R$ 399,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Lexar 256GB") },
+  { id: 81, name: "SSD Kootion 480GB", price: "R$ 459,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Kootion 480GB") },
+  { id: 82, name: "SSD Redragon 480GB", price: "R$ 489,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Redragon 480GB") },
+  { id: 83, name: "SSD Kingston 480GB", price: "R$ 499,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Kingston 480GB") },
+  { id: 84, name: "SSD Kootion 512GB", price: "R$ 479,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Kootion 512GB") },
+  { id: 85, name: "SSD Kootion 1TB", price: "R$ 799,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Kootion 1TB") },
+  { id: 86, name: "SSD Kootion 2TB", price: "R$ 1.249,00", category: "SSDs & Armazenamento", image: "/images/produtos/ssd-sata-25.jpg", whatsappUrl: generateWaLink("SSD Kootion 2TB") },
 ];
 
 export const categories = [
@@ -120,4 +136,5 @@ export const categories = [
   "Eletrônicos",
   "Smartwatches",
   "Utilidades",
+  "SSDs & Armazenamento",
 ];
