@@ -125,9 +125,8 @@ const TelasPage = () => {
       if (!faixaTest(t.preco)) return false;
       if (!termo) return true;
       const alias = t.marca === "Apple" ? "iphone apple" : t.marca === "Redmi" ? "xiaomi redmi" : t.marca;
-      return `${alias} ${t.marca} ${t.modelo} ${t.qualidade} ${t.tipo} ${t.codigo}`
-        .toLowerCase()
-        .includes(termo);
+      const haystack = `${alias} ${t.modelo} ${t.qualidade} ${t.tipo} ${t.codigo}`.toLowerCase();
+      return termo.split(/\s+/).every((token) => haystack.includes(token));
     });
   }, [q, marca, qualidade, faixa]);
 
