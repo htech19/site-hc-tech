@@ -66,7 +66,7 @@ const TelaCard = ({ t }: { t: Tela }) => {
       </div>
 
       <h3 className="mt-3 text-base font-semibold leading-snug text-foreground">
-        {t.marca} {t.modelo}
+        {t.marca === "Apple" ? "iPhone" : t.marca} {t.modelo}
       </h3>
       <p className="mt-1 text-xs text-muted-foreground">
         Cód. {t.codigo} • {t.tipo || "Celular"}
@@ -124,7 +124,8 @@ const TelasPage = () => {
       if (qualidade !== "all" && t.qualidade !== qualidade) return false;
       if (!faixaTest(t.preco)) return false;
       if (!termo) return true;
-      return `${t.marca} ${t.modelo} ${t.qualidade} ${t.tipo} ${t.codigo}`
+      const alias = t.marca === "Apple" ? "iphone apple" : t.marca === "Redmi" ? "xiaomi redmi" : t.marca;
+      return `${alias} ${t.marca} ${t.modelo} ${t.qualidade} ${t.tipo} ${t.codigo}`
         .toLowerCase()
         .includes(termo);
     });
