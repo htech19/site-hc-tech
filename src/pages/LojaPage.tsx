@@ -98,10 +98,16 @@ export default function LojaPage() {
               className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]"
             >
               HC TECH <span className="text-[#00A651] drop-shadow-[0_0_20px_rgba(0,166,81,0.6)]">STORE</span>
+              {selectedCategory !== "Todos" && (
+                <span className="block text-lg md:text-2xl mt-2 not-italic tracking-normal text-gray-200">
+                  {selectedCategory}
+                </span>
+              )}
             </motion.h1>
             <p className="text-gray-300 text-sm md:text-base mt-3 max-w-xl font-medium">
-              Acessórios, fones, carregadores e gadgets selecionados.
+              {activeCategory?.description ?? "Acessórios, fones, carregadores e gadgets selecionados."}
             </p>
+
           </div>
         </div>
       </section>
