@@ -120,22 +120,26 @@ export default function LojaPage() {
             />
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
+          <nav className="flex flex-wrap justify-center gap-2" aria-label="Categorias da loja">
+            {categoryList.map((category) => (
+              <Link
+                key={category.slug}
+                to={category.slug === "todos" ? "/loja" : `/loja/${category.slug}`}
                 className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
-                  selectedCategory === category
+                  selectedCategory === category.name
                     ? "bg-[#00A651] text-black shadow-[0_0_15px_rgba(0,166,81,0.4)]"
                     : "bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-white"
                 }`}
               >
-                {category}
-              </button>
+                {category.name}
+              </Link>
             ))}
-          </div>
+          </nav>
         </div>
+
+        {/* MAIS VENDIDOS / DESTAQUES */}
+        <FeaturedCarousel products={featured} />
+
 
         {/* CONTADOR */}
         <div className="flex items-center justify-between mt-8 mb-5 px-1">
