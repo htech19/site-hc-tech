@@ -1,8 +1,12 @@
 import { useState, useMemo } from "react";
 import { Search, MessageCircle, Heart, Eye, ShoppingCart, Flame, Tag, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useParams, Navigate } from "react-router-dom";
 import Header from "@/components/Header";
-import { products, categories, type Product } from "../data/store-products";
+import FeaturedCarousel from "@/components/FeaturedCarousel";
+import { useSeo } from "@/hooks/useSeo";
+import { categoryList, findCategoryBySlug } from "@/data/store-categories";
+import { products, type Product } from "../data/store-products";
 import lojaHero from "@/assets/loja-hero.jpg";
 
 // Regra simples de "popularidade": 3 primeiros = mais vendidos
@@ -13,11 +17,22 @@ const PROMOS = new Set(
   [...products].sort((a, b) => parsePrice(a.price) - parsePrice(b.price)).slice(0, 6).map((p) => p.id)
 );
 
+const FEATURED_CATEGORIES = ["Eletrônicos", "Smartwatches", "Fones & Headsets", "Caixas de Som", "Power Banks"];
+
 export default function LojaPage() {
+  const { slug } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
   const [quickView, setQuickView] = useState<Product | null>(null);
+
+  const activeCategory = slug ? findCategoryBySlug(slug) : categoryList[0];
+  const selectedCategory = activeCategory?.name ?? "Todos";
+
+  useSeo({
+    title: activeCategory?.title ?? "HC Tech Store",
+    description: activeCategory?.description ?? "Acessórios e gadgets na HC Tech Store.",
+    path: slug ? `/loja/${slug}` : "/loja",
+  });
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -27,6 +42,14 @@ export default function LojaPage() {
     });
   }, [searchTerm, selectedCategory]);
 
+  const featured = useMemo(() => {
+    const base =
+      selectedCategory === "Todos"
+        ? products.filter((p) => FEATURED_CATEGORIES.includes(p.category))
+        : products.filter((p) => p.category === selectedCategory);
+    return base.slice(0, 12);
+  }, [selectedCategory]);
+
   const toggleFav = (id: number) => {
     setFavorites((prev) => {
       const next = new Set(prev);
@@ -34,6 +57,9 @@ export default function LojaPage() {
       return next;
     });
   };
+
+  if (slug && !activeCategory) return <Navigate to="/loja" replace />;
+
 
   return (
     <div className="min-h-screen bg-black text-white">
