@@ -1,8 +1,12 @@
 import { useState, useMemo } from "react";
 import { Search, MessageCircle, Heart, Eye, ShoppingCart, Flame, Tag, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useParams, Navigate } from "react-router-dom";
 import Header from "@/components/Header";
-import { products, categories, type Product } from "../data/store-products";
+import FeaturedCarousel from "@/components/FeaturedCarousel";
+import { useSeo } from "@/hooks/useSeo";
+import { categoryList, findCategoryBySlug } from "@/data/store-categories";
+import { products, type Product } from "../data/store-products";
 import lojaHero from "@/assets/loja-hero.jpg";
 
 // Regra simples de "popularidade": 3 primeiros = mais vendidos
@@ -13,11 +17,22 @@ const PROMOS = new Set(
   [...products].sort((a, b) => parsePrice(a.price) - parsePrice(b.price)).slice(0, 6).map((p) => p.id)
 );
 
+const FEATURED_CATEGORIES = ["Eletrônicos", "Smartwatches", "Fones & Headsets", "Caixas de Som", "Power Banks"];
+
 export default function LojaPage() {
+  const { slug } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
   const [quickView, setQuickView] = useState<Product | null>(null);
+
+  const activeCategory = slug ? findCategoryBySlug(slug) : categoryList[0];
+  const selectedCategory = activeCategory?.name ?? "Todos";
+
+  useSeo({
+    title: activeCategory?.title ?? "HC Tech Store",
+    description: activeCategory?.description ?? "Acessórios e gadgets na HC Tech Store.",
+    path: slug ? `/loja/${slug}` : "/loja",
+  });
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -27,6 +42,14 @@ export default function LojaPage() {
     });
   }, [searchTerm, selectedCategory]);
 
+  const featured = useMemo(() => {
+    const base =
+      selectedCategory === "Todos"
+        ? products.filter((p) => FEATURED_CATEGORIES.includes(p.category))
+        : products.filter((p) => p.category === selectedCategory);
+    return base.slice(0, 12);
+  }, [selectedCategory]);
+
   const toggleFav = (id: number) => {
     setFavorites((prev) => {
       const next = new Set(prev);
@@ -34,6 +57,9 @@ export default function LojaPage() {
       return next;
     });
   };
+
+  if (slug && !activeCategory) return <Navigate to="/loja" replace />;
+
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -72,10 +98,16 @@ export default function LojaPage() {
               className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]"
             >
               HC TECH <span className="text-[#00A651] drop-shadow-[0_0_20px_rgba(0,166,81,0.6)]">STORE</span>
+              {selectedCategory !== "Todos" && (
+                <span className="block text-lg md:text-2xl mt-2 not-italic tracking-normal text-gray-200">
+                  {selectedCategory}
+                </span>
+              )}
             </motion.h1>
             <p className="text-gray-300 text-sm md:text-base mt-3 max-w-xl font-medium">
-              Acessórios, fones, carregadores e gadgets selecionados.
+              {activeCategory?.description ?? "Acessórios, fones, carregadores e gadgets selecionados."}
             </p>
+
           </div>
         </div>
       </section>
@@ -94,22 +126,26 @@ export default function LojaPage() {
             />
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
+          <nav className="flex flex-wrap justify-center gap-2" aria-label="Categorias da loja">
+            {categoryList.map((category) => (
+              <Link
+                key={category.slug}
+                to={category.slug === "todos" ? "/loja" : `/loja/${category.slug}`}
                 className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
-                  selectedCategory === category
+                  selectedCategory === category.name
                     ? "bg-[#00A651] text-black shadow-[0_0_15px_rgba(0,166,81,0.4)]"
                     : "bg-zinc-900 text-gray-400 hover:bg-zinc-800 hover:text-white"
                 }`}
               >
-                {category}
-              </button>
+                {category.name}
+              </Link>
             ))}
-          </div>
+          </nav>
         </div>
+
+        {/* MAIS VENDIDOS / DESTAQUES */}
+        <FeaturedCarousel products={featured} />
+
 
         {/* CONTADOR */}
         <div className="flex items-center justify-between mt-8 mb-5 px-1">
