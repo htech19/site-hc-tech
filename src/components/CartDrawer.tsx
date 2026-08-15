@@ -7,11 +7,42 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const CartDrawer = () => {
   const { items, removeFromCart, updateQuantity, clearCart, totalItems, isOpen, setIsOpen } = useCart();
 
+  const parsePrice = (p: string) =>
+    Number(String(p).replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", ".")) || 0;
+
+  const formatBRL = (v: number) =>
+    v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
   const whatsappCheckout = () => {
-    const lines = items.map(
-      (i) => `• ${i.product.name} (x${i.quantity})`
-    );
-    const text = `Olá! Gostaria de informações sobre:\n\n${lines.join("\n")}`;
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    let total = 0;
+
+    const lines = items.map((i, idx) => {
+      const unit = parsePrice(i.product.price);
+      const subtotal = unit * i.quantity;
+      total += subtotal;
+      const link = `${origin}/loja/${getCategorySlug(i.product.category)}`;
+      return [
+        `${idx + 1}. ${i.product.name}`,
+        `   • Quantidade: ${i.quantity}`,
+        `   • Valor unitário: ${formatBRL(unit)}`,
+        `   • Valor total: ${formatBRL(subtotal)}`,
+        `   • Link: ${link}`,
+      ].join("\n");
+    });
+
+    const text = [
+      "Olá! Gostaria de finalizar minha compra na HC Tech Store.",
+      "",
+      "*Itens do pedido:*",
+      lines.join("\n\n"),
+      "",
+      `*Total de itens:* ${totalItems}`,
+      `*Valor total do pedido:* ${formatBRL(total)}`,
+      "",
+      "Podem confirmar disponibilidade, forma de pagamento (PIX) e entrega?",
+    ].join("\n");
+
     window.open(`https://wa.me/5511940562933?text=${encodeURIComponent(text)}`, "_blank");
   };
 

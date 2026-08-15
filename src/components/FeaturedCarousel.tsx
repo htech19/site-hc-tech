@@ -41,7 +41,14 @@ export default function FeaturedCarousel({ products, title = "Mais Vendidos / De
   if (products.length === 0) return null;
 
   return (
-    <section className="mt-8">
+    <section
+      className="mt-8"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+    >
       <div className="flex items-center justify-between mb-4 px-1">
         <h2 className="flex items-center gap-2 text-sm md:text-base font-black uppercase tracking-widest text-white">
           <Flame size={16} className="text-[#00A651]" /> {title}
