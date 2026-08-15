@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getCategorySlug } from "@/data/store-categories";
 
 const CartDrawer = () => {
   const { items, removeFromCart, updateQuantity, clearCart, totalItems, isOpen, setIsOpen } = useCart();
