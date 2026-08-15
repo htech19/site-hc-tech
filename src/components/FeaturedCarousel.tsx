@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Flame, MessageCircle } from "lucide-react";
 import type { Product } from "@/data/store-products";
 
@@ -9,6 +9,7 @@ interface Props {
 
 export default function FeaturedCarousel({ products, title = "Mais Vendidos / Destaques" }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [paused, setPaused] = useState(false);
 
   const scrollBy = (dir: 1 | -1) => {
     const el = trackRef.current;
@@ -16,10 +17,38 @@ export default function FeaturedCarousel({ products, title = "Mais Vendidos / De
     el.scrollBy({ left: dir * Math.max(240, el.clientWidth * 0.8), behavior: "smooth" });
   };
 
+  // Autoplay com loop contínuo e pausa ao passar o mouse / interagir
+  useEffect(() => {
+    if (paused || products.length === 0) return;
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const id = window.setInterval(() => {
+      const el = trackRef.current;
+      if (!el) return;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= maxScroll - 8) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: Math.max(240, el.clientWidth * 0.8), behavior: "smooth" });
+      }
+    }, 3500);
+    return () => window.clearInterval(id);
+  }, [paused, products.length]);
+
   if (products.length === 0) return null;
 
   return (
-    <section className="mt-8">
+    <section
+      className="mt-8"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+    >
       <div className="flex items-center justify-between mb-4 px-1">
         <h2 className="flex items-center gap-2 text-sm md:text-base font-black uppercase tracking-widest text-white">
           <Flame size={16} className="text-[#00A651]" /> {title}
