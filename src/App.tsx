@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 
 const LojaPage = lazy(() => import("./pages/LojaPage"));
 const TelasPage = lazy(() => import("./pages/TelasPage"));
+const TelasLandingPage = lazy(() => import("./pages/TelasLandingPage"));
 const PrivacidadePage = lazy(() => import("./pages/PrivacidadePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
