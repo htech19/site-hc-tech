@@ -41,6 +41,7 @@ const App = () => (
               <Route path="/loja/:slug" element={<LojaPage />} />
 
               <Route path="/telas" element={<TelasPage />} />
+              <Route path="/trocas-de-tela" element={<TelasLandingPage />} />
               <Route path="/privacidade" element={<PrivacidadePage />} />
               <Route path="/admin/login" element={<LoginPage />} />
               <Route path="/admin" element={<AdminLayout />}>
