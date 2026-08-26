@@ -37,6 +37,8 @@ const App = () => (
           <Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/index" element={<Index />} />
+
               <Route path="/loja" element={<LojaPage />} />
               <Route path="/loja/:slug" element={<LojaPage />} />
 
