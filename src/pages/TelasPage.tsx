@@ -12,11 +12,19 @@ import {
   Sparkles,
   PackageCheck,
   Clock,
+  HelpCircle,
 } from "lucide-react";
 import { telas, marcasTelas, qualidadesTelas, type Tela } from "@/data/telas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 
 const WHATSAPP = "5511940562933";
 
