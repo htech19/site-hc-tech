@@ -7,15 +7,18 @@ import "./index.css";
 const isPreviewHost =
   import.meta.env.DEV ||
   /(^|\.)lovable\.(app|dev)$/.test(window.location.hostname) ||
+  /(^|\.)lovableproject\.com$/.test(window.location.hostname) ||
   window.location.hostname === "localhost";
 
 if (!isPreviewHost && window.top !== window.self) {
   try {
-    window.top!.location.href = window.self.location.href;
+    if (window.top) window.top.location.href = window.self.location.href;
   } catch {
     document.body.style.display = "none";
   }
 }
 
 
-createRoot(document.getElementById("root")!).render(<App />);
+const root = document.getElementById("root");
+
+if (root) createRoot(root).render(<App />);
