@@ -4,12 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
   Search,
   ChevronLeft,
   ChevronRight,
@@ -19,11 +13,11 @@ import {
   Clock,
   MapPin,
   Check,
-  HelpCircle,
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+
 
 
 const WHATSAPP = "5511940562933";
@@ -423,62 +417,9 @@ export default function TelasLandingPage() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#00A651]/30 bg-[#00A651]/10 px-4 py-2 backdrop-blur-sm">
-            <HelpCircle size={16} className="text-[#00A651]" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-[#00A651]">Tire suas dúvidas</span>
-          </div>
-          <h2 className="text-3xl font-black uppercase italic tracking-tighter text-white sm:text-4xl md:text-5xl">
-            Perguntas <span className="text-[#00A651]">frequentes</span>
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base font-medium text-gray-400">
-            Respostas rápidas sobre troca de telas, prazos e garantia.
-          </p>
-        </div>
-
-        <Accordion type="single" collapsible className="rounded-3xl border border-white/10 bg-white/[0.03] px-6 sm:px-8">
-          {[
-            {
-              q: "Quanto tempo leva a troca de tela?",
-              a: "A maioria dos modelos fica pronta em até 40 minutos. Modelos mais complexos ou com necessidade de peça sob encomenda podem levar até 24 horas úteis.",
-            },
-            {
-              q: "A tela trocada tem garantia?",
-              a: "Sim. Oferecemos 90 dias de garantia real contra defeitos de fabricação. A garantia não cobre quebras por quedas ou impactos posteriores.",
-            },
-            {
-              q: "Qual a diferença entre tela original e premium?",
-              a: "A tela original é a mesma fabricada para a marca do aparelho. A premium é uma peça de alta qualidade, com cores, brilho e toque muito próximos do original, por um custo menor.",
-            },
-            {
-              q: "Vocês trocam telas de qualquer modelo?",
-              a: "Trabalhamos com iPhones, Samsung Galaxy, Motorola, Xiaomi, Redmi e várias outras marcas. Consulte disponibilidade pelo WhatsApp informando o modelo exato do aparelho.",
-            },
-            {
-              q: "O orçamento é gratuito?",
-              a: "Sim. O orçamento é 100% gratuito e sem compromisso. Basta clicar em \"Copiar Orçamento\" no modelo desejado e enviar pelo WhatsApp.",
-            },
-            {
-              q: "Onde fica a assistência técnica?",
-              a: "Estamos em São Bernardo do Campo, SP. O endereço completo e orientações de como chegar são enviados após o agendamento pelo WhatsApp.",
-            },
-          ].map((item, idx) => (
-            <AccordionItem key={`faq-${idx}`} value={`item-${idx}`} className="border-b border-white/10 last:border-b-0">
-              <AccordionTrigger className="py-5 text-left text-base font-bold text-white hover:no-underline sm:text-lg [&[data-state=open]>svg]:text-[#00A651]">
-                {item.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm font-medium leading-relaxed text-gray-300 sm:text-base">
-                {item.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-
       {/* CTA final */}
       <section className="mx-auto w-full max-w-4xl px-4 py-16 text-center sm:px-6 sm:py-20">
+
 
         <div className="rounded-3xl border border-[#00A651]/20 bg-[#00A651]/10 p-8 backdrop-blur-sm sm:p-12">
           <h2 className="text-3xl font-black uppercase italic tracking-tighter text-white sm:text-4xl">

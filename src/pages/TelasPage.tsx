@@ -12,11 +12,19 @@ import {
   Sparkles,
   PackageCheck,
   Clock,
+  HelpCircle,
 } from "lucide-react";
 import { telas, marcasTelas, qualidadesTelas, type Tela } from "@/data/telas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 
 const WHATSAPP = "5511940562933";
 
@@ -311,7 +319,61 @@ const TelasPage = () => {
         )}
       </main>
 
+      {/* FAQ */}
+      <section id="faq" className="container mx-auto max-w-4xl px-4 py-12 sm:py-16">
+        <div className="mb-8 text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+            <HelpCircle className="size-3.5" aria-hidden="true" /> Tire suas dúvidas
+          </div>
+          <h2 className="text-2xl font-bold tracking-tight sm:text-4xl">
+            Perguntas <span className="text-primary">frequentes</span>
+          </h2>
+          <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
+            Respostas rápidas sobre troca de telas, prazos e garantia.
+          </p>
+        </div>
+
+        <Accordion type="single" collapsible className="rounded-xl border border-border bg-card/95 px-4 sm:px-6">
+          {[
+            {
+              q: "Quanto tempo leva a troca de tela?",
+              a: "A maioria dos modelos fica pronta em até 40 minutos. Modelos mais complexos ou com necessidade de peça sob encomenda podem levar até 24 horas úteis.",
+            },
+            {
+              q: "A tela trocada tem garantia?",
+              a: "Sim. Oferecemos 90 dias de garantia real contra defeitos de fabricação. A garantia não cobre quebras por quedas ou impactos posteriores.",
+            },
+            {
+              q: "Qual a diferença entre tela original, OLED e premium?",
+              a: "A tela original segue o padrão de fábrica da marca. OLED/AMOLED oferecem cores vibrantes e preto perfeito. As opções premium e padrão são peças de alta qualidade com ótimo custo-benefício, ideais para quem quer economizar sem abrir mão da funcionalidade.",
+            },
+            {
+              q: "Vocês trocam telas de qualquer modelo?",
+              a: "Trabalhamos com iPhones, Samsung Galaxy, Motorola, Xiaomi, Redmi, POCO, Realme, LG e tablets. Consulte disponibilidade pelo WhatsApp informando o modelo exato do aparelho.",
+            },
+            {
+              q: "O orçamento é gratuito?",
+              a: "Sim. O orçamento é 100% gratuito e sem compromisso. Basta buscar seu modelo na tabela, clicar em \"Orçamento no WhatsApp\" e enviar a mensagem já preenchida.",
+            },
+            {
+              q: "Onde fica a assistência técnica?",
+              a: "Estamos em São Bernardo do Campo, SP. O endereço completo e orientações de como chegar são enviados após o agendamento pelo WhatsApp.",
+            },
+          ].map((item, idx) => (
+            <AccordionItem key={`faq-${idx}`} value={`item-${idx}`} className="border-b border-border last:border-b-0">
+              <AccordionTrigger className="py-4 text-left text-sm font-semibold text-foreground hover:no-underline sm:text-base [&[data-state=open]>svg]:text-primary">
+                {item.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                {item.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </section>
+
       <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground">
+
         <p>
           Preços de referência (08/2026), sujeitos a alteração sem aviso. Mão de obra inclusa em
           orçamento no balcão.
