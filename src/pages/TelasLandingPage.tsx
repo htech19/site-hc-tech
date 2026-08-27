@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   Search,
   ChevronLeft,
   ChevronRight,
@@ -13,10 +19,12 @@ import {
   Clock,
   MapPin,
   Check,
+  HelpCircle,
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+
 
 const WHATSAPP = "5511940562933";
 const LANDING_URL = "https://www.hctechinfocell.com.br/telas";
