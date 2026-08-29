@@ -173,12 +173,16 @@ const TelasPage = () => {
           </span>
 
           <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
-            Tabela de <span className="text-primary">Telas</span> e preços de troca
+            Telas <span className="text-primary">Originais e Premium</span>
           </h1>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <p className="mt-3 max-w-2xl text-base font-medium text-foreground/90 sm:text-lg">
+            Qualidade garantida para seu smartphone.
+          </p>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
             {telas.length} telas cadastradas para iPhone, Samsung, Xiaomi, Redmi, POCO, Motorola,
             Realme, LG e tablets. Busque seu modelo e feche o orçamento pelo WhatsApp.
           </p>
+
 
           <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground sm:text-sm">
             <li className="inline-flex items-center gap-2">
