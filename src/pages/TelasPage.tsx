@@ -104,6 +104,109 @@ const TelaCard = ({ t }: { t: Tela }) => {
   );
 };
 
+type Destaque = {
+  id: string;
+  modelo: string;
+  tamanho: string;
+  tipo: string;
+  resolucao: string;
+  preco: string;
+  imagem: string;
+};
+
+const DESTAQUES: Destaque[] = [
+  {
+    id: "iphone-11",
+    modelo: "iPhone 11",
+    tamanho: '6.1"',
+    tipo: "Liquid Retina IPS LCD",
+    resolucao: "828 x 1792",
+    preco: "R$ 449,00",
+    imagem: "/images/landing-telas/iphone-11.png",
+  },
+  {
+    id: "iphone-x",
+    modelo: "iPhone X",
+    tamanho: '5.8"',
+    tipo: "Super Retina HD OLED",
+    resolucao: "1125 x 2436",
+    preco: "R$ 399,00",
+    imagem: "/images/landing-telas/iphone-x.png",
+  },
+  {
+    id: "samsung-a30",
+    modelo: "Samsung A30",
+    tamanho: '6.4"',
+    tipo: "Super AMOLED",
+    resolucao: "1080 x 2340",
+    preco: "R$ 329,00",
+    imagem: "/images/landing-telas/samsung-a30.png",
+  },
+  {
+    id: "moto-g8",
+    modelo: "Motorola G8",
+    tamanho: '6.4"',
+    tipo: "IPS LCD",
+    resolucao: "720 x 1560",
+    preco: "R$ 279,00",
+    imagem: "/images/landing-telas/moto-g8.png",
+  },
+];
+
+const DestaqueCard = ({ d }: { d: Destaque }) => {
+  const [copiado, setCopiado] = useState(false);
+  const texto = `Olá! Gostaria de um orçamento para a tela do ${d.modelo}. Especificações: ${d.tipo} / ${d.tamanho}. Link: https://www.hctechinfocell.com.br/telas`;
+
+  const copiarOrcamento = async () => {
+    try {
+      await navigator.clipboard.writeText(texto);
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
+    } catch {
+      setCopiado(false);
+    }
+    window.open(
+      `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
+
+  return (
+    <article className="flex h-full flex-col rounded-xl border border-border bg-card/95 p-4 transition-all hover:-translate-y-1 hover:border-primary/40">
+      <img
+        src={d.imagem}
+        alt={`Tela do ${d.modelo}`}
+        loading="lazy"
+        width={300}
+        height={400}
+        className="mx-auto h-40 w-auto object-contain"
+      />
+      <h3 className="mt-3 text-base font-semibold text-foreground">{d.modelo}</h3>
+      <p className="mt-1 text-xs text-muted-foreground">
+        {d.tamanho} • {d.tipo} • {d.resolucao}
+      </p>
+      <div className="mt-auto pt-4">
+        <p className="text-xs text-muted-foreground">a partir de</p>
+        <p className="text-2xl font-bold text-primary">{d.preco}</p>
+        <Button
+          onClick={copiarOrcamento}
+          size="sm"
+          className="mt-3 w-full bg-[#25D366] text-white hover:bg-[#1ea855]"
+        >
+          {copiado ? (
+            <PackageCheck className="size-4" aria-hidden="true" />
+          ) : (
+            <MessageCircle className="size-4" aria-hidden="true" />
+          )}
+          {copiado ? "Copiado!" : "Copiar Orçamento"}
+        </Button>
+      </div>
+    </article>
+  );
+};
+
+
 const TelasPage = () => {
   const [q, setQ] = useState("");
   const [marca, setMarca] = useState("all");
@@ -173,12 +276,16 @@ const TelasPage = () => {
           </span>
 
           <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
-            Tabela de <span className="text-primary">Telas</span> e preços de troca
+            Telas <span className="text-primary">Originais e Premium</span>
           </h1>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <p className="mt-3 max-w-2xl text-base font-medium text-foreground/90 sm:text-lg">
+            Qualidade garantida para seu smartphone.
+          </p>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
             {telas.length} telas cadastradas para iPhone, Samsung, Xiaomi, Redmi, POCO, Motorola,
             Realme, LG e tablets. Busque seu modelo e feche o orçamento pelo WhatsApp.
           </p>
+
 
           <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground sm:text-sm">
             <li className="inline-flex items-center gap-2">
@@ -194,6 +301,21 @@ const TelasPage = () => {
           </ul>
         </div>
       </header>
+
+      {/* Destaques */}
+      <section aria-label="Modelos em destaque" className="border-b border-border">
+        <div className="container mx-auto max-w-6xl px-4 py-8 sm:py-10">
+          <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+            Modelos em <span className="text-primary">destaque</span>
+          </h2>
+          <div className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {DESTAQUES.map((d) => (
+              <DestaqueCard key={d.id} d={d} />
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* Busca + filtros */}
       <section
