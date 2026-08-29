@@ -302,6 +302,21 @@ const TelasPage = () => {
         </div>
       </header>
 
+      {/* Destaques */}
+      <section aria-label="Modelos em destaque" className="border-b border-border">
+        <div className="container mx-auto max-w-6xl px-4 py-8 sm:py-10">
+          <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+            Modelos em <span className="text-primary">destaque</span>
+          </h2>
+          <div className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {DESTAQUES.map((d) => (
+              <DestaqueCard key={d.id} d={d} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       {/* Busca + filtros */}
       <section
         aria-label="Busca e filtros"
