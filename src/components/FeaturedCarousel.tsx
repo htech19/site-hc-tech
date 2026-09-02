@@ -81,15 +81,17 @@ export default function FeaturedCarousel({ products, title = "Mais Vendidos / De
             className="snap-start shrink-0 w-[46%] sm:w-[30%] lg:w-[23%] xl:w-[18%] flex flex-col bg-gradient-to-b from-zinc-900 to-zinc-950 rounded-2xl overflow-hidden border border-white/5 hover:border-[#00A651]/40 transition-all duration-300"
           >
             <div className="relative aspect-square bg-zinc-800/50 overflow-hidden">
-              <img
-                src={product.image}
-                alt={`${product.name} — ${product.category} | HC Tech`}
-                loading="lazy"
-                decoding="async"
-                width={800}
-                height={800}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-              />
+              <Link to={`/produto/${getProductSlug(product)}`} className="block w-full h-full">
+                <img
+                  src={product.image}
+                  alt={`${product.name} — ${product.category} | HC Tech`}
+                  loading="lazy"
+                  decoding="async"
+                  width={800}
+                  height={800}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </Link>
               <span className="absolute top-2 left-2 flex items-center gap-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[8px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-lg">
                 <Flame size={9} /> Destaque
               </span>
