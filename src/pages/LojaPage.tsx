@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import { useSeo } from "@/hooks/useSeo";
 import { categoryList, findCategoryBySlug } from "@/data/store-categories";
+import { getProductSlug } from "@/data/product-slugs";
 import { products, type Product } from "../data/store-products";
 import lojaHero from "@/assets/loja-hero.jpg";
 
@@ -206,15 +207,17 @@ export default function LojaPage() {
 
                   {/* IMAGEM + AÇÕES SOBREPOSTAS */}
                   <div className="relative aspect-square bg-zinc-800/50 overflow-hidden">
-                    <img
-                      src={product.image}
-                      alt={`${product.name} — ${product.category} | HC Tech`}
-                      loading="lazy"
-                      decoding="async"
-                      width={800}
-                      height={800}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
+                    <Link to={`/produto/${getProductSlug(product)}`} className="block w-full h-full">
+                      <img
+                        src={product.image}
+                        alt={`${product.name} — ${product.category} | HC Tech`}
+                        loading="lazy"
+                        decoding="async"
+                        width={800}
+                        height={800}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </Link>
                     {/* Overlay de ações no hover */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                       <button
@@ -242,7 +245,9 @@ export default function LojaPage() {
                       {product.category}
                     </span>
                     <h3 className="text-xs md:text-sm font-bold text-white mt-1 mb-2 line-clamp-2 min-h-[2.5rem] leading-snug">
-                      {product.name}
+                      <Link to={`/produto/${getProductSlug(product)}`} className="hover:text-[#00A651] transition-colors">
+                        {product.name}
+                      </Link>
                     </h3>
                     <div className="flex items-baseline justify-between gap-1">
                       <p className="text-[#00A651] text-base font-black tracking-tight">{product.price}</p>
