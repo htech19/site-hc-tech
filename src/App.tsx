@@ -11,6 +11,7 @@ import CookieConsent from "@/components/CookieConsent";
 import Index from "./pages/Index";
 
 const LojaPage = lazy(() => import("./pages/LojaPage"));
+const ProdutoPage = lazy(() => import("./pages/ProdutoPage"));
 const TelasPage = lazy(() => import("./pages/TelasPage"));
 const TelasLandingPage = lazy(() => import("./pages/TelasLandingPage"));
 const PrivacidadePage = lazy(() => import("./pages/PrivacidadePage"));
@@ -41,6 +42,8 @@ const App = () => (
 
               <Route path="/loja" element={<LojaPage />} />
               <Route path="/loja/:slug" element={<LojaPage />} />
+
+              <Route path="/produto/:slug" element={<ProdutoPage />} />
 
               <Route path="/telas" element={<TelasPage />} />
               <Route path="/trocas-de-tela" element={<TelasLandingPage />} />
