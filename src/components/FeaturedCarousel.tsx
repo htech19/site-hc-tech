@@ -1,6 +1,8 @@
 import { useRef, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Flame, MessageCircle } from "lucide-react";
 import type { Product } from "@/data/store-products";
+import { getProductSlug } from "@/data/product-slugs";
 
 interface Props {
   products: Product[];
@@ -101,7 +103,9 @@ export default function FeaturedCarousel({ products, title = "Mais Vendidos / De
                 {product.category}
               </span>
               <h3 className="text-xs md:text-sm font-bold text-white mt-1 mb-2 line-clamp-2 min-h-[2.5rem] leading-snug">
-                {product.name}
+                <Link to={`/produto/${getProductSlug(product)}`} className="hover:text-[#00A651] transition-colors">
+                  {product.name}
+                </Link>
               </h3>
               <p className="text-[#00A651] text-base font-black tracking-tight">{product.price}</p>
               <a
