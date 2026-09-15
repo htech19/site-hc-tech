@@ -32,6 +32,10 @@ export default function ProdutoPage() {
 
   if (!product) return <Navigate to="/loja" replace />;
 
+  // URL antiga/variante -> redireciona para a URL definitiva do produto
+  if (slug !== getProductSlug(product)) return <Navigate to={getProductPath(product)} replace />;
+
+
   const categorySlug = getCategorySlug(product.category);
 
   return (
