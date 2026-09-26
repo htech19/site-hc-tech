@@ -25,6 +25,16 @@ const TaxonomyPage = lazy(() => import("./cms/pages/TaxonomyPage"));
 const SettingsPage = lazy(() => import("./cms/pages/SettingsPage"));
 const LogsPage = lazy(() => import("./cms/pages/LogsPage"));
 
+const SistemaAuthProvider = lazy(() =>
+  import("./sistema/auth").then((m) => ({ default: m.SistemaAuthProvider }))
+);
+const SistemaLayout = lazy(() => import("./sistema/SistemaLayout"));
+const SistemaLoginPage = lazy(() => import("./sistema/pages/SistemaLoginPage"));
+const SistemaDashboardPage = lazy(() => import("./sistema/pages/SistemaDashboardPage"));
+const SistemaOsPage = lazy(() => import("./sistema/pages/SistemaOsPage"));
+const SistemaClientesPage = lazy(() => import("./sistema/pages/SistemaClientesPage"));
+const SistemaServicosPage = lazy(() => import("./sistema/pages/SistemaServicosPage"));
+
 const queryClient = new QueryClient();
 
 const App = () => (
