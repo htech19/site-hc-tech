@@ -14,7 +14,119 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      clientes: {
+        Row: {
+          created_at: string
+          email: string | null
+          endereco: string | null
+          id: string
+          nome: string
+          telefone: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          endereco?: string | null
+          id?: string
+          nome: string
+          telefone?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          endereco?: string | null
+          id?: string
+          nome?: string
+          telefone?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ordens_servico: {
+        Row: {
+          aparelho: string
+          cliente_id: string | null
+          cliente_nome: string | null
+          created_at: string
+          defeito: string | null
+          id: string
+          marca: string | null
+          numero: number
+          observacao: string | null
+          status: string
+          user_id: string
+          valor: number | null
+        }
+        Insert: {
+          aparelho: string
+          cliente_id?: string | null
+          cliente_nome?: string | null
+          created_at?: string
+          defeito?: string | null
+          id?: string
+          marca?: string | null
+          numero?: number
+          observacao?: string | null
+          status?: string
+          user_id: string
+          valor?: number | null
+        }
+        Update: {
+          aparelho?: string
+          cliente_id?: string | null
+          cliente_nome?: string | null
+          created_at?: string
+          defeito?: string | null
+          id?: string
+          marca?: string | null
+          numero?: number
+          observacao?: string | null
+          status?: string
+          user_id?: string
+          valor?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ordens_servico_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      servicos: {
+        Row: {
+          categoria: string
+          created_at: string
+          descricao: string | null
+          id: string
+          nome: string
+          preco_max: number
+          preco_min: number
+        }
+        Insert: {
+          categoria: string
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          nome: string
+          preco_max: number
+          preco_min: number
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          nome?: string
+          preco_max?: number
+          preco_min?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
