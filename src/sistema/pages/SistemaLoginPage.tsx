@@ -32,19 +32,20 @@ export default function SistemaLoginPage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center px-4">
-      <Card className="w-full max-w-sm shadow-lg">
+      <Card className="w-full max-w-sm shadow-lg bg-white text-gray-900">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-black tracking-tight">
+          <CardTitle className="text-2xl font-black tracking-tight text-gray-900">
             HC <span className="text-[#00A651]">TECH</span>
           </CardTitle>
-          <CardDescription>Acesso ao sistema interno</CardDescription>
+          <CardDescription className="text-gray-500">Acesso ao sistema interno</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email">E-mail</Label>
+              <Label htmlFor="email" className="text-gray-700">E-mail</Label>
               <Input
                 id="email"
+                className="bg-white text-gray-900 border-gray-300"
                 type="email"
                 required
                 value={email}
@@ -54,9 +55,10 @@ export default function SistemaLoginPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="pass">Senha</Label>
+              <Label htmlFor="pass" className="text-gray-700">Senha</Label>
               <Input
                 id="pass"
+                className="bg-white text-gray-900 border-gray-300"
                 type="password"
                 required
                 value={pass}
