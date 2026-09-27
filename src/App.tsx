@@ -67,6 +67,22 @@ const App = () => (
                 <Route path="configuracoes" element={<SettingsPage />} />
                 <Route path="logs" element={<LogsPage />} />
               </Route>
+              <Route
+                path="/sistema"
+                element={
+                  <SistemaAuthProvider>
+                    <Outlet />
+                  </SistemaAuthProvider>
+                }
+              >
+                <Route path="login" element={<SistemaLoginPage />} />
+                <Route element={<SistemaLayout />}>
+                  <Route index element={<SistemaDashboardPage />} />
+                  <Route path="os" element={<SistemaOsPage />} />
+                  <Route path="clientes" element={<SistemaClientesPage />} />
+                  <Route path="servicos" element={<SistemaServicosPage />} />
+                </Route>
+              </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
