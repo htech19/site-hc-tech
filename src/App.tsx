@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route, Outlet } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import ChatWidget from "@/components/ChatWidget";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -66,6 +66,22 @@ const App = () => (
                 <Route path="tags" element={<TaxonomyPage kind="tag" />} />
                 <Route path="configuracoes" element={<SettingsPage />} />
                 <Route path="logs" element={<LogsPage />} />
+              </Route>
+              <Route
+                path="/sistema"
+                element={
+                  <SistemaAuthProvider>
+                    <Outlet />
+                  </SistemaAuthProvider>
+                }
+              >
+                <Route path="login" element={<SistemaLoginPage />} />
+                <Route element={<SistemaLayout />}>
+                  <Route index element={<SistemaDashboardPage />} />
+                  <Route path="os" element={<SistemaOsPage />} />
+                  <Route path="clientes" element={<SistemaClientesPage />} />
+                  <Route path="servicos" element={<SistemaServicosPage />} />
+                </Route>
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
