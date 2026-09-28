@@ -181,8 +181,6 @@ export default function ClienteFormDialog({
     toast({ title: "Erro ao salvar cliente", description: msg, variant: "destructive" });
   };
 
-  const F = ({ k, label, ...p }: { k: keyof Form; label: string } & React.InputHTMLAttributes<HTMLInputElement>) => null; // placeholder (não usado)
-  void F;
 
   const field = (k: keyof Form, label: string, opts: { mask?: (v: string) => string; type?: string; placeholder?: string; className?: string; onBlur?: () => void; maxLength?: number } = {}) => (
     <div className={`space-y-1.5 ${opts.className ?? ""}`}>
