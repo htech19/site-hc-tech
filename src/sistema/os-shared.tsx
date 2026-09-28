@@ -21,6 +21,32 @@ export type Cliente = {
   email: string | null;
   endereco: string | null;
   created_at: string;
+  tipo_pessoa: "PF" | "PJ";
+  documento: string | null;
+  rg_ie: string | null;
+  nome_fantasia: string | null;
+  data_nascimento: string | null;
+  telefone2: string | null;
+  whatsapp: string | null;
+  cep: string | null;
+  numero: string | null;
+  complemento: string | null;
+  bairro: string | null;
+  cidade: string | null;
+  uf: string | null;
+  observacoes: string | null;
+  tags: string[];
+  classificacao: string | null;
+  status: "ativo" | "inativo" | "bloqueado";
+  motivo_bloqueio: string | null;
+  consentimento_lgpd: boolean;
+  consentimento_data: string | null;
+  aceita_whatsapp: boolean;
+  aceita_email: boolean;
+  aceita_sms: boolean;
+  aceita_marketing: boolean;
+  limite_credito: number;
+  updated_at: string;
 };
 
 export const STATUS_LABEL: Record<OS["status"], string> = {

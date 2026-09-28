@@ -14,33 +14,231 @@ export type Database = {
   }
   public: {
     Tables: {
-      clientes: {
+      cliente_anexos: {
         Row: {
+          cliente_id: string
           created_at: string
-          email: string | null
-          endereco: string | null
           id: string
           nome: string
-          telefone: string | null
+          path: string
+          tamanho: number | null
           user_id: string
         }
         Insert: {
+          cliente_id: string
           created_at?: string
-          email?: string | null
-          endereco?: string | null
           id?: string
           nome: string
-          telefone?: string | null
+          path: string
+          tamanho?: number | null
           user_id: string
         }
         Update: {
+          cliente_id?: string
           created_at?: string
+          id?: string
+          nome?: string
+          path?: string
+          tamanho?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cliente_anexos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cliente_contatos: {
+        Row: {
+          cargo: string | null
+          cliente_id: string
+          created_at: string
+          email: string | null
+          id: string
+          nome: string
+          principal: boolean
+          telefone: string | null
+          user_id: string
+          whatsapp: string | null
+        }
+        Insert: {
+          cargo?: string | null
+          cliente_id: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          nome: string
+          principal?: boolean
+          telefone?: string | null
+          user_id: string
+          whatsapp?: string | null
+        }
+        Update: {
+          cargo?: string | null
+          cliente_id?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          nome?: string
+          principal?: boolean
+          telefone?: string | null
+          user_id?: string
+          whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cliente_contatos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cliente_interacoes: {
+        Row: {
+          cliente_id: string
+          created_at: string
+          descricao: string
+          id: string
+          tipo: string
+          user_id: string
+        }
+        Insert: {
+          cliente_id: string
+          created_at?: string
+          descricao: string
+          id?: string
+          tipo?: string
+          user_id: string
+        }
+        Update: {
+          cliente_id?: string
+          created_at?: string
+          descricao?: string
+          id?: string
+          tipo?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cliente_interacoes_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clientes: {
+        Row: {
+          aceita_email: boolean
+          aceita_marketing: boolean
+          aceita_sms: boolean
+          aceita_whatsapp: boolean
+          bairro: string | null
+          cep: string | null
+          cidade: string | null
+          classificacao: string | null
+          complemento: string | null
+          consentimento_data: string | null
+          consentimento_lgpd: boolean
+          created_at: string
+          data_nascimento: string | null
+          documento: string | null
+          email: string | null
+          endereco: string | null
+          id: string
+          limite_credito: number
+          motivo_bloqueio: string | null
+          nome: string
+          nome_fantasia: string | null
+          numero: string | null
+          observacoes: string | null
+          rg_ie: string | null
+          status: string
+          tags: string[]
+          telefone: string | null
+          telefone2: string | null
+          tipo_pessoa: string
+          uf: string | null
+          updated_at: string
+          user_id: string
+          whatsapp: string | null
+        }
+        Insert: {
+          aceita_email?: boolean
+          aceita_marketing?: boolean
+          aceita_sms?: boolean
+          aceita_whatsapp?: boolean
+          bairro?: string | null
+          cep?: string | null
+          cidade?: string | null
+          classificacao?: string | null
+          complemento?: string | null
+          consentimento_data?: string | null
+          consentimento_lgpd?: boolean
+          created_at?: string
+          data_nascimento?: string | null
+          documento?: string | null
           email?: string | null
           endereco?: string | null
           id?: string
-          nome?: string
+          limite_credito?: number
+          motivo_bloqueio?: string | null
+          nome: string
+          nome_fantasia?: string | null
+          numero?: string | null
+          observacoes?: string | null
+          rg_ie?: string | null
+          status?: string
+          tags?: string[]
           telefone?: string | null
+          telefone2?: string | null
+          tipo_pessoa?: string
+          uf?: string | null
+          updated_at?: string
+          user_id: string
+          whatsapp?: string | null
+        }
+        Update: {
+          aceita_email?: boolean
+          aceita_marketing?: boolean
+          aceita_sms?: boolean
+          aceita_whatsapp?: boolean
+          bairro?: string | null
+          cep?: string | null
+          cidade?: string | null
+          classificacao?: string | null
+          complemento?: string | null
+          consentimento_data?: string | null
+          consentimento_lgpd?: boolean
+          created_at?: string
+          data_nascimento?: string | null
+          documento?: string | null
+          email?: string | null
+          endereco?: string | null
+          id?: string
+          limite_credito?: number
+          motivo_bloqueio?: string | null
+          nome?: string
+          nome_fantasia?: string | null
+          numero?: string | null
+          observacoes?: string | null
+          rg_ie?: string | null
+          status?: string
+          tags?: string[]
+          telefone?: string | null
+          telefone2?: string | null
+          tipo_pessoa?: string
+          uf?: string | null
+          updated_at?: string
           user_id?: string
+          whatsapp?: string | null
         }
         Relationships: []
       }
