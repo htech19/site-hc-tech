@@ -120,7 +120,7 @@ export const toCSV = (rows: unknown[][], sep = ";") => "\uFEFF" + rows.map((r) =
 /* ---------------- XLSX (leitura, sem dependências) ---------------- */
 async function inflateRaw(data: Uint8Array) {
   const ds = new DecompressionStream("deflate-raw");
-  const buf = await new Response(new Blob([data]).stream().pipeThrough(ds)).arrayBuffer();
+  const buf = await new Response(new Blob([data as BlobPart]).stream().pipeThrough(ds)).arrayBuffer();
   return new TextDecoder().decode(buf);
 }
 async function unzip(buf: ArrayBuffer): Promise<Record<string, string>> {
