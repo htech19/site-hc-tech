@@ -8,9 +8,12 @@ export type OS = {
   cliente_id: string | null;
   cliente_nome: string | null;
   defeito: string | null;
-  status: "pendente" | "aprovado" | "concluida" | "cancelada";
+  status: "pendente" | "em_andamento" | "aprovado" | "concluida" | "estoque" | "devolucao" | "cancelada";
   valor: number | null;
   observacao: string | null;
+  quantidade: number;
+  telefone: string | null;
+  data_entrada: string;
   created_at: string;
 };
 
@@ -51,13 +54,19 @@ export type Cliente = {
 
 export const STATUS_LABEL: Record<OS["status"], string> = {
   pendente: "Pendente",
+  em_andamento: "Em Andamento",
   aprovado: "Aprovado",
   concluida: "Concluída",
+  estoque: "Estoque",
+  devolucao: "Devolução",
   cancelada: "Cancelada",
 };
 
 const STATUS_CLASS: Record<OS["status"], string> = {
   pendente: "bg-yellow-100 text-yellow-800 border-yellow-200",
+  em_andamento: "bg-orange-100 text-orange-800 border-orange-200",
+  estoque: "bg-purple-100 text-purple-800 border-purple-200",
+  devolucao: "bg-red-100 text-red-700 border-red-200",
   aprovado: "bg-blue-100 text-blue-800 border-blue-200",
   concluida: "bg-green-100 text-green-800 border-green-200",
   cancelada: "bg-gray-100 text-gray-600 border-gray-200",
@@ -78,3 +87,7 @@ export const whatsappOsUrl = (o: OS) =>
   `https://wa.me/5511940562933?text=${encodeURIComponent(
     `Olá, sou da HC Tech. Sua OS ${o.numero} do ${o.aparelho} está com status ${STATUS_LABEL[o.status]}.`
   )}`;
+
+export const osNum = (n: number) => `#${String(n).padStart(4, "0")}`;
+export const formatData = (d: string | null | undefined) =>
+  d ? new Date(d.length === 10 ? d + "T12:00:00" : d).toLocaleDateString("pt-BR") : "—";

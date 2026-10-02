@@ -15,6 +15,13 @@
       "when": 1790570905552,
       "tag": "0001_clientes_modulo_completo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790947203362,
+      "tag": "0002_sistema_gestao_completa",
+      "breakpoints": true
     }
   ]
 }

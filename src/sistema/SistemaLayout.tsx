@@ -1,15 +1,30 @@
 import { NavLink, Outlet, Navigate, useNavigate, useLocation } from "react-router-dom";
-import { LayoutDashboard, ClipboardList, Users, Tags, LogOut, Menu } from "lucide-react";
+import { LayoutDashboard, ClipboardList, Users, Tags, LogOut, Menu, Package, Wrench, Wallet, CreditCard, Undo2, BarChart3 } from "lucide-react";
+import { Suspense } from "react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSistemaAuth } from "@/sistema/auth";
 import { cn } from "@/lib/utils";
 
-const nav = [
-  { to: "/sistema", label: "Dashboard", icon: LayoutDashboard, end: true },
-  { to: "/sistema/os", label: "Ordens de Serviço", icon: ClipboardList },
-  { to: "/sistema/clientes", label: "Clientes", icon: Users },
-  { to: "/sistema/servicos", label: "Tabela de Preços", icon: Tags },
+const sections = [
+  { title: "Principal", items: [
+    { to: "/sistema", label: "Dashboard", icon: LayoutDashboard, end: true },
+    { to: "/sistema/os", label: "Ordens de Serviço", icon: ClipboardList },
+  ]},
+  { title: "Cadastros", items: [
+    { to: "/sistema/clientes", label: "Clientes", icon: Users },
+    { to: "/sistema/estoque", label: "Estoque", icon: Package },
+    { to: "/sistema/tipos-servico", label: "Serviços", icon: Wrench },
+    { to: "/sistema/servicos", label: "Tabela de Preços", icon: Tags },
+  ]},
+  { title: "Financeiro", items: [
+    { to: "/sistema/orcamentos", label: "Orçamentos", icon: Wallet },
+    { to: "/sistema/caixa", label: "Caixa", icon: CreditCard },
+  ]},
+  { title: "Sistema", items: [
+    { to: "/sistema/devolucoes", label: "Devoluções", icon: Undo2 },
+    { to: "/sistema/relatorios", label: "Relatórios", icon: BarChart3 },
+  ]},
 ];
 
 const titles: Record<string, string> = {
@@ -17,6 +32,12 @@ const titles: Record<string, string> = {
   "/sistema/os": "Ordens de Serviço",
   "/sistema/clientes": "Clientes",
   "/sistema/servicos": "Tabela de Preços",
+  "/sistema/tipos-servico": "Serviços",
+  "/sistema/estoque": "Estoque",
+  "/sistema/orcamentos": "Orçamentos",
+  "/sistema/caixa": "Caixa",
+  "/sistema/devolucoes": "Devoluções",
+  "/sistema/relatorios": "Relatórios",
 };
 
 export default function SistemaLayout() {
@@ -55,8 +76,11 @@ export default function SistemaLayout() {
             HC <span className="text-[#00A651]">TECH</span>
           </span>
         </div>
-        <nav className="flex-1 p-3 space-y-1">
-          {nav.map((item) => (
+        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+          {sections.map((sec) => (
+            <div key={sec.title} className="pb-2">
+              <div className="px-3 pt-2 pb-1 text-[10px] uppercase tracking-wider text-gray-500">{sec.title}</div>
+          {sec.items.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -64,7 +88,7 @@ export default function SistemaLayout() {
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-colors",
+                  "flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-md text-sm transition-colors",
                   isActive
                     ? "bg-[#00A651]/15 text-[#00A651] font-medium"
                     : "text-gray-300 hover:bg-white/5 hover:text-white"
@@ -74,6 +98,8 @@ export default function SistemaLayout() {
               <item.icon size={18} />
               {item.label}
             </NavLink>
+          ))}
+            </div>
           ))}
         </nav>
         <div className="p-3 border-t border-white/10">
@@ -104,10 +130,13 @@ export default function SistemaLayout() {
           >
             <Menu size={22} />
           </button>
-          <h1 className="text-lg font-semibold">{title}</h1>
+          <h1 className="text-lg font-semibold truncate">{title}</h1>
+          {location.pathname !== "/sistema/os" && (
+            <NavLink to="/sistema/os?nova=1" className="ml-auto text-sm font-medium bg-[#00A651] hover:bg-[#008c44] text-white rounded-md px-3 py-2">+ Nova OS</NavLink>
+          )}
         </header>
         <main className="p-4 md:p-6 flex-1">
-          <Outlet />
+          <Suspense fallback={<div className="text-gray-500">Carregando...</div>}><Outlet /></Suspense>
         </main>
       </div>
     </div>

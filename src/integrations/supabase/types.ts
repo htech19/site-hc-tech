@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      caixa_movimentos: {
+        Row: {
+          created_at: string
+          data: string
+          descricao: string
+          id: string
+          tipo: string
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          created_at?: string
+          data?: string
+          descricao: string
+          id?: string
+          tipo: string
+          user_id: string
+          valor: number
+        }
+        Update: {
+          created_at?: string
+          data?: string
+          descricao?: string
+          id?: string
+          tipo?: string
+          user_id?: string
+          valor?: number
+        }
+        Relationships: []
+      }
       cliente_anexos: {
         Row: {
           cliente_id: string
@@ -248,12 +278,15 @@ export type Database = {
           cliente_id: string | null
           cliente_nome: string | null
           created_at: string
+          data_entrada: string
           defeito: string | null
           id: string
           marca: string | null
           numero: number
           observacao: string | null
+          quantidade: number
           status: string
+          telefone: string | null
           user_id: string
           valor: number | null
         }
@@ -262,12 +295,15 @@ export type Database = {
           cliente_id?: string | null
           cliente_nome?: string | null
           created_at?: string
+          data_entrada?: string
           defeito?: string | null
           id?: string
           marca?: string | null
           numero?: number
           observacao?: string | null
+          quantidade?: number
           status?: string
+          telefone?: string | null
           user_id: string
           valor?: number | null
         }
@@ -276,12 +312,15 @@ export type Database = {
           cliente_id?: string | null
           cliente_nome?: string | null
           created_at?: string
+          data_entrada?: string
           defeito?: string | null
           id?: string
           marca?: string | null
           numero?: number
           observacao?: string | null
+          quantidade?: number
           status?: string
+          telefone?: string | null
           user_id?: string
           valor?: number | null
         }
@@ -294,6 +333,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      servico_tipos: {
+        Row: {
+          created_at: string
+          id: string
+          nome: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nome: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nome?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       servicos: {
         Row: {

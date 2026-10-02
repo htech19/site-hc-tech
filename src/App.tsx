@@ -34,6 +34,7 @@ const SistemaDashboardPage = lazy(() => import("./sistema/pages/SistemaDashboard
 const SistemaOsPage = lazy(() => import("./sistema/pages/SistemaOsPage"));
 const SistemaClientesPage = lazy(() => import("./sistema/pages/SistemaClientesPage"));
 const SistemaServicosPage = lazy(() => import("./sistema/pages/SistemaServicosPage"));
+const SistemaGestaoPage = lazy(() => import("./sistema/pages/SistemaGestaoPage"));
 
 const queryClient = new QueryClient();
 
@@ -81,6 +82,12 @@ const App = () => (
                   <Route path="os" element={<SistemaOsPage />} />
                   <Route path="clientes" element={<SistemaClientesPage />} />
                   <Route path="servicos" element={<SistemaServicosPage />} />
+                  <Route path="tipos-servico" element={<SistemaGestaoPage kind="tipos" />} />
+                  <Route path="estoque" element={<SistemaGestaoPage kind="estoque" />} />
+                  <Route path="orcamentos" element={<SistemaGestaoPage kind="orcamentos" />} />
+                  <Route path="caixa" element={<SistemaGestaoPage kind="caixa" />} />
+                  <Route path="devolucoes" element={<SistemaGestaoPage kind="devolucoes" />} />
+                  <Route path="relatorios" element={<SistemaGestaoPage kind="relatorios" />} />
                 </Route>
               </Route>
               <Route path="*" element={<NotFound />} />
