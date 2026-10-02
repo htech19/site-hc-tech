@@ -48,6 +48,10 @@ export default function SistemaOsPage() {
   };
 
   useEffect(() => { load(); }, []);
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    if (sp.get("nova") === "1") { setEditing(null); setForm(emptyForm); setOpen(true); window.history.replaceState(null, "", "/sistema/os"); }
+  }, []);
 
   const filtered = useMemo(() => {
     const q = busca.trim().toLowerCase();
