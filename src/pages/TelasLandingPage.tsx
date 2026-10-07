@@ -20,7 +20,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 
 
 
-const WHATSAPP = "5511940562933";
+const WHATSAPP = "5511977934634";
 const LANDING_URL = "https://www.hctechinfocell.com.br/telas";
 
 interface Device {

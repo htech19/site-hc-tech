@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/accordion";
 
 
-const WHATSAPP = "5511940562933";
+const WHATSAPP = "5511977934634";
 
 const brl = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -500,7 +500,7 @@ const TelasPage = () => {
           Preços de referência (08/2026), sujeitos a alteração sem aviso. Mão de obra inclusa em
           orçamento no balcão.
         </p>
-        <p className="mt-2">HC Tech InfoCell • São Bernardo do Campo — SP • (11) 94056-2933</p>
+        <p className="mt-2">HC Tech InfoCell • São Bernardo do Campo — SP • (11) 97793-4634</p>
       </footer>
     </div>
   );

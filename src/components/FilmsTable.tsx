@@ -326,7 +326,7 @@ const FilmsTable = () => {
                       }}
                     >
                       <a
-                        href={`https://wa.me/5511940562933?text=Olá! Preciso de película para ${f.model}`}
+                        href={`https://wa.me/5511977934634?text=Olá! Preciso de película para ${f.model}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1.5 text-xs font-medium transition-colors duration-150"

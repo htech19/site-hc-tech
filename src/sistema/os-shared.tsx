@@ -84,7 +84,7 @@ export const formatBRL = (v: number | null | undefined) =>
   (Number(v ?? 0)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export const whatsappOsUrl = (o: OS) =>
-  `https://wa.me/5511940562933?text=${encodeURIComponent(
+  `https://wa.me/5511977934634?text=${encodeURIComponent(
     `Olá, sou da HC Tech. Sua OS ${o.numero} do ${o.aparelho} está com status ${STATUS_LABEL[o.status]}.`
   )}`;
 

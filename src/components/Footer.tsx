@@ -68,7 +68,7 @@ const Footer = () => {
         <div className="space-y-6">
           <h4 className="text-white font-black uppercase text-xs tracking-[0.3em] mb-8">Atendimento</h4>
           <a 
-            href="https://wa.me/5511940562933" 
+            href="https://wa.me/5511977934634" 
             target="_blank" 
             rel="noopener noreferrer"
             className="group flex items-center gap-4 p-4 bg-[#00A651]/10 border border-[#00A651]/20 rounded-2xl hover:bg-[#00A651] transition-all duration-500"
@@ -78,7 +78,7 @@ const Footer = () => {
             </div>
             <div>
               <span className="block text-[10px] font-black text-[#00A651] group-hover:text-white uppercase tracking-widest">WhatsApp Business</span>
-              <span className="text-white font-black text-lg">(11) 94056-2933</span>
+              <span className="text-white font-black text-lg">(11) 97793-4634</span>
             </div>
           </a>
         </div>
