@@ -9,7 +9,7 @@ export default function PrivacidadePage() {
         <p className="text-sm text-slate-400">Última atualização: 11/05/2026</p>
 
         <h2 className="mt-8">1. Quem somos</h2>
-        <p>HC Tech — assistência técnica de celulares e notebooks em São Bernardo do Campo/SP. Contato: WhatsApp (11) 94056-2933.</p>
+        <p>HC Tech — assistência técnica de celulares e notebooks em São Bernardo do Campo/SP. Contato: WhatsApp (11) 97793-4634.</p>
 
         <h2>2. Dados que coletamos</h2>
         <ul>

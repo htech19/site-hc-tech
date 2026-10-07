@@ -15,7 +15,7 @@ import {
 // → responder venda. Fallback nunca trava nem reinicia.
 // ──────────────────────────────────────────────────────────────
 
-const WA = "https://wa.me/5511940562933";
+const WA = "https://wa.me/5511977934634";
 
 type ChatMsg = { role: "user" | "assistant"; content: string };
 

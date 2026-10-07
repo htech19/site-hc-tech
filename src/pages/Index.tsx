@@ -65,7 +65,7 @@ const Index = () => {
               
               <div className="flex flex-col sm:flex-row gap-5 justify-center w-full max-w-3xl px-4">
                 <a 
-                  href="https://wa.me/5511940562933" 
+                  href="https://wa.me/5511977934634" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex-1 flex items-center justify-center gap-3 px-8 py-5 bg-[#25D366] text-white font-black uppercase italic rounded-2xl hover:scale-105 transition-all shadow-[0_0_20px_rgba(37,211,102,0.3)]"
@@ -199,7 +199,7 @@ const Index = () => {
                     ))}
                   </div>
                   <a
-                    href={`https://wa.me/5511940562933?text=Olá! Gostaria de um orçamento para o serviço de ${cat.title}.`}
+                    href={`https://wa.me/5511977934634?text=Olá! Gostaria de um orçamento para o serviço de ${cat.title}.`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-8 w-full py-3.5 rounded-xl bg-[#00A651]/10 border border-[#00A651]/20 text-[#00A651] font-black text-xs uppercase tracking-widest text-center hover:bg-[#00A651] hover:text-white transition-all duration-300 flex items-center justify-center gap-2"
@@ -268,7 +268,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto bg-zinc-900/40 p-12 rounded-3xl border border-[#00A651]/20">
             <h2 className="text-3xl font-black text-white uppercase italic tracking-tighter mb-8">PRONTO PARA REPARAR?</h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="https://wa.me/5511940562933" target="_blank" rel="noopener noreferrer" className="bg-[#25D366] px-10 py-4 rounded-xl text-white font-black uppercase text-xs tracking-widest hover:scale-105 transition-transform">WhatsApp</a>
+              <a href="https://wa.me/5511977934634" target="_blank" rel="noopener noreferrer" className="bg-[#25D366] px-10 py-4 rounded-xl text-white font-black uppercase text-xs tracking-widest hover:scale-105 transition-transform">WhatsApp</a>
               <a href="https://t.me/hctechinfocell_bot" target="_blank" rel="noopener noreferrer" className="bg-[#24A1DE] px-10 py-4 rounded-xl text-white font-black uppercase text-xs tracking-widest hover:scale-105 transition-transform">Telegram</a>
             </div>
           </div>

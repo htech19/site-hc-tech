@@ -44,7 +44,7 @@ const CartDrawer = () => {
       "Podem confirmar disponibilidade, forma de pagamento (PIX) e entrega?",
     ].join("\n");
 
-    window.open(`https://wa.me/5511940562933?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://wa.me/5511977934634?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   return (

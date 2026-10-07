@@ -210,7 +210,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto relative z-10 text-center">
             <div className="glass-card p-12 border border-[#00A651]/20 bg-[#050505]/60 rounded-3xl backdrop-blur-lg">
               <h2 className="text-4xl font-black text-white uppercase italic tracking-tighter mb-12">Iniciar Atendimento</h2>
-              <a href="https://wa.me/5511940562933" target="_blank" className="w-full py-6 bg-[#00A651] hover:scale-[1.02] transition-all text-white rounded-2xl flex items-center justify-center gap-3 text-sm font-black tracking-[0.2em]">
+              <a href="https://wa.me/5511977934634" target="_blank" className="w-full py-6 bg-[#00A651] hover:scale-[1.02] transition-all text-white rounded-2xl flex items-center justify-center gap-3 text-sm font-black tracking-[0.2em]">
                 <Send size={18} /> ENVIAR VIA WHATSAPP
               </a>
             </div>
