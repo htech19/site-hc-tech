@@ -16,6 +16,8 @@ export function getConsent(): ConsentValue {
 export function setConsent(v: "granted" | "denied") {
   try {
     localStorage.setItem(STORAGE_KEY, v);
-  } catch {}
+  } catch {
+    // localStorage indisponível (modo privado/incógnito): segue sem persistir
+  }
   window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: v }));
 }

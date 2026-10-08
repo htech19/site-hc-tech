@@ -50,7 +50,7 @@ export default function ClienteFormDialog({
     if (editing) {
       setForm({
         ...empty,
-        ...Object.fromEntries(Object.entries(editing).map(([k, v]) => [k, v ?? (k in empty ? (empty as any)[k] : "")])),
+        ...Object.fromEntries(Object.entries(editing).map(([k, v]) => [k, v ?? (k in empty ? (empty as Record<string, unknown>)[k] : "")])),
         documento: editing.documento ? maskDoc(editing.documento, editing.tipo_pessoa) : "",
         limite_credito: String(editing.limite_credito ?? 0),
         tags: editing.tags ?? [],

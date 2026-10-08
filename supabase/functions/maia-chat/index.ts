@@ -74,7 +74,7 @@ Deno.serve(async (req) => {
 
     const trimmed = message.slice(0, 400).trim();
     const hist: ChatMsg[] = Array.isArray(history)
-      ? history.filter((m: any) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+      ? history.filter((m: ChatMsg) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
       : [];
 
     const temContextoAnterior = hist.some((m) => m.role === "user");
