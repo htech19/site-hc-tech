@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,8 +30,19 @@ const SistemaGestaoPage = lazy(() => import("./sistema/pages/SistemaGestaoPage")
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => {
+  // GitHub Pages SPA fallback: /404.html envia o caminho original em ?redirect=
+  // (ex.: /?redirect=%2Fproduto%2Fx). Restauramos a rota e limpamos a URL.
+  useEffect(() => {
+    const redirect = new URLSearchParams(window.location.search).get("redirect");
+    // Apenas caminhos internos ("/..."), para evitar open redirect para domínios externos.
+    if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
+      window.location.replace(redirect);
+    }
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
     <CartProvider>
       <TooltipProvider>
         <Toaster />
@@ -82,6 +93,7 @@ const App = () => (
       </TooltipProvider>
     </CartProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
