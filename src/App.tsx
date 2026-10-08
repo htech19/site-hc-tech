@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import ChatWidget from "@/components/ChatWidget";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -30,17 +30,22 @@ const SistemaGestaoPage = lazy(() => import("./sistema/pages/SistemaGestaoPage")
 
 const queryClient = new QueryClient();
 
-const App = () => {
-  // GitHub Pages SPA fallback: /404.html envia o caminho original em ?redirect=
-  // (ex.: /?redirect=%2Fproduto%2Fx). Restauramos a rota e limpamos a URL.
+const GitHubPagesRedirect = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
-    const redirect = new URLSearchParams(window.location.search).get("redirect");
-    // Apenas caminhos internos ("/..."), para evitar open redirect para domínios externos.
+    const redirect = new URLSearchParams(location.search).get("redirect");
     if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
-      window.location.replace(redirect);
+      // Limpa a URL sem recarregar a página
+      window.history.replaceState(null, "", window.location.pathname + window.location.hash);
+      // Navega internamente (client-side)
+      navigate(redirect, { replace: true });
     }
-  }, []);
+  }, [navigate, location.search]);
+  return null;
+};
 
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
     <CartProvider>
@@ -48,6 +53,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <GitHubPagesRedirect />
           <GoogleAnalytics />
           <Suspense fallback={null}>
             <Routes>
