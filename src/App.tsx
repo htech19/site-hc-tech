@@ -1,9 +1,9 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Routes, Route, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route, Outlet } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import ChatWidget from "@/components/ChatWidget";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -30,30 +30,6 @@ const SistemaGestaoPage = lazy(() => import("./sistema/pages/SistemaGestaoPage")
 
 const queryClient = new QueryClient();
 
-const GitHubPagesRedirect = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const redirect = searchParams.get("redirect");
-
-    if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
-      // Verifica se já estamos na rota correta para evitar loop
-      if (location.pathname !== redirect) {
-        // Limpa completamente a URL (remove ?redirect=)
-        const cleanUrl = window.location.pathname + window.location.hash;
-        window.history.replaceState(null, "", cleanUrl);
-
-        // Navega para a rota correta
-        navigate(redirect, { replace: true });
-      }
-    }
-  }, [navigate, location.search, location.pathname]);
-
-  return null;
-};
-
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -62,7 +38,6 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <GitHubPagesRedirect />
           <GoogleAnalytics />
           <Suspense fallback={null}>
             <Routes>
