@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Routes, Route, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import ChatWidget from "@/components/ChatWidget";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -32,16 +32,16 @@ const queryClient = new QueryClient();
 
 const GitHubPagesRedirect = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
+
   useEffect(() => {
-    const redirect = new URLSearchParams(location.search).get("redirect");
+    const redirect = searchParams.get("redirect");
     if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
-      // Limpa a URL sem recarregar a página
-      window.history.replaceState(null, "", window.location.pathname + window.location.hash);
-      // Navega internamente (client-side)
+      // replace: true substitui o histórico atual, removendo o ?redirect= da URL de forma limpa
       navigate(redirect, { replace: true });
     }
-  }, [navigate, location.search]);
+  }, [navigate, searchParams]);
+
   return null;
 };
 
