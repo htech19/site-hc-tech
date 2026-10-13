@@ -272,6 +272,96 @@ export type Database = {
         }
         Relationships: []
       }
+      orcamento_solicitacoes: {
+        Row: {
+          atendimento: string
+          categoria: string
+          client_token: string
+          consentimento_lgpd: boolean
+          created_at: string
+          descricao_defeito: string
+          email: string | null
+          estado_geral: string | null
+          historico: string[]
+          id: string
+          imei1: string | null
+          imei2: string | null
+          info_adicional: string | null
+          marca: string
+          modelo: string
+          nome: string
+          numero_serie: string | null
+          observacoes: string | null
+          periodo_contato: string | null
+          preferencia_contato: string | null
+          protocolo: string
+          servico: string
+          sintomas: string[]
+          status: string
+          telefone: string
+          updated_at: string
+          whatsapp_status: string
+        }
+        Insert: {
+          atendimento: string
+          categoria: string
+          client_token: string
+          consentimento_lgpd?: boolean
+          created_at?: string
+          descricao_defeito: string
+          email?: string | null
+          estado_geral?: string | null
+          historico?: string[]
+          id?: string
+          imei1?: string | null
+          imei2?: string | null
+          info_adicional?: string | null
+          marca: string
+          modelo: string
+          nome: string
+          numero_serie?: string | null
+          observacoes?: string | null
+          periodo_contato?: string | null
+          preferencia_contato?: string | null
+          protocolo: string
+          servico: string
+          sintomas?: string[]
+          status?: string
+          telefone: string
+          updated_at?: string
+          whatsapp_status?: string
+        }
+        Update: {
+          atendimento?: string
+          categoria?: string
+          client_token?: string
+          consentimento_lgpd?: boolean
+          created_at?: string
+          descricao_defeito?: string
+          email?: string | null
+          estado_geral?: string | null
+          historico?: string[]
+          id?: string
+          imei1?: string | null
+          imei2?: string | null
+          info_adicional?: string | null
+          marca?: string
+          modelo?: string
+          nome?: string
+          numero_serie?: string | null
+          observacoes?: string | null
+          periodo_contato?: string | null
+          preferencia_contato?: string | null
+          protocolo?: string
+          servico?: string
+          sintomas?: string[]
+          status?: string
+          telefone?: string
+          updated_at?: string
+          whatsapp_status?: string
+        }
+        Relationships: []
+      }
       ordens_servico: {
         Row: {
           aparelho: string
@@ -385,15 +475,43 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      confirmar_whatsapp_solicitacao: {
+        Args: { _token: string }
+        Returns: undefined
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -520,6 +638,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
