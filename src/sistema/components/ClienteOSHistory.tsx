@@ -1,10 +1,35 @@
 import { memo } from "react";
-import { useOS } from "@/integrations/supabase/sistema";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { formatData, osNum } from "@/sistema/os-shared";
 import { Modal } from "./Modal";
 import { OSStatusBadge } from "./OSStatusBadge";
 import { CarregandoArea, EstadoVazio } from "./LoadingSpinner";
-import type { Cliente } from "@/sistema/types";
+import { paraStatusUI, type Cliente } from "@/sistema/types";
+
+function useOSPorCliente(clienteId: string | null) {
+  return useQuery({
+    queryKey: ["sistema", "os", clienteId ? { clienteId } : null],
+    enabled: !!clienteId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("ordens_servico")
+        .select("id, numero, aparelho, defeito, status, quantidade, data_entrada")
+        .eq("cliente_id", clienteId)
+        .order("data_entrada", { ascending: false });
+
+      if (error) throw error;
+
+      return (data ?? []).map((os) => ({
+        ...os,
+        status: paraStatusUI(os.status),
+        dataEntrada: os.data_entrada,
+        defeito: os.defeito ?? "-",
+      }));
+    },
+    staleTime: 30_000,
+  });
+}
 
 interface Props {
   cliente: Cliente | null;
@@ -19,9 +44,7 @@ export const ClienteOSHistory = memo(function ClienteOSHistory({
   cliente,
   aoFechar,
 }: Props) {
-  const { data: os, isLoading } = useOS(
-    cliente ? { clienteId: cliente.id } : undefined
-  );
+  const { data: os, isLoading } = useOSPorCliente(cliente?.id ?? null);
 
   return (
     <Modal

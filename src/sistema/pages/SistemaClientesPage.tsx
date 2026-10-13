@@ -1,11 +1,51 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useClientes } from "@/integrations/supabase/sistema";
+import { supabase } from "@/integrations/supabase/client";
 import { ClienteList } from "@/sistema/components/ClienteList";
 import { ClienteForm } from "@/sistema/components/ClienteForm";
 import { ClienteOSHistory } from "@/sistema/components/ClienteOSHistory";
 import type { Cliente } from "@/sistema/types";
+
+function useClientes() {
+  return useQuery({
+    queryKey: ["sistema", "clientes"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("clientes")
+        .select("id, nome, telefone, email, created_at")
+        .order("nome", { ascending: true });
+      if (error) throw error;
+
+      const { data: agregado } = await supabase
+        .from("ordens_servico")
+        .select("cliente_id, quantidade, data_entrada")
+        .not("cliente_id", "is", null);
+
+      const mapa = new Map<string, { total: number; ultima: string | null }>();
+      for (const registro of (agregado ?? []) as { cliente_id: string; quantidade: number; data_entrada: string }[]) {
+        const atual = mapa.get(registro.cliente_id) ?? { total: 0, ultima: null };
+        atual.total += registro.quantidade ?? 1;
+        if (!atual.ultima || registro.data_entrada > atual.ultima) atual.ultima = registro.data_entrada;
+        mapa.set(registro.cliente_id, atual);
+      }
+
+      return ((data ?? []) as { id: string; nome: string; telefone: string | null; email: string | null; created_at: string }[]).map(
+        (cliente) => ({
+          id: cliente.id,
+          nome: cliente.nome,
+          telefone: cliente.telefone ?? "",
+          email: cliente.email,
+          totalOS: mapa.get(cliente.id)?.total ?? 0,
+          ultimaOS: mapa.get(cliente.id)?.ultima ?? null,
+          createdAt: cliente.created_at,
+        }) satisfies Cliente
+      );
+    },
+    staleTime: 30_000,
+  });
+}
 
 /** Debounce local de 300ms para a busca da lista. */
 function useDebounce<T>(valor: T, atraso = 300): T {
