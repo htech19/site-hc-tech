@@ -1,130 +1,62 @@
-import { memo, useCallback, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FormInput } from "./FormInput";
-import { Modal } from "./Modal";
-import {
-  FORMULARIO_CLIENTE_VAZIO,
-  useSistemaStore,
-} from "@/sistema/store";
-import type { Cliente } from "@/sistema/types";
-
-type Form = typeof FORMULARIO_CLIENTE_VAZIO;
-type Erros = Partial<Record<keyof Form, string>>;
-
-function validar(form: Form): Erros {
-  const erros: Erros = {};
-  if (!form.nome.trim()) erros.nome = "Informe o nome do cliente.";
-  if (!form.telefone.trim()) erros.telefone = "Informe o telefone.";
-  return erros;
-}
+import type { ClienteFormData, ClienteResumo } from "@/sistema/clientes/clientes-utils";
 
 interface Props {
   aberto: boolean;
   aoFechar: () => void;
-  /** Cliente em edição; `null` = criação. */
-  editando?: Cliente | null;
+  aoSalvar: (dados: ClienteFormData, id?: string) => Promise<void>;
+  editando: ClienteResumo | null;
 }
 
-/**
- * Modal de cadastro/edição de cliente (nome, telefone, e-mail).
- * Validação local em PT-BR + gravação via store (`criarCliente`/`atualizarCliente`).
- */
-export const ClienteForm = memo(function ClienteForm({
-  aberto,
-  aoFechar,
-  editando,
-}: Props) {
-  const criarCliente = useSistemaStore((s) => s.criarCliente);
-  const atualizarCliente = useSistemaStore((s) => s.atualizarCliente);
-
-  const [form, setForm] = useState<Form>(FORMULARIO_CLIENTE_VAZIO);
-  const [erros, setErros] = useState<Erros>({});
+export function ClienteForm({ aberto, aoFechar, aoSalvar, editando }: Props) {
+  const [form, setForm] = useState<ClienteFormData>({ nome: "", telefone: "", email: "" });
+  const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
-  const [idCarregado, setIdCarregado] = useState<string | null>(null);
 
-  // Popula o form ao entrar em modo edição (padrão usado no OSForm).
-  if (aberto && editando && idCarregado !== editando.id) {
-    setIdCarregado(editando.id);
-    setErros({});
+  useEffect(() => {
+    if (!aberto) return;
     setForm({
-      nome: editando.nome,
-      telefone: editando.telefone,
-      email: editando.email ?? "",
+      nome: editando?.nome ?? "",
+      telefone: editando?.telefone ?? "",
+      email: editando?.email ?? "",
     });
-  }
+    setErro("");
+  }, [aberto, editando]);
 
-  const alterar = useCallback(<K extends keyof Form>(campo: K, valor: Form[K]) => {
-    setForm((f) => ({ ...f, [campo]: valor }));
-    setErros((e) => ({ ...e, [campo]: undefined }));
-  }, []);
-
-  const submeter = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      const novos = validar(form);
-      setErros(novos);
-      if (Object.keys(novos).length > 0) return;
-
-      setSalvando(true);
-      const ok = editando
-        ? await atualizarCliente(editando.id, form)
-        : await criarCliente(form);
+  const submeter = async (evento: FormEvent<HTMLFormElement>) => {
+    evento.preventDefault();
+    const dados = { nome: form.nome.trim(), telefone: form.telefone.trim(), email: form.email.trim() };
+    if (!dados.nome) return setErro("Informe o nome do cliente.");
+    if (!dados.telefone) return setErro("Informe o telefone do cliente.");
+    setErro("");
+    setSalvando(true);
+    try {
+      await aoSalvar(dados, editando?.id);
+      aoFechar();
+    } catch (falha) {
+      setErro(falha instanceof Error ? falha.message : "Não foi possível salvar o cliente.");
+    } finally {
       setSalvando(false);
-
-      if (ok) {
-        setForm(FORMULARIO_CLIENTE_VAZIO);
-        setIdCarregado(null);
-        aoFechar();
-      }
-    },
-    [form, editando, atualizarCliente, criarCliente, aoFechar]
-  );
-
-  const aoCancelar = useCallback(() => {
-    setErros({});
-    setIdCarregado(null);
-    aoFechar();
-  }, [aoFechar]);
+    }
+  };
 
   return (
-    <Modal
-      aberto={aberto}
-      aoFechar={aoCancelar}
-      titulo={editando ? "Editar Cliente" : "Novo Cliente"}
-      descricao="Cadastro com telefone e e-mail para contato."
-      carregando={salvando}
-      naoFecharFora
-      largura="max-w-lg"
-      rodape={
-        <>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={aoCancelar}
-            disabled={salvando}
-            className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-zinc-100"
-          >
-            Cancelar
-          </Button>
-          <Button
-            type="submit"
-            form="form-cliente"
-            disabled={salvando}
-            className="bg-[#00FF88] font-bold text-zinc-950 hover:bg-[#00E67D]"
-          >
-            {salvando ? "Salvando..." : editando ? "Atualizar" : "Salvar"}
-          </Button>
-        </>
-      }
-    >
-      <form id="form-cliente" onSubmit={submeter} className="grid grid-cols-1 gap-4">
+    <Dialog open={aberto} onOpenChange={(open) => { if (!open && !salvando) aoFechar(); }}>
+      <DialogContent className="border-zinc-800 bg-zinc-950 text-zinc-100 sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>{editando ? "Editar cliente" : "Novo cliente"}</DialogTitle>
+          <DialogDescription className="text-zinc-400">Os dados permanecem vinculados às ordens de serviço existentes.</DialogDescription>
+        </DialogHeader>
+        <form id="form-cliente" onSubmit={(evento) => void submeter(evento)} className="grid gap-4">
         <FormInput
           label="Nome"
           obrigatorio
           placeholder="Nome completo"
           valor={form.nome}
-          aoMudar={(v) => alterar("nome", v)}
-          erro={erros.nome}
+          aoMudar={(nome) => setForm((atual) => ({ ...atual, nome }))}
         />
         <FormInput
           label="Telefone"
@@ -132,19 +64,24 @@ export const ClienteForm = memo(function ClienteForm({
           tipo="tel"
           placeholder="(00) 00000-0000"
           valor={form.telefone}
-          aoMudar={(v) => alterar("telefone", v)}
-          erro={erros.telefone}
+          aoMudar={(telefone) => setForm((atual) => ({ ...atual, telefone }))}
         />
         <FormInput
           label="E-mail"
           tipo="email"
           placeholder="opcional@email.com"
           valor={form.email}
-          aoMudar={(v) => alterar("email", v)}
+          aoMudar={(email) => setForm((atual) => ({ ...atual, email }))}
         />
-      </form>
-    </Modal>
+          {erro && <p role="alert" className="text-sm text-rose-300">{erro}</p>}
+        </form>
+        <DialogFooter>
+          <Button type="button" variant="outline" disabled={salvando} onClick={aoFechar} className="border-zinc-700 bg-zinc-900 text-zinc-200">Cancelar</Button>
+          <Button type="submit" form="form-cliente" disabled={salvando} className="bg-[#00FF88] font-bold text-zinc-950 hover:bg-[#00E67D]">{salvando ? "Salvando..." : editando ? "Atualizar cliente" : "Salvar cliente"}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
-});
+}
 
 export default ClienteForm;

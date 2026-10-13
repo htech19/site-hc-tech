@@ -1,109 +1,60 @@
-import { memo } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
-import { formatData, osNum } from "@/sistema/os-shared";
-import { Modal } from "./Modal";
-import { OSStatusBadge } from "./OSStatusBadge";
-import { CarregandoArea, EstadoVazio } from "./LoadingSpinner";
-import { paraStatusUI, type Cliente } from "@/sistema/types";
+import { formatData, osNum, StatusBadge, type OS } from "@/sistema/os-shared";
+import type { ClienteResumo } from "@/sistema/clientes/clientes-utils";
 
-function useOSPorCliente(clienteId: string | null) {
-  return useQuery({
-    queryKey: ["sistema", "os", clienteId ? { clienteId } : null],
-    enabled: !!clienteId,
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("ordens_servico")
-        .select("id, numero, aparelho, defeito, status, quantidade, data_entrada")
-        .eq("cliente_id", clienteId)
-        .order("data_entrada", { ascending: false });
-
-      if (error) throw error;
-
-      return (data ?? []).map((os) => ({
-        ...os,
-        status: paraStatusUI(os.status),
-        dataEntrada: os.data_entrada,
-        defeito: os.defeito ?? "-",
-      }));
-    },
-    staleTime: 30_000,
-  });
-}
+const PAGE_SIZE = 20;
+const STATUS_OS = new Set<OS["status"]>(["pendente", "em_andamento", "aprovado", "concluida", "estoque", "devolucao", "cancelada"]);
 
 interface Props {
-  cliente: Cliente | null;
+  cliente: ClienteResumo | null;
   aoFechar: () => void;
 }
 
-/**
- * Histórico de OS de um cliente (modal).
- * Usa `useOS({ clienteId })` — o filtro vai ao servidor e usa o cache de 30s.
- */
-export const ClienteOSHistory = memo(function ClienteOSHistory({
-  cliente,
-  aoFechar,
-}: Props) {
-  const { data: os, isLoading } = useOSPorCliente(cliente?.id ?? null);
+export function ClienteOSHistory({ cliente, aoFechar }: Props) {
+  const [pagina, setPagina] = useState(0);
+  const clienteId = cliente?.id ?? "";
+  useEffect(() => setPagina(0), [clienteId]);
+  const consulta = useQuery({
+    queryKey: ["sistema", "os", "cliente", clienteId, pagina],
+    enabled: Boolean(clienteId),
+    queryFn: async () => {
+      const { data, error, count } = await supabase.from("ordens_servico")
+        .select("id, numero, aparelho, defeito, status, quantidade, data_entrada", { count: "exact" })
+        .eq("cliente_id", clienteId).order("data_entrada", { ascending: false })
+        .range(pagina * PAGE_SIZE, pagina * PAGE_SIZE + PAGE_SIZE - 1);
+      if (error) throw error;
+      return { ordens: data ?? [], total: count ?? 0 };
+    },
+    staleTime: 30_000,
+  });
+  const totalPaginas = Math.max(1, Math.ceil((consulta.data?.total ?? 0) / PAGE_SIZE));
 
   return (
-    <Modal
-      aberto={!!cliente}
-      aoFechar={aoFechar}
-      titulo={`Histórico — ${cliente?.nome ?? ""}`}
-      descricao={
-        cliente
-          ? `${cliente.totalOS} OS · última em ${
-              cliente.ultimaOS ? formatData(cliente.ultimaOS) : "—"
-            }`
-          : undefined
-      }
-      largura="max-w-3xl"
-      rodape={
-        <button
-          type="button"
-          onClick={aoFechar}
-          className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-300 transition hover:border-[#00FF88] hover:text-[#00FF88]"
-        >
-          Fechar
-        </button>
-      }
-    >
-      {isLoading ? (
-        <CarregandoArea altura="h-48" rotulo="Carregando histórico..." />
-      ) : !os || os.length === 0 ? (
-        <EstadoVazio
-          icone="📋"
-          titulo="Nenhuma OS para este cliente"
-          descricao="As ordens de serviço vinculadas aparecerão aqui."
-        />
-      ) : (
-        <ul className="divide-y divide-zinc-800 overflow-hidden rounded-xl border border-zinc-800">
-          {os.map((o) => (
-            <li
-              key={o.id}
-              className="flex flex-wrap items-center gap-x-3 gap-y-1 bg-zinc-900/60 px-4 py-3 text-sm transition-colors hover:bg-[#00FF88]/[0.04]"
-            >
-              <span className="font-mono text-[13px] font-bold text-[#00FF88]">
-                {osNum(o.numero)}
-              </span>
-              <span className="text-zinc-400">{formatData(o.dataEntrada)}</span>
-              <span className="min-w-0 flex-1 truncate font-semibold text-zinc-100">
-                {o.quantidade > 1 && (
-                  <span className="mr-1 text-[#00FF88]">{o.quantidade}x</span>
-                )}
-                {o.aparelho}
-              </span>
-              <span className="hidden max-w-[40%] truncate text-xs text-zinc-500 sm:block">
-                {o.defeito}
-              </span>
-              <OSStatusBadge status={o.status} compacto />
-            </li>
-          ))}
-        </ul>
-      )}
-    </Modal>
+    <Dialog open={Boolean(cliente)} onOpenChange={(open) => { if (!open) aoFechar(); }}>
+      <DialogContent className="max-h-[85vh] overflow-y-auto border-zinc-800 bg-zinc-950 text-zinc-100 sm:max-w-3xl">
+        <DialogHeader><DialogTitle>Histórico de OS: {cliente?.nome ?? ""}</DialogTitle>
+          <DialogDescription className="text-zinc-400">{cliente?.totalOS ?? 0} OS vinculada(s); última em {formatData(cliente?.ultimaOS)}.</DialogDescription>
+        </DialogHeader>
+        {consulta.isLoading ? <p className="py-12 text-center text-sm text-zinc-400">Carregando histórico...</p>
+          : consulta.error ? <p role="alert" className="py-12 text-center text-sm text-rose-300">Não foi possível carregar o histórico: {consulta.error.message}</p>
+            : consulta.data?.ordens.length ? <div className="overflow-x-auto rounded-md border border-zinc-800"><table className="w-full min-w-[580px] text-left text-sm">
+              <thead className="bg-zinc-900 text-xs uppercase text-zinc-400"><tr><th className="px-3 py-2.5">OS</th><th className="px-3 py-2.5">Entrada</th><th className="px-3 py-2.5">Aparelho</th><th className="px-3 py-2.5">Defeito</th><th className="px-3 py-2.5">Status</th></tr></thead>
+              <tbody className="divide-y divide-zinc-800">{consulta.data.ordens.map((os) => {
+                const status = STATUS_OS.has(os.status as OS["status"]) ? os.status as OS["status"] : "pendente";
+                return <tr key={os.id}><td className="whitespace-nowrap px-3 py-3 font-mono font-bold text-[#00FF88]">{osNum(os.numero)}</td><td className="whitespace-nowrap px-3 py-3 text-zinc-400">{formatData(os.data_entrada)}</td><td className="px-3 py-3 font-medium text-zinc-100">{os.quantidade > 1 ? `${os.quantidade}x ` : ""}{os.aparelho}</td><td className="max-w-[200px] truncate px-3 py-3 text-zinc-400">{os.defeito || "—"}</td><td className="px-3 py-3"><StatusBadge status={status} /></td></tr>;
+              })}</tbody></table></div>
+              : <p className="py-12 text-center text-sm text-zinc-400">Nenhuma OS vinculada a este cliente.</p>}
+        <DialogFooter className="flex-row items-center justify-between sm:justify-between">
+          <span className="text-xs text-zinc-500">Página {pagina + 1} de {totalPaginas}</span>
+          <div className="flex gap-2"><Button type="button" variant="outline" disabled={pagina === 0 || consulta.isFetching} onClick={() => setPagina((atual) => Math.max(0, atual - 1))} className="border-zinc-700 bg-zinc-900 text-zinc-200">Anterior</Button><Button type="button" variant="outline" disabled={pagina + 1 >= totalPaginas || consulta.isFetching} onClick={() => setPagina((atual) => atual + 1)} className="border-zinc-700 bg-zinc-900 text-zinc-200">Próxima</Button></div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
-});
+}
 
 export default ClienteOSHistory;
