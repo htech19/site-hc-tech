@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import QuoteButton from "@/components/quote/QuoteButton";
 import { useState } from "react";
 import { 
   Facebook, Instagram, Youtube, Send, Globe, 
