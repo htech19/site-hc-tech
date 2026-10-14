@@ -181,7 +181,7 @@ export default function SistemaSolicitacoesPage() {
                     <SelectContent>{STATUS.map((s) => <SelectItem key={s.v} value={s.v}>{s.l}</SelectItem>)}</SelectContent>
                   </Select>
                 </div>
-                <pre className="whitespace-pre-wrap rounded-lg bg-gray-50 p-3 font-sans text-sm">{resumo(sel)}</pre>
+                <pre className="whitespace-pre-wrap rounded-lg bg-black/30 p-3 font-sans text-sm text-gray-100">{resumo(sel)}</pre>
                 <p className="text-xs text-gray-500">
                   Criado em {fmt(sel.created_at)} • Atualizado em {fmt(sel.updated_at)} •{" "}
                   WhatsApp do cliente: {sel.whatsapp_status === "aberto" ? "aberto no aparelho (envio não confirmado)" : "mensagem apenas preparada"}
