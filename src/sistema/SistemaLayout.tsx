@@ -18,6 +18,7 @@ const sections = [
     { to: "/sistema/servicos", label: "Tabela de Preços", icon: Tags },
   ]},
   { title: "Financeiro", items: [
+    { to: "/sistema/solicitacoes", label: "Solicitações (site)", icon: ClipboardList },
     { to: "/sistema/orcamentos", label: "Orçamentos", icon: Wallet },
     { to: "/sistema/caixa", label: "Caixa", icon: CreditCard },
   ]},
@@ -34,6 +35,7 @@ const titles: Record<string, string> = {
   "/sistema/servicos": "Tabela de Preços",
   "/sistema/tipos-servico": "Serviços",
   "/sistema/estoque": "Estoque",
+  "/sistema/solicitacoes": "Solicitações de orçamento",
   "/sistema/orcamentos": "Orçamentos",
   "/sistema/caixa": "Caixa",
   "/sistema/devolucoes": "Devoluções",

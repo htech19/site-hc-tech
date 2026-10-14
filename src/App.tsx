@@ -26,6 +26,8 @@ const SistemaDashboardPage = lazy(() => import("./sistema/pages/SistemaDashboard
 const SistemaOsPage = lazy(() => import("./sistema/pages/SistemaOsPage"));
 const SistemaClientesPage = lazy(() => import("./sistema/pages/SistemaClientesPage"));
 const SistemaServicosPage = lazy(() => import("./sistema/pages/SistemaServicosPage"));
+const SistemaSolicitacoesPage = lazy(() => import("./sistema/pages/SistemaSolicitacoesPage"));
+const QuoteDialog = lazy(() => import("@/components/quote/QuoteDialog"));
 const SistemaGestaoPage = lazy(() => import("./sistema/pages/SistemaGestaoPage"));
 
 const queryClient = new QueryClient();
@@ -65,6 +67,7 @@ const App = () => {
                   <Route index element={<SistemaDashboardPage />} />
                   <Route path="os" element={<SistemaOsPage />} />
                   <Route path="clientes" element={<SistemaClientesPage />} />
+                  <Route path="solicitacoes" element={<SistemaSolicitacoesPage />} />
                   <Route path="servicos" element={<SistemaServicosPage />} />
                   <Route path="tipos-servico" element={<SistemaGestaoPage kind="tipos" />} />
                   <Route path="estoque" element={<SistemaGestaoPage kind="estoque" />} />
@@ -77,6 +80,7 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          <Suspense fallback={null}><QuoteDialog /></Suspense>
           <ChatWidget />
           <CookieConsent />
         </BrowserRouter>

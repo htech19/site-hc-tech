@@ -8,6 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import QuoteButton from "@/components/quote/QuoteButton";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { products } from "@/data/store-products";
 
@@ -63,6 +64,8 @@ const Index = () => {
                 SOLICITE SEU ORÇAMENTO PELA SUA REDE PREFERIDA
               </p>
               
+              <QuoteButton />
+
               <div className="flex flex-col sm:flex-row gap-5 justify-center w-full max-w-3xl px-4">
                 <a 
                   href="https://wa.me/5511977934634" 
@@ -268,6 +271,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto bg-zinc-900/40 p-12 rounded-3xl border border-[#00A651]/20">
             <h2 className="text-3xl font-black text-white uppercase italic tracking-tighter mb-8">PRONTO PARA REPARAR?</h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <QuoteButton compact className="bg-[#00A651] px-10 py-4 rounded-xl text-white font-black uppercase text-xs tracking-widest hover:scale-105 transition-transform inline-flex items-center justify-center gap-2" />
               <a href="https://wa.me/5511977934634" target="_blank" rel="noopener noreferrer" className="bg-[#25D366] px-10 py-4 rounded-xl text-white font-black uppercase text-xs tracking-widest hover:scale-105 transition-transform">WhatsApp</a>
               <a href="https://t.me/hctechinfocell_bot" target="_blank" rel="noopener noreferrer" className="bg-[#24A1DE] px-10 py-4 rounded-xl text-white font-black uppercase text-xs tracking-widest hover:scale-105 transition-transform">Telegram</a>
             </div>
