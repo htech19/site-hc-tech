@@ -57,12 +57,15 @@ export const waNumber = (v: string | null | undefined) => {
 export const waUrl = (phone: string, text = "") =>
   `https://wa.me/${waNumber(phone)}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 
+const chaveTelefone = (valor: string | null | undefined) =>
+  onlyDigits(valor).replace(/^55(?=\d{10,11}$)/, "");
+
 /** Duplicidade por telefone/whatsapp, e-mail e CPF/CNPJ */
 export function findDuplicates(
-  c: { id?: string; telefone?: string | null; whatsapp?: string | null; email?: string | null; documento?: string | null },
+  c: { id?: string; telefone?: string | null; telefone2?: string | null; whatsapp?: string | null; email?: string | null; documento?: string | null },
   list: Cliente[],
 ) {
-  const phones = [c.telefone, c.whatsapp].map((p) => onlyDigits(p).slice(-11)).filter((p) => p.length >= 10);
+  const phones = [c.telefone, c.telefone2, c.whatsapp].map(chaveTelefone).filter((p) => p.length >= 10);
   const email = (c.email ?? "").trim().toLowerCase();
   const doc = onlyDigits(c.documento);
   const out: { cliente: Cliente; motivo: string }[] = [];
@@ -71,7 +74,7 @@ export function findDuplicates(
     const motivos: string[] = [];
     if (doc && onlyDigits(o.documento) === doc) motivos.push("CPF/CNPJ");
     if (email && (o.email ?? "").trim().toLowerCase() === email) motivos.push("e-mail");
-    const op = [o.telefone, o.whatsapp].map((p) => onlyDigits(p).slice(-11)).filter((p) => p.length >= 10);
+    const op = [o.telefone, o.telefone2, o.whatsapp].map(chaveTelefone).filter((p) => p.length >= 10);
     if (phones.some((p) => op.includes(p))) motivos.push("telefone");
     if (motivos.length) out.push({ cliente: o, motivo: motivos.join(", ") });
   }
@@ -108,12 +111,13 @@ export function parseCSV(text: string): string[][] {
       row.push(cur); cur = ""; rows.push(row); row = [];
     } else cur += ch;
   }
+  if (q) throw new Error("CSV inválido: campo entre aspas sem fechamento.");
   if (cur || row.length) { row.push(cur); rows.push(row); }
   return rows.filter((r) => r.some((c) => c.trim()));
 }
 const csvCell = (v: unknown) => {
   const s = v == null ? "" : Array.isArray(v) ? v.join(", ") : String(v);
-  return /[";\n,]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  return /[";\r\n,]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 };
 export const toCSV = (rows: unknown[][], sep = ";") => "\uFEFF" + rows.map((r) => r.map(csvCell).join(sep)).join("\r\n");
 
@@ -225,18 +229,25 @@ export const IMPORT_FIELDS: { key: keyof Cliente; label: string; aliases: string
   { key: "nome", label: "Nome *", aliases: ["nome", "name", "cliente", "razao social", "razão social", "full name"] },
   { key: "tipo_pessoa", label: "Tipo (PF/PJ)", aliases: ["tipo", "tipo pessoa", "pf/pj"] },
   { key: "documento", label: "CPF/CNPJ", aliases: ["cpf", "cnpj", "cpf/cnpj", "documento"] },
+  { key: "rg_ie", label: "RG / IE", aliases: ["rg", "ie", "rg/ie", "inscricao estadual", "inscrição estadual"] },
+  { key: "nome_fantasia", label: "Nome fantasia", aliases: ["nome fantasia", "fantasia", "trade name"] },
+  { key: "data_nascimento", label: "Data de nascimento", aliases: ["data nascimento", "nascimento", "birthday"] },
   { key: "telefone", label: "Telefone", aliases: ["telefone", "celular", "phone", "phone 1 - value", "fone"] },
+  { key: "telefone2", label: "Telefone 2", aliases: ["telefone 2", "telefone secundario", "telefone secundário"] },
   { key: "whatsapp", label: "WhatsApp", aliases: ["whatsapp", "zap", "phone 2 - value"] },
   { key: "email", label: "E-mail", aliases: ["email", "e-mail", "e-mail 1 - value", "mail"] },
   { key: "cep", label: "CEP", aliases: ["cep", "postal code", "address 1 - postal code"] },
   { key: "endereco", label: "Endereço", aliases: ["endereco", "endereço", "rua", "logradouro", "address 1 - street"] },
   { key: "numero", label: "Número", aliases: ["numero", "número", "nº"] },
+  { key: "complemento", label: "Complemento", aliases: ["complemento", "address 1 - apt"] },
   { key: "bairro", label: "Bairro", aliases: ["bairro"] },
   { key: "cidade", label: "Cidade", aliases: ["cidade", "city", "address 1 - city"] },
   { key: "uf", label: "UF", aliases: ["uf", "estado", "region", "address 1 - region"] },
   { key: "tags", label: "Tags", aliases: ["tags", "etiquetas", "group membership"] },
   { key: "observacoes", label: "Observações", aliases: ["observacoes", "observações", "obs", "notes", "notas"] },
+  { key: "status", label: "Status", aliases: ["status", "situacao", "situação"] },
+  { key: "motivo_bloqueio", label: "Motivo do bloqueio", aliases: ["motivo bloqueio", "motivo do bloqueio"] },
 ];
 
-export const EXPORT_HEAD = ["Nome", "Tipo", "CPF/CNPJ", "Nome fantasia", "Telefone", "Telefone 2", "WhatsApp", "E-mail", "CEP", "Endereço", "Número", "Complemento", "Bairro", "Cidade", "UF", "Tags", "Classificação", "Status", "Limite de crédito", "Consentimento LGPD", "Observações", "Cadastro"];
-export const exportRow = (c: Cliente) => [c.nome, c.tipo_pessoa, c.documento ? maskDoc(c.documento, c.tipo_pessoa) : "", c.nome_fantasia, c.telefone, c.telefone2, c.whatsapp, c.email, c.cep, c.endereco, c.numero, c.complemento, c.bairro, c.cidade, c.uf, c.tags, c.classificacao, c.status, Number(c.limite_credito ?? 0), c.consentimento_lgpd ? "Sim" : "Não", c.observacoes, new Date(c.created_at).toLocaleDateString("pt-BR")];
+export const EXPORT_HEAD = ["Nome", "Tipo", "CPF/CNPJ", "RG / IE", "Nome fantasia", "Data de nascimento", "Telefone", "Telefone 2", "WhatsApp", "E-mail", "CEP", "Endereço", "Número", "Complemento", "Bairro", "Cidade", "UF", "Tags", "Classificação", "Status", "Motivo do bloqueio", "Limite de crédito", "Consentimento LGPD", "Observações", "Cadastro"];
+export const exportRow = (c: Cliente) => [c.nome, c.tipo_pessoa, c.documento ? maskDoc(c.documento, c.tipo_pessoa) : "", c.rg_ie, c.nome_fantasia, c.data_nascimento, c.telefone, c.telefone2, c.whatsapp, c.email, c.cep, c.endereco, c.numero, c.complemento, c.bairro, c.cidade, c.uf, c.tags, c.classificacao, c.status, c.motivo_bloqueio, Number(c.limite_credito ?? 0), c.consentimento_lgpd ? "Sim" : "Não", c.observacoes, new Date(c.created_at).toLocaleDateString("pt-BR")];

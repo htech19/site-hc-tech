@@ -14,7 +14,7 @@ import {
   Clock,
   HelpCircle,
 } from "lucide-react";
-import { telas, marcasTelas, qualidadesTelas, type Tela } from "@/data/telas";
+import { telas, marcasTelas, qualidadesTelas, type Tela } from "@/sistema/data/telas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";

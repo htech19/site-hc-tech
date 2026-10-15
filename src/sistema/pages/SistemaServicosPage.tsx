@@ -1,89 +1,65 @@
-import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Smartphone, Laptop, Monitor } from "lucide-react";
-import { formatBRL } from "@/sistema/os-shared";
+import { memo, useCallback, useMemo, useState } from "react";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTiposServico } from "@/integrations/supabase/sistema";
+import { estadoDaConsulta } from "@/sistema/services/erroConsulta";
+import { ServicoForm } from "@/sistema/components/ServicoForm";
+import { ServicoList } from "@/sistema/components/ServicoList";
+import type { TipoServico } from "@/sistema/types";
 
-type Servico = {
-  id: string;
-  categoria: "celulares" | "notebooks" | "pcs";
-  nome: string;
-  descricao: string | null;
-  preco_min: number;
-  preco_max: number;
-};
+/**
+ * Página Serviços — tipos de serviço cadastráveis com contador de realizações
+ * (derivado dos defeitos das OS). Rota: /sistema/tipos-servico.
+ */
+const SistemaServicosPage = memo(function SistemaServicosPage() {
+  const consultaServicos = useTiposServico();
+  const { data: servicos, refetch: recarregarServicos } = consultaServicos;
+  // `isPending` (e não `isLoading`) é o que impede a lista de mentir: uma
+  // consulta PAUSADA por falta de conexão não é uma lista vazia.
+  const { carregando, pausada, erro } = estadoDaConsulta(consultaServicos);
+  const [modal, setModal] = useState<{ aberto: boolean; editando: TipoServico | null }>({
+    aberto: false,
+    editando: null,
+  });
 
-const CATS = [
-  { key: "celulares", label: "Celulares", icon: Smartphone },
-  { key: "notebooks", label: "Notebooks", icon: Laptop },
-  { key: "pcs", label: "PCs", icon: Monitor },
-] as const;
+  const totalRealizados = useMemo(
+    () => (servicos ?? []).reduce((s, t) => s + t.quantidadeRealizada, 0),
+    [servicos]
+  );
 
-export default function SistemaServicosPage() {
-  const [list, setList] = useState<Servico[]>([]);
-  const [busca, setBusca] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase.from("servicos").select("*").order("nome");
-      setList((data as Servico[]) ?? []);
-      setLoading(false);
-    })();
-  }, []);
-
-  const filtered = useMemo(() => {
-    const q = busca.trim().toLowerCase();
-    if (!q) return list;
-    return list.filter((s) =>
-      [s.nome, s.descricao].filter(Boolean).some((v) => String(v).toLowerCase().includes(q))
-    );
-  }, [list, busca]);
+  const aoNovo = useCallback(() => setModal({ aberto: true, editando: null }), []);
+  const aoFechar = useCallback(() => setModal({ aberto: false, editando: null }), []);
 
   return (
     <div className="space-y-4">
-      <Input
-        placeholder="Buscar serviço..."
-        value={busca}
-        onChange={(e) => setBusca(e.target.value)}
-        className="sm:max-w-xs bg-white"
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-zinc-400">
+          <strong className="text-[#00FF88]">{servicos?.length ?? 0}</strong> tipo(s)
+          cadastrado(s) ·{" "}
+          <strong className="text-[#00FF88]">{totalRealizados}</strong> realização(ões)
+          registradas em OS
+        </p>
+        <Button onClick={aoNovo} className="shrink-0 bg-[#00FF88] font-bold text-zinc-950 hover:bg-[#00E67D]">
+          <Plus size={16} className="mr-1" /> Novo Serviço
+        </Button>
+      </div>
+
+      <ServicoList
+        linhas={servicos ?? []}
+        carregando={carregando}
+        pausada={pausada}
+        erro={erro}
+        aoTentarNovamente={() => void recarregarServicos()}
+        aoEditar={(servico) => setModal({ aberto: true, editando: servico })}
       />
 
-      <Tabs defaultValue="celulares">
-        <TabsList>
-          {CATS.map((c) => (
-            <TabsTrigger key={c.key} value={c.key} className="gap-2">
-              <c.icon size={15} /> {c.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        {CATS.map((c) => (
-          <TabsContent key={c.key} value={c.key}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
-              {filtered
-                .filter((s) => s.categoria === c.key)
-                .map((s) => (
-                  <Card key={s.id}>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">{s.nome}</CardTitle>
-                      {s.descricao && <CardDescription>{s.descricao}</CardDescription>}
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-[#00A651] font-bold">
-                        {formatBRL(s.preco_min)} – {formatBRL(s.preco_max)}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              {!loading && filtered.filter((s) => s.categoria === c.key).length === 0 && (
-                <p className="text-gray-500 col-span-full py-6 text-center">Nenhum serviço encontrado.</p>
-              )}
-            </div>
-          </TabsContent>
-        ))}
-      </Tabs>
+      <ServicoForm
+        aberto={modal.aberto}
+        editando={modal.editando}
+        aoFechar={aoFechar}
+      />
     </div>
   );
-}
+});
+
+export default SistemaServicosPage;

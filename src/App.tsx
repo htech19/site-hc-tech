@@ -2,13 +2,14 @@ import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Routes, Route, Outlet } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import ChatWidget from "@/components/ChatWidget";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import CookieConsent from "@/components/CookieConsent";
 import Index from "./pages/Index";
+import { getQueryClient } from "./sistema/queryClient";
 
 const LojaPage = lazy(() => import("./pages/LojaPage"));
 const ProdutoPage = lazy(() => import("./pages/ProdutoPage"));
@@ -26,9 +27,16 @@ const SistemaDashboardPage = lazy(() => import("./sistema/pages/SistemaDashboard
 const SistemaOsPage = lazy(() => import("./sistema/pages/SistemaOsPage"));
 const SistemaClientesPage = lazy(() => import("./sistema/pages/SistemaClientesPage"));
 const SistemaServicosPage = lazy(() => import("./sistema/pages/SistemaServicosPage"));
-const SistemaGestaoPage = lazy(() => import("./sistema/pages/SistemaGestaoPage"));
+const SistemaTabelaPrecosPage = lazy(() => import("./sistema/pages/SistemaTabelaPrecosPage"));
+const SistemaEstoquePage = lazy(() => import("./sistema/pages/SistemaEstoquePage"));
+const SistemaOrcamentosPage = lazy(() => import("./sistema/pages/SistemaOrcamentosPage"));
+const SistemaCaixaPage = lazy(() => import("./sistema/pages/SistemaCaixaPage"));
+const SistemaDevolucoesPage = lazy(() => import("./sistema/pages/SistemaDevolucoesPage"));
+const SistemaRelatoriosPage = lazy(() => import("./sistema/pages/SistemaRelatoriosPage"));
 
-const queryClient = new QueryClient();
+// QueryClient compartilhado com a store do /sistema (permite invalidação de cache
+// a partir das ações CRUD sem dependência circular). Ver src/sistema/queryClient.ts
+const queryClient = getQueryClient();
 
 const App = () => {
   return (
@@ -65,13 +73,13 @@ const App = () => {
                   <Route index element={<SistemaDashboardPage />} />
                   <Route path="os" element={<SistemaOsPage />} />
                   <Route path="clientes" element={<SistemaClientesPage />} />
-                  <Route path="servicos" element={<SistemaServicosPage />} />
-                  <Route path="tipos-servico" element={<SistemaGestaoPage kind="tipos" />} />
-                  <Route path="estoque" element={<SistemaGestaoPage kind="estoque" />} />
-                  <Route path="orcamentos" element={<SistemaGestaoPage kind="orcamentos" />} />
-                  <Route path="caixa" element={<SistemaGestaoPage kind="caixa" />} />
-                  <Route path="devolucoes" element={<SistemaGestaoPage kind="devolucoes" />} />
-                  <Route path="relatorios" element={<SistemaGestaoPage kind="relatorios" />} />
+                  <Route path="servicos" element={<SistemaTabelaPrecosPage />} />
+                  <Route path="tipos-servico" element={<SistemaServicosPage />} />
+                  <Route path="estoque" element={<SistemaEstoquePage />} />
+                  <Route path="orcamentos" element={<SistemaOrcamentosPage />} />
+                  <Route path="caixa" element={<SistemaCaixaPage />} />
+                  <Route path="devolucoes" element={<SistemaDevolucoesPage />} />
+                  <Route path="relatorios" element={<SistemaRelatoriosPage />} />
                 </Route>
               </Route>
               <Route path="*" element={<NotFound />} />

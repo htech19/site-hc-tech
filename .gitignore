@@ -25,3 +25,13 @@ dist-ssr
 
 # Secrets
 .env.local
+
+# Artefatos de build
+*.tsbuildinfo
+
+# Metadados de ferramentas locais (não são fonte do produto)
+.freebuff/
+
+# Rascunhos locais
+_wizardPreview.tsx
+wizard-preview.html

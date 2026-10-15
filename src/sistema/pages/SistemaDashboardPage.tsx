@@ -1,143 +1,165 @@
-import { useEffect, useState } from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ClipboardList, Clock, DollarSign, Users, CheckCircle2, Package, Undo2 } from "lucide-react";
-import { StatusBadge, formatBRL, STATUS_LABEL, type OS } from "@/sistema/os-shared";
+import {
+  useAparelhosMaisAtendidos,
+  useMetricasDashboard,
+  useOSPorStatus,
+  useUltimasOS,
+} from "@/integrations/supabase/sistema";
+import { DashboardMetrics } from "@/sistema/components/DashboardMetrics";
+import { EstadoErroCompacto } from "@/sistema/components/LoadingSpinner";
+import { OSByStatusChart } from "@/sistema/components/OSByStatusChart";
+import { RecentOSList } from "@/sistema/components/RecentOSList";
+import { TopDevicesTable } from "@/sistema/components/TopDevicesTable";
 
-export default function SistemaDashboardPage() {
-  const [os, setOs] = useState<OS[]>([]);
-  const [totalClientes, setTotalClientes] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      const [{ data: osData }, { count }] = await Promise.all([
-        supabase.from("ordens_servico").select("*").order("created_at", { ascending: false }),
-        supabase.from("clientes").select("id", { count: "exact", head: true }),
-      ]);
-      setOs((osData as OS[]) ?? []);
-      setTotalClientes(count ?? 0);
-      setLoading(false);
-    })();
-  }, []);
-
-  const pendentes = os.filter((o) => o.status === "pendente" || o.status === "em_andamento").length;
-  const porStatus = (Object.keys(STATUS_LABEL) as OS["status"][]).map((k) => ({ k, n: os.filter((o) => o.status === k).length })).filter((x) => x.n > 0);
-  const aparelhos = Object.values(
-    os.reduce<Record<string, { nome: string; qtd: number; defeitos: Record<string, number> }>>((acc, o) => {
-      const a = (acc[o.aparelho] ??= { nome: o.aparelho, qtd: 0, defeitos: {} });
-      a.qtd += 1;
-      if (o.defeito) a.defeitos[o.defeito] = (a.defeitos[o.defeito] ?? 0) + 1;
-      return acc;
-    }, {})
-  ).sort((a, b) => b.qtd - a.qtd).slice(0, 8);
-  const faturamento = os
-    .filter((o) => o.status === "concluida")
-    .reduce((s, o) => s + Number(o.valor ?? 0), 0);
-
-  const cards = [
-    { label: "Total de OS", value: os.length, icon: ClipboardList, color: "text-gray-900" },
-    { label: "OS Pendentes", value: pendentes, icon: Clock, color: "text-yellow-600" },
-    { label: "Faturamento Concluído", value: formatBRL(faturamento), icon: DollarSign, color: "text-[#00A651]" },
-    { label: "Total de Clientes", value: totalClientes, icon: Users, color: "text-gray-900" },
-    { label: "Concluídas", value: os.filter((o) => o.status === "concluida").length, icon: CheckCircle2, color: "text-[#00A651]" },
-    { label: "Em Estoque", value: os.filter((o) => o.status === "estoque").length, icon: Package, color: "text-purple-700" },
-    { label: "Devoluções", value: os.filter((o) => o.status === "devolucao").length, icon: Undo2, color: "text-red-600" },
-  ];
+/**
+ * Página Dashboard — visão geral em tempo real.
+ *
+ * Métricas com polling de 60s (hook `useMetricasDashboard`), gráfico de OS por
+ * status, últimas OS (lista virtualizada) e ranking de aparelhos.
+ */
+const SistemaDashboardPage = memo(function SistemaDashboardPage() {
+  // Alias `isPending`/`isPaused` no lugar de `isLoading`: uma consulta PAUSADA
+  // por falta de conexão precisa continuar contando como "carregando".
+  const {
+    data: metricas,
+    isPending: carregandoMetricas,
+    isPaused: pausadaMetricas,
+    isError: metricasErro,
+    error: metricasErroDetalhe,
+    refetch: recarregarMetricas,
+  } = useMetricasDashboard();
+  const {
+    data: porStatus,
+    isPending: carregandoStatus,
+    isPaused: pausadaStatus,
+    isError: statusErro,
+    error: statusErroDetalhe,
+    refetch: recarregarStatus,
+  } = useOSPorStatus();
+  const {
+    data: ultimas,
+    isPending: carregandoUltimas,
+    isPaused: pausadaUltimas,
+    isError: ultimasErro,
+    error: ultimasErroDetalhe,
+    refetch: recarregarUltimas,
+  } = useUltimasOS(50);
+  const {
+    data: aparelhos,
+    isPending: carregandoAparelhos,
+    isPaused: pausadaAparelhos,
+    isError: aparelhosErro,
+    error: aparelhosErroDetalhe,
+    refetch: recarregarAparelhos,
+  } = useAparelhosMaisAtendidos(8);
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-        {cards.map((c) => (
-          <Card key={c.label}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-500">{c.label}</CardTitle>
-              <c.icon size={18} className="text-[#00A651]" />
-            </CardHeader>
-            <CardContent>
-              <div className={`text-2xl font-bold ${c.color}`}>{loading ? "—" : c.value}</div>
-            </CardContent>
-          </Card>
-        ))}
+    <div className="space-y-5">
+      <DashboardMetrics
+        metricas={
+          metricas ?? {
+            totalOS: 0,
+            concluidas: 0,
+            pendentes: 0,
+            emEstoque: 0,
+            devolucoes: 0,
+            canceladas: 0,
+            emAndamento: 0,
+            faturamento: 0,
+            totalClientes: null,
+            itensEstoque: null,
+          }
+        }
+        carregando={carregandoMetricas}
+        pausada={pausadaMetricas}
+      />
+
+      {metricasErro && (
+        <EstadoErroCompacto
+          erro={metricasErroDetalhe}
+          contexto="Métricas do painel"
+          aoTentarNovamente={() => void recarregarMetricas()}
+        />
+      )}
+
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+        <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
+          <header className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
+            <h3 className="text-sm font-bold uppercase tracking-wide text-zinc-300">
+              📊 OS por Status
+            </h3>
+            <Link
+              to="/sistema/os"
+              className="text-xs font-semibold text-[#00FF88] transition hover:underline"
+            >
+              Ver todas
+            </Link>
+          </header>
+          {statusErro ? (
+            <div className="p-4">
+              <EstadoErroCompacto
+                erro={statusErroDetalhe}
+                contexto="OS por Status"
+                aoTentarNovamente={() => void recarregarStatus()}
+              />
+            </div>
+          ) : (
+            <OSByStatusChart
+              dados={porStatus ?? []}
+              carregando={carregandoStatus}
+              pausada={pausadaStatus}
+            />
+          )}
+        </section>
+
+        <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
+          <header className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
+            <h3 className="text-sm font-bold uppercase tracking-wide text-zinc-300">
+              📱 Aparelhos Mais Atendidos
+            </h3>
+          </header>
+          {aparelhosErro ? (
+            <div className="p-4">
+              <EstadoErroCompacto
+                erro={aparelhosErroDetalhe}
+                contexto="Aparelhos Mais Atendidos"
+                aoTentarNovamente={() => void recarregarAparelhos()}
+              />
+            </div>
+          ) : (
+            <TopDevicesTable
+              dados={aparelhos ?? []}
+              carregando={carregandoAparelhos}
+              pausada={pausadaAparelhos}
+            />
+          )}
+        </section>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader><CardTitle className="text-base">📊 OS por Status</CardTitle></CardHeader>
-          <CardContent className="space-y-2">
-            {porStatus.length === 0 && <p className="text-sm text-gray-500">Sem dados ainda.</p>}
-            {porStatus.map(({ k, n }) => (
-              <div key={k} className="flex items-center gap-3 text-sm">
-                <span className="w-28 shrink-0">{STATUS_LABEL[k]}</span>
-                <div className="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#00A651]" style={{ width: `${(n / os.length) * 100}%` }} />
-                </div>
-                <span className="w-8 text-right font-medium">{n}</span>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader><CardTitle className="text-base">📱 Aparelhos Mais Atendidos</CardTitle></CardHeader>
-          <CardContent className="p-0 overflow-x-auto">
-            <Table>
-              <TableHeader><TableRow><TableHead>Aparelho</TableHead><TableHead>Qtd. Atendimentos</TableHead><TableHead>Defeito Mais Comum</TableHead></TableRow></TableHeader>
-              <TableBody>
-                {aparelhos.map((a) => (
-                  <TableRow key={a.nome}>
-                    <TableCell className="font-medium">{a.nome}</TableCell>
-                    <TableCell>{a.qtd}</TableCell>
-                    <TableCell>{Object.entries(a.defeitos).sort((x, y) => y[1] - x[1])[0]?.[0] ?? "—"}</TableCell>
-                  </TableRow>
-                ))}
-                {!loading && aparelhos.length === 0 && (
-                  <TableRow><TableCell colSpan={3} className="text-center text-gray-500 py-6">Sem dados ainda.</TableCell></TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Últimas OS</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Nº</TableHead>
-                <TableHead>Aparelho</TableHead>
-                <TableHead>Cliente</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Valor</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {os.slice(0, 5).map((o) => (
-                <TableRow key={o.id}>
-                  <TableCell className="font-medium">#{o.numero}</TableCell>
-                  <TableCell>{o.aparelho}</TableCell>
-                  <TableCell>{o.cliente_nome ?? "—"}</TableCell>
-                  <TableCell><StatusBadge status={o.status} /></TableCell>
-                  <TableCell className="text-right">{formatBRL(o.valor)}</TableCell>
-                </TableRow>
-              ))}
-              {!loading && os.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-gray-500 py-6">
-                    Nenhuma OS cadastrada ainda.{" "}
-                    <Link to="/sistema/os" className="text-[#00A651] font-medium">Criar a primeira</Link>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
+        <header className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-zinc-300">
+            🕒 Últimas OS
+          </h3>
+          <Link
+            to="/sistema/os"
+            className="text-xs font-semibold text-[#00FF88] transition hover:underline"
+          >
+            Abrir módulo
+          </Link>
+        </header>
+        <RecentOSList
+          linhas={ultimas ?? []}
+          carregando={carregandoUltimas}
+          pausada={pausadaUltimas}
+          erro={ultimasErro ? ultimasErroDetalhe : undefined}
+          aoTentarNovamente={() => void recarregarUltimas()}
+          altura={340}
+        />
+      </section>
     </div>
   );
-}
+});
+
+export default SistemaDashboardPage;
