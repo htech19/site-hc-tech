@@ -101,6 +101,12 @@ async function carregarParaExportacao(ids: string[]) {
 function filtrosDeDuplicidade(linhas: ClienteImportacaoLinha[]) {
   const filtros: string[] = [];
   const quote = (value: string) => `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+  // Padrão LIKE: além de % e _, precisa escapar a própria barra invertida
+  // (metacaractere de escape do Postgres). Sem isso, um e-mail contendo "\"
+  // muda o significado do padrão — era o alerta do CodeQL nesta tela.
+  const like = (value: string) =>
+    value.replace(/\\/g, "\\\\").replace(/[%_]/g, "\\$&");
+
   for (const { cliente } of linhas) {
     const documento = onlyDigits(cliente.documento);
     const email = cliente.email?.trim();
@@ -110,7 +116,7 @@ function filtrosDeDuplicidade(linhas: ClienteImportacaoLinha[]) {
       }
       filtros.push(`documento.ilike.${quote(`%${documento.slice(-6)}`)}`);
     }
-    if (email) filtros.push(`email.ilike.${quote(email.replace(/[%_]/g, "\\$&"))}`);
+    if (email) filtros.push(`email.ilike.${quote(like(email))}`);
     for (const telefone of [cliente.telefone, cliente.telefone2, cliente.whatsapp]) {
       const digitos = onlyDigits(telefone);
       if (!digitos) continue;
