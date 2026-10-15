@@ -52,6 +52,7 @@ export const SECOES_MENU: SecaoMenu[] = [
   {
     titulo: "Financeiro",
     itens: [
+      { para: "/sistema/solicitacoes", rotulo: "Solicitações (site)", icone: ClipboardList },
       { para: "/sistema/orcamentos", rotulo: "Orçamentos", icone: Wallet },
       { para: "/sistema/caixa", rotulo: "Caixa", icone: CreditCard },
     ],

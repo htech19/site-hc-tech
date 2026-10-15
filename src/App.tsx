@@ -33,6 +33,9 @@ const SistemaOrcamentosPage = lazy(() => import("./sistema/pages/SistemaOrcament
 const SistemaCaixaPage = lazy(() => import("./sistema/pages/SistemaCaixaPage"));
 const SistemaDevolucoesPage = lazy(() => import("./sistema/pages/SistemaDevolucoesPage"));
 const SistemaRelatoriosPage = lazy(() => import("./sistema/pages/SistemaRelatoriosPage"));
+// Vindas da main: orçamentos solicitados pelo site (Lovable).
+const SistemaSolicitacoesPage = lazy(() => import("./sistema/pages/SistemaSolicitacoesPage"));
+const QuoteDialog = lazy(() => import("@/components/quote/QuoteDialog"));
 
 // QueryClient compartilhado com a store do /sistema (permite invalidação de cache
 // a partir das ações CRUD sem dependência circular). Ver src/sistema/queryClient.ts
@@ -73,6 +76,7 @@ const App = () => {
                   <Route index element={<SistemaDashboardPage />} />
                   <Route path="os" element={<SistemaOsPage />} />
                   <Route path="clientes" element={<SistemaClientesPage />} />
+                  <Route path="solicitacoes" element={<SistemaSolicitacoesPage />} />
                   <Route path="servicos" element={<SistemaTabelaPrecosPage />} />
                   <Route path="tipos-servico" element={<SistemaServicosPage />} />
                   <Route path="estoque" element={<SistemaEstoquePage />} />
@@ -85,6 +89,7 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          <Suspense fallback={null}><QuoteDialog /></Suspense>
           <ChatWidget />
           <CookieConsent />
         </BrowserRouter>

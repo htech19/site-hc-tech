@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import QuoteButton from "@/components/quote/QuoteButton";
 import { useState } from "react";
 import { 
   Facebook, Instagram, Youtube, Send, Globe, 
@@ -71,6 +72,7 @@ export default function Header() {
               </a>
             )
           )}
+          <QuoteButton compact />
         </nav>
 
         {/* MOBILE TOGGLE */}
@@ -106,6 +108,7 @@ export default function Header() {
               </a>
             )
           )}
+          <div onClick={() => setMobileOpen(false)}><QuoteButton compact /></div>
           <div className="flex gap-4 pt-4 border-t border-white/10">
             {socialLinks.map((social, i) => (
               <a

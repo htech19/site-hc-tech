@@ -11,6 +11,10 @@ const TITULOS: Record<string, { titulo: string; subtitulo: string }> = {
   "/sistema/estoque": { titulo: "Estoque", subtitulo: "Aparelhos em estoque" },
   "/sistema/tipos-servico": { titulo: "Serviços", subtitulo: "Tipos de serviço realizados" },
   "/sistema/servicos": { titulo: "Tabela de Preços", subtitulo: "Valores por categoria" },
+  "/sistema/solicitacoes": {
+    titulo: "Solicitações de orçamento",
+    subtitulo: "Pedidos enviados pelo site",
+  },
   "/sistema/orcamentos": { titulo: "Orçamentos", subtitulo: "Orçamentos emitidos" },
   "/sistema/caixa": { titulo: "Caixa", subtitulo: "Controle financeiro" },
   "/sistema/devolucoes": { titulo: "Devoluções", subtitulo: "Aparelhos devolvidos" },
