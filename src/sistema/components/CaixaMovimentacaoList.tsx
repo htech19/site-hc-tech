@@ -23,7 +23,7 @@ function BadgeTipo({ tipo }: { tipo: CaixaMovimentacao["tipo"] }) {
     <span
       className={
         entrada
-          ? "inline-flex items-center gap-1 rounded-md border border-[#00FF88]/30 bg-[#00FF88]/10 px-2 py-0.5 text-[11px] font-bold text-[#00FF88]"
+          ? "inline-flex items-center gap-1 rounded-md border border-green-400/30 bg-green-400/10 px-2 py-0.5 text-[11px] font-bold text-green-400"
           : "inline-flex items-center gap-1 rounded-md border border-rose-500/30 bg-rose-500/10 px-2 py-0.5 text-[11px] font-bold text-rose-300"
       }
     >
@@ -106,7 +106,7 @@ export const CaixaMovimentacaoList = memo(function CaixaMovimentacaoList({
         <span
           className={
             m.tipo === "ENTRADA"
-              ? "font-bold tabular-nums text-[#00FF88]"
+              ? "font-bold tabular-nums text-green-400"
               : "font-bold tabular-nums text-rose-300"
           }
         >

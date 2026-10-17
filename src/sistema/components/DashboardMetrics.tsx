@@ -65,7 +65,7 @@ export const DashboardMetrics = memo(function DashboardMetrics({
         rotulo: "Concluídas",
         valor: metricas.concluidas,
         icone: CheckCircle2,
-        tom: "text-[#00FF88]",
+        tom: "text-green-400",
       },
       {
         rotulo: "Em Estoque",
@@ -83,7 +83,7 @@ export const DashboardMetrics = memo(function DashboardMetrics({
         rotulo: "Faturamento",
         valor: formatBRL(metricas.faturamento),
         icone: DollarSign,
-        tom: "text-[#00FF88]",
+        tom: "text-green-400",
       },
       {
         rotulo: "Clientes",
@@ -109,7 +109,7 @@ export const DashboardMetrics = memo(function DashboardMetrics({
               <span className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
                 {c.rotulo}
               </span>
-              <c.icone size={15} className="shrink-0 text-[#00FF88]" aria-hidden />
+              <c.icone size={15} className="shrink-0 text-green-400" aria-hidden />
             </div>
             <div
               className={cn(

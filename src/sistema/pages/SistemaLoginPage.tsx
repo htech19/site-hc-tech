@@ -31,21 +31,21 @@ export default function SistemaLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center px-4">
-      <Card className="w-full max-w-sm shadow-lg bg-white text-gray-900">
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+      <Card className="w-full max-w-sm shadow-lg border-zinc-800">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-black tracking-tight text-gray-900">
+          <CardTitle className="text-2xl font-black tracking-tight text-zinc-100">
             HC <span className="text-[#00A651]">TECH</span>
           </CardTitle>
-          <CardDescription className="text-gray-500">Acesso ao sistema interno</CardDescription>
+          <CardDescription className="text-zinc-400">Acesso ao sistema interno</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-gray-700">E-mail</Label>
+              <Label htmlFor="email" className="text-zinc-300">E-mail</Label>
               <Input
                 id="email"
-                className="bg-white text-gray-900 border-gray-300"
+                className="border-zinc-700"
                 type="email"
                 required
                 value={email}
@@ -55,10 +55,10 @@ export default function SistemaLoginPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="pass" className="text-gray-700">Senha</Label>
+              <Label htmlFor="pass" className="text-zinc-300">Senha</Label>
               <Input
                 id="pass"
-                className="bg-white text-gray-900 border-gray-300"
+                className="border-zinc-700"
                 type="password"
                 required
                 value={pass}
@@ -66,7 +66,7 @@ export default function SistemaLoginPage() {
                 autoComplete="current-password"
               />
             </div>
-            {err && <p className="text-sm text-red-600">{err}</p>}
+            {err && <p className="text-sm text-red-400">{err}</p>}
             <Button
               type="submit"
               disabled={busy}

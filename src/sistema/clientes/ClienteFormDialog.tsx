@@ -205,7 +205,7 @@ export default function ClienteFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[92vh] overflow-y-auto bg-white text-gray-900">
+      <DialogContent className="max-w-2xl max-h-[92vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{editing ? "Editar cliente" : "Novo cliente"}</DialogTitle>
           <DialogDescription>Campos com * são obrigatórios.</DialogDescription>
@@ -298,7 +298,7 @@ export default function ClienteFormDialog({
           </TabsContent>
 
           <TabsContent value="contatos" className="space-y-3 pt-2">
-            <p className="text-sm text-gray-500">Pessoas adicionais (responsável, financeiro, familiar...).</p>
+            <p className="text-sm text-zinc-400">Pessoas adicionais (responsável, financeiro, familiar...).</p>
             {contatos.map((c, i) => (
               <div key={c.id ?? i} className="border rounded-md p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <Input aria-label="Nome do contato" placeholder="Nome *" value={c.nome} maxLength={120} onChange={(e) => setContato(i, { nome: e.target.value })} />
@@ -324,7 +324,7 @@ export default function ClienteFormDialog({
               <span className="text-sm">
                 <span className="font-medium block">Consentimento LGPD</span>
                 Cliente autorizou o armazenamento e uso dos dados para atendimento.
-                {editing?.consentimento_data && form.consentimento_lgpd && <span className="block text-xs text-gray-500">Registrado em {new Date(editing.consentimento_data).toLocaleString("pt-BR")}</span>}
+                {editing?.consentimento_data && form.consentimento_lgpd && <span className="block text-xs text-zinc-500">Registrado em {new Date(editing.consentimento_data).toLocaleString("pt-BR")}</span>}
               </span>
             </label>
             <p className="text-sm font-medium">Canais de comunicação aceitos</p>

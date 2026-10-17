@@ -585,7 +585,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                   onChange={(e) => atualizarFormulario("marca", e.target.value)}
                   list="marcas-sugeridas"
                   placeholder="Ex: Samsung, Apple, Lenovo..."
-                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                 />
                 <datalist id="marcas-sugeridas">
                   {opcoesMarca.map((m) => (
@@ -606,7 +606,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                   value={formulario.modelo}
                   onChange={(e) => atualizarFormulario("modelo", e.target.value)}
                   placeholder="Ex: Galaxy S21, iPhone 12..."
-                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                 />
                 {estadoFormulario.erros.modelo && (
                   <p className="mt-1 text-xs text-rose-400">{estadoFormulario.erros.modelo}</p>
@@ -636,7 +636,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                     }}
                     placeholder="15 dígitos numéricos"
                     maxLength={15}
-                    className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                    className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                   />
                   {estadoFormulario.erros.imei1 && (
                     <p className="mt-1 text-xs text-rose-400">{estadoFormulario.erros.imei1}</p>
@@ -655,7 +655,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                     }}
                     placeholder="15 dígitos numéricos"
                     maxLength={15}
-                    className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                    className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                   />
                   {estadoFormulario.erros.imei2 && (
                     <p className="mt-1 text-xs text-rose-400">{estadoFormulario.erros.imei2}</p>
@@ -673,7 +673,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                     value={formulario.numeroSerie ?? ""}
                     onChange={(e) => atualizarFormulario("numeroSerie", e.target.value)}
                     placeholder="Ex: ABC123XYZ"
-                    className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                    className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                   />
                 </div>
               </div>
@@ -760,7 +760,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                 value={formulario.descricaoDefeito}
                 onChange={(e) => atualizarFormulario("descricaoDefeito", e.target.value)}
                 placeholder="Descreva o problema em detalhes..."
-                className="min-h-[100px] resize-none bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                className="min-h-[100px] resize-none bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
               />
               {estadoFormulario.erros.descricaoDefeito && (
                 <p className="mt-1 text-xs text-rose-400">{estadoFormulario.erros.descricaoDefeito}</p>
@@ -828,7 +828,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                 value={formulario.clienteNome}
                 onChange={(e) => atualizarFormulario("clienteNome", e.target.value)}
                 placeholder="Nome completo do cliente"
-                className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
               />
               {estadoFormulario.erros.clienteNome && (
                 <p className="mt-1 text-xs text-rose-400">{estadoFormulario.erros.clienteNome}</p>
@@ -860,7 +860,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                     atualizarFormulario("clienteTelefone", valor);
                   }}
                   placeholder="(11) 97793-4634"
-                  className="pl-10 bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                  className="pl-10 bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                 />
               </div>
               {estadoFormulario.erros.clienteTelefone && (
@@ -878,7 +878,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                 min={1}
                 value={formulario.quantidade}
                 onChange={(e) => atualizarFormulario("quantidade", parseInt(e.target.value, 10) || 1)}
-                className="bg-zinc-800 border-zinc-700 text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40 w-20"
+                className="bg-zinc-800 border-zinc-700 text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20 w-20"
               />
             </div>
 
@@ -891,7 +891,7 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
                 value={formulario.observacoes}
                 onChange={(e) => atualizarFormulario("observacoes", e.target.value)}
                 placeholder="Informações adicionais ou observações especiais..."
-                className="min-h-[80px] resize-none bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                className="min-h-[80px] resize-none bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
               />
             </div>
 

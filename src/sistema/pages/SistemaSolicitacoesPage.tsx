@@ -139,16 +139,16 @@ export default function SistemaSolicitacoesPage() {
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={6} className="py-10 text-center text-gray-500">Carregando...</TableCell></TableRow>
+                <TableRow><TableCell colSpan={6} className="py-10 text-center text-zinc-400">Carregando...</TableCell></TableRow>
               ) : error ? (
                 <TableRow><TableCell colSpan={6} className="py-10 text-center text-red-600">{error} <Button variant="link" onClick={load}>Tentar novamente</Button></TableCell></TableRow>
               ) : rows.length === 0 ? (
-                <TableRow><TableCell colSpan={6} className="py-10 text-center text-gray-500">Nenhuma solicitação encontrada.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={6} className="py-10 text-center text-zinc-400">Nenhuma solicitação encontrada.</TableCell></TableRow>
               ) : rows.map((s) => (
                 <TableRow key={s.id} className="cursor-pointer" onClick={() => setSel(s)}>
                   <TableCell className="font-mono text-xs font-semibold">{s.protocolo}</TableCell>
                   <TableCell className="whitespace-nowrap text-xs">{fmt(s.created_at)}</TableCell>
-                  <TableCell>{s.nome}<div className="text-xs text-gray-500">{s.telefone}</div></TableCell>
+                  <TableCell>{s.nome}<div className="text-xs text-zinc-400">{s.telefone}</div></TableCell>
                   <TableCell>{s.categoria} {s.marca} {s.modelo}</TableCell>
                   <TableCell>{s.servico}</TableCell>
                   <TableCell><Badge variant="outline">{statusLabel(s.status)}</Badge></TableCell>
@@ -159,7 +159,7 @@ export default function SistemaSolicitacoesPage() {
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-between text-sm text-gray-600">
+      <div className="flex items-center justify-between text-sm text-zinc-400">
         <span>{total} solicitação(ões)</span>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => p - 1)} aria-label="Página anterior"><ChevronLeft size={16} /></Button>
@@ -175,14 +175,14 @@ export default function SistemaSolicitacoesPage() {
               <DialogHeader><DialogTitle className="font-mono">{sel.protocolo}</DialogTitle></DialogHeader>
               <div className="space-y-3 text-sm">
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-500">Status:</span>
+                  <span className="text-zinc-400">Status:</span>
                   <Select value={sel.status} onValueChange={(v) => mudarStatus(sel, v)}>
                     <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
                     <SelectContent>{STATUS.map((s) => <SelectItem key={s.v} value={s.v}>{s.l}</SelectItem>)}</SelectContent>
                   </Select>
                 </div>
-                <pre className="whitespace-pre-wrap rounded-lg bg-black/30 p-3 font-sans text-sm text-gray-100">{resumo(sel)}</pre>
-                <p className="text-xs text-gray-500">
+                <pre className="whitespace-pre-wrap rounded-lg border border-zinc-800 bg-zinc-950 p-3 font-sans text-sm leading-relaxed text-zinc-100">{resumo(sel)}</pre>
+                <p className="text-xs text-zinc-400">
                   Criado em {fmt(sel.created_at)} • Atualizado em {fmt(sel.updated_at)} •{" "}
                   WhatsApp do cliente: {sel.whatsapp_status === "aberto" ? "aberto no aparelho (envio não confirmado)" : "mensagem apenas preparada"}
                 </p>
@@ -192,7 +192,7 @@ export default function SistemaSolicitacoesPage() {
                   </a>
                   <Button variant="outline" onClick={() => copiar(sel)}><Copy size={16} className="mr-1" /> Copiar dados</Button>
                 </div>
-                <p className="text-[11px] text-gray-400">Número comercial do site: {WHATSAPP_NUMBER}</p>
+                <p className="text-[11px] text-zinc-500">Número comercial do site: {WHATSAPP_NUMBER}</p>
               </div>
             </>
           )}

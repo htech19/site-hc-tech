@@ -63,13 +63,13 @@ export const STATUS_LABEL: Record<OS["status"], string> = {
 };
 
 const STATUS_CLASS: Record<OS["status"], string> = {
-  pendente: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  em_andamento: "bg-orange-100 text-orange-800 border-orange-200",
-  estoque: "bg-purple-100 text-purple-800 border-purple-200",
-  devolucao: "bg-red-100 text-red-700 border-red-200",
-  aprovado: "bg-blue-100 text-blue-800 border-blue-200",
-  concluida: "bg-green-100 text-green-800 border-green-200",
-  cancelada: "bg-gray-100 text-gray-600 border-gray-200",
+  pendente: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+  em_andamento: "bg-sky-500/20 text-sky-300 border-sky-500/30",
+  estoque: "bg-violet-500/20 text-violet-300 border-violet-500/30",
+  devolucao: "bg-rose-500/20 text-rose-300 border-rose-500/30",
+  aprovado: "bg-sky-500/20 text-sky-300 border-sky-500/30",
+  concluida: "bg-green-600/20 text-green-400 border-green-400/30",
+  cancelada: "bg-zinc-500/20 text-zinc-400 border-zinc-500/30",
 };
 
 export function StatusBadge({ status }: { status: OS["status"] }) {

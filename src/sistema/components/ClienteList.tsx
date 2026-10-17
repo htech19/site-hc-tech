@@ -54,10 +54,10 @@ export function ClienteList({
   })();
 
   return (
-    <div className="overflow-hidden rounded-md border border-zinc-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-md border border-zinc-800">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[1040px] border-collapse text-left text-sm">
-          <thead className="bg-zinc-100 text-xs uppercase text-zinc-600">
+          <thead className="bg-zinc-800 text-xs uppercase text-zinc-400">
             <tr>
               <th scope="col" className="w-12 px-4 py-3"><Checkbox disabled={operando} aria-label="Selecionar clientes desta página" checked={checkboxState} onCheckedChange={(marcado) => aoAlternarPagina(marcado === true)} /></th>
               <th scope="col" className="px-4 py-3">Cliente</th><th scope="col" className="px-4 py-3">CPF/CNPJ</th><th scope="col" className="px-4 py-3">Telefone</th><th scope="col" className="px-4 py-3">Cidade</th>
@@ -66,14 +66,14 @@ export function ClienteList({
           </thead>
           <tbody className="divide-y divide-zinc-800">
             {carregando ? <tr><td colSpan={9} className="px-4 py-12 text-center text-zinc-500">{pausada ? <AvisoSemConexao className="mx-auto max-w-md" /> : "Carregando clientes..."}</td></tr> : erro ? <tr><td colSpan={9} className="p-0"><EstadoErro erro={erro} aoTentarNovamente={aoTentarNovamente} /></td></tr> : linhas.length === 0 ? <tr><td colSpan={9} className="px-4 py-12 text-center text-zinc-500">Nenhum cliente encontrado.</td></tr> : linhas.map((cliente) => (
-              <tr key={cliente.id} className="text-zinc-700 hover:bg-zinc-50">
+              <tr key={cliente.id} className="odd:bg-zinc-950 text-zinc-300 hover:bg-zinc-800/50">
                 <td className="px-4 py-3"><Checkbox disabled={operando} aria-label={`Selecionar ${cliente.nome}`} checked={selecionados.has(cliente.id)} onCheckedChange={(marcado) => aoAlternar(cliente.id, marcado === true)} /></td>
-                <td className="max-w-[240px] px-4 py-3"><span className="block truncate font-semibold text-zinc-900">{cliente.nome}</span>{cliente.email && <span className="block truncate text-xs text-zinc-500">{cliente.email}</span>}</td>
+                <td className="max-w-[240px] px-4 py-3"><span className="block truncate font-semibold text-zinc-100">{cliente.nome}</span>{cliente.email && <span className="block truncate text-xs text-zinc-500">{cliente.email}</span>}</td>
                 <td className="whitespace-nowrap px-4 py-3">{cliente.documento ? maskDoc(cliente.documento, cliente.tipo_pessoa) : "—"}</td>
                 <td className="whitespace-nowrap px-4 py-3">{cliente.telefone || "—"}</td>
                 <td className="max-w-[150px] truncate px-4 py-3">{[cliente.cidade, cliente.uf].filter(Boolean).join(" / ") || "—"}</td>
-                <td className="px-4 py-3"><Badge variant="outline" className={cliente.status === "ativo" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : cliente.status === "bloqueado" ? "border-rose-200 bg-rose-50 text-rose-800" : "border-zinc-200 bg-zinc-100 text-zinc-700"}>{cliente.status}</Badge></td>
-                <td className="px-4 py-3 text-center"><span className="inline-flex min-w-8 justify-center rounded border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-800">{cliente.totalOS}</span></td>
+                <td className="px-4 py-3"><Badge variant="outline" className={cliente.status === "ativo" ? "border-green-400/30 bg-green-400/10 text-green-400" : cliente.status === "bloqueado" ? "border-rose-400/30 bg-rose-400/10 text-rose-400" : "border-zinc-600 bg-zinc-800 text-zinc-400"}>{cliente.status}</Badge></td>
+                <td className="px-4 py-3 text-center"><span className="inline-flex min-w-8 justify-center rounded border border-green-400/30 bg-green-400/10 px-2 py-0.5 text-xs font-bold text-green-400">{cliente.totalOS}</span></td>
                 <td className="whitespace-nowrap px-4 py-3 text-zinc-500">{formatData(cliente.ultimaOS)}</td>
                 <td className="px-4 py-3"><div className="flex justify-end gap-1">
                   <button type="button" disabled={operando} className={CLASSE_ACAO} title="Visualizar" aria-label={`Visualizar ${cliente.nome}`} onClick={() => aoVisualizar(cliente)}><Eye size={15} /></button>

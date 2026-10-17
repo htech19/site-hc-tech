@@ -14,7 +14,7 @@ interface Props {
 
 function Item({ rotulo, valor }: { rotulo: string; valor: string | number | null | undefined }) {
   const vazio = valor === null || valor === undefined || valor === "";
-  return <div className="min-w-0"><dt className="text-xs font-medium uppercase text-zinc-500">{rotulo}</dt><dd className="mt-1 break-words text-sm text-zinc-900">{vazio ? "—" : valor}</dd></div>;
+  return <div className="min-w-0"><dt className="text-xs font-medium uppercase text-zinc-500">{rotulo}</dt><dd className="mt-1 break-words text-sm text-zinc-100">{vazio ? "—" : valor}</dd></div>;
 }
 
 export function ClienteDetailsDialog({ cliente, aoFechar, aoEditar, aoVerHistorico }: Props) {
@@ -23,7 +23,7 @@ export function ClienteDetailsDialog({ cliente, aoFechar, aoEditar, aoVerHistori
 
   return (
     <Dialog open={Boolean(cliente)} onOpenChange={(open) => { if (!open) aoFechar(); }}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-zinc-200 bg-white text-zinc-900 sm:max-w-2xl">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-zinc-700 sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{cliente?.nome}</DialogTitle>
           <DialogDescription>Cadastro completo do cliente e resumo do histórico de atendimento.</DialogDescription>

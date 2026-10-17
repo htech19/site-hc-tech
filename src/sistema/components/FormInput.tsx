@@ -13,7 +13,7 @@ import {
 
 /** Classe base dos campos — tema slate/zinc escuro. */
 const CLASSE_CAMPO =
-  "w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 transition-colors focus:border-[#00FF88] focus:outline-none focus:ring-1 focus:ring-[#00FF88]/40 disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 transition-colors focus:border-[#00FF88] focus:outline-none focus:ring-1 focus:ring-[#00FF88]/20 disabled:cursor-not-allowed disabled:opacity-60";
 
 interface BaseProps {
   label: string;

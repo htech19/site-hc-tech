@@ -50,7 +50,7 @@ export const OrcamentoList = memo(function OrcamentoList({
       largura: "110px",
       conteudo: (o) =>
         o.numeroOS ? (
-          <span className="font-mono text-[13px] font-bold text-[#00FF88]">
+          <span className="font-mono text-[13px] font-bold text-green-400">
             {osNum(o.numeroOS)}
           </span>
         ) : (

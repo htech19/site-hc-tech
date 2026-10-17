@@ -178,16 +178,16 @@ function Indicador({ label, value, icon: Icon, tone = "zinc" }: {
   tone?: "zinc" | "green" | "amber" | "rose" | "blue";
 }) {
   const color = {
-    zinc: "text-zinc-600", green: "text-emerald-700", amber: "text-amber-700",
-    rose: "text-rose-700", blue: "text-sky-700",
+    zinc: "text-zinc-400", green: "text-green-400", amber: "text-amber-400",
+    rose: "text-rose-400", blue: "text-sky-400",
   }[tone];
   return (
-    <div className="min-w-0 rounded-md border border-zinc-200 bg-white p-3 shadow-sm sm:p-4">
+    <div className="min-w-0 rounded-md border border-zinc-800 p-3 sm:p-4">
       <div className="flex items-start justify-between gap-2">
         <p className="text-xs font-medium text-zinc-500 sm:text-sm">{label}</p>
         <Icon size={17} className={color} aria-hidden />
       </div>
-      <p className="mt-2 text-2xl font-semibold tabular-nums text-zinc-900">{value ?? "—"}</p>
+      <p className="mt-2 text-2xl font-semibold tabular-nums text-zinc-100">{value ?? "—"}</p>
     </div>
   );
 }
@@ -447,7 +447,7 @@ const SistemaClientesPage = () => {
   };
 
   return (
-    <section className="space-y-5 text-zinc-900">
+    <section className="space-y-5 text-zinc-100">
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
         <Indicador label="Todos os clientes" value={indicadores.data?.todos} icon={Users} />
         <Indicador label="Ativos" value={indicadores.data?.ativos} icon={CheckCircle2} tone="green" />
@@ -456,37 +456,36 @@ const SistemaClientesPage = () => {
         <Indicador label="Encontrados" value={consulta.data?.total} icon={Search} tone="blue" />
       </div>
 
-      <div className="flex flex-col gap-3 rounded-md border border-zinc-200 bg-white p-3 shadow-sm lg:flex-row lg:items-end lg:justify-between">
+      <div className="flex flex-col gap-3 rounded-md border border-zinc-800 p-3 lg:flex-row lg:items-end lg:justify-between">
         <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(220px,1.5fr)_minmax(150px,0.7fr)_minmax(160px,0.8fr)_auto]">
-          <div className="space-y-1.5"><label htmlFor="busca-clientes" className="text-xs font-medium text-zinc-600">Pesquisar</label><div className="relative"><Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" aria-hidden /><input id="busca-clientes" type="search" disabled={operando} value={busca} onChange={(event) => { setBusca(event.target.value); setPagina(0); setSelecionados(new Set()); }} placeholder="Nome, telefone, CPF/CNPJ ou e-mail" className="h-10 w-full rounded-md border border-zinc-300 bg-white pl-9 pr-3 text-sm outline-none focus:border-[#00A651] focus:ring-1 focus:ring-[#00A651]/30 disabled:bg-zinc-100" /></div></div>
-          <div className="space-y-1.5"><label htmlFor="filtro-status" className="text-xs font-medium text-zinc-600">Status</label><select id="filtro-status" disabled={operando} value={status} onChange={(event) => { setStatus(event.target.value as FiltroStatus); setPagina(0); setSelecionados(new Set()); }} className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm disabled:bg-zinc-100"><option value="todos">Todos os status</option><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="bloqueado">Bloqueado</option></select></div>
-          <div className="space-y-1.5"><label htmlFor="filtro-status" className="text-xs font-medium text-zinc-600">Status</label><select id="filtro-status" disabled={operando} value={status} onChange={(event) => { setStatus(event.target.value as FiltroStatus); setPagina(0); setSelecionados(new Set()); }} className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm disabled:bg-zinc-100"><option value="todos">Todos os status</option><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="bloqueado">Bloqueado</option></select></div>
-          <div className="space-y-1.5"><label htmlFor="filtro-tag" className="text-xs font-medium text-zinc-600">Tag exata</label><input id="filtro-tag" disabled={operando} value={tag} onChange={(event) => { setTag(event.target.value); setPagina(0); setSelecionados(new Set()); }} placeholder="Ex.: recorrente" className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none focus:border-[#00A651] focus:ring-1 focus:ring-[#00A651]/30 disabled:bg-zinc-100" /></div>
-          <Button type="button" variant="outline" disabled={operando || !filtroAtivo} onClick={limparFiltros} className="h-10 self-end border-zinc-300 text-zinc-700"><X size={15} className="mr-2" />Limpar filtros</Button>
+          <div className="space-y-1.5"><label htmlFor="busca-clientes" className="text-xs font-medium text-zinc-400">Pesquisar</label><div className="relative"><Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" aria-hidden /><input id="busca-clientes" type="search" disabled={operando} value={busca} onChange={(event) => { setBusca(event.target.value); setPagina(0); setSelecionados(new Set()); }} placeholder="Nome, telefone, CPF/CNPJ ou e-mail" className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 pl-9 pr-3 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-[#00A651] focus:ring-1 focus:ring-[#00A651]/30 disabled:bg-zinc-800" /></div></div>
+          <div className="space-y-1.5"><label htmlFor="filtro-status" className="text-xs font-medium text-zinc-400">Status</label><select id="filtro-status" disabled={operando} value={status} onChange={(event) => { setStatus(event.target.value as FiltroStatus); setPagina(0); setSelecionados(new Set()); }} className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 text-sm text-zinc-100 disabled:bg-zinc-800"><option value="todos">Todos os status</option><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="bloqueado">Bloqueado</option></select></div>
+          <div className="space-y-1.5"><label htmlFor="filtro-tag" className="text-xs font-medium text-zinc-400">Tag exata</label><input id="filtro-tag" disabled={operando} value={tag} onChange={(event) => { setTag(event.target.value); setPagina(0); setSelecionados(new Set()); }} placeholder="Ex.: recorrente" className="h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-[#00A651] focus:ring-1 focus:ring-[#00A651]/30 disabled:bg-zinc-800" /></div>
+          <Button type="button" variant="outline" disabled={operando || !filtroAtivo} onClick={limparFiltros} className="h-10 self-end border-zinc-700 text-zinc-300"><X size={15} className="mr-2" />Limpar filtros</Button>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="outline" disabled={operando} onClick={() => setImportAberto(true)} className="border-zinc-300 text-zinc-700"><Upload size={15} className="mr-2" />Importar CSV</Button>
-          <Button type="button" variant="outline" disabled={operando} onClick={() => void exportarClientes()} className="border-zinc-300 text-zinc-700"><Download size={15} className="mr-2" />Exportar {idsSelecionados.length ? `(${idsSelecionados.length})` : "filtrados"}</Button>
+          <Button type="button" variant="outline" disabled={operando} onClick={() => setImportAberto(true)} className="border-zinc-700 text-zinc-300"><Upload size={15} className="mr-2" />Importar CSV</Button>
+          <Button type="button" variant="outline" disabled={operando} onClick={() => void exportarClientes()} className="border-zinc-700 text-zinc-300"><Download size={15} className="mr-2" />Exportar {idsSelecionados.length ? `(${idsSelecionados.length})` : "filtrados"}</Button>
           <Button type="button" disabled={operando} onClick={() => { setClienteEditando(null); setFormAberto(true); }} className="bg-[#00A651] font-semibold text-white hover:bg-[#008c44]"><Plus size={16} className="mr-1" />Novo Cliente</Button>
         </div>
       </div>
 
-      {aviso && <div role="status" className="flex items-start justify-between gap-3 rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700"><span>{aviso}</span><button type="button" aria-label="Fechar aviso" onClick={() => setAviso("")}><X size={16} /></button></div>}
-      {(consulta.error || indicadores.error) && <div role="alert" className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800"><span>Falha ao consultar Clientes: {(consulta.error ?? indicadores.error)?.message}</span><Button type="button" variant="outline" onClick={() => { void consulta.refetch(); void indicadores.refetch(); }} className="border-rose-300">Tentar novamente</Button></div>}
+      {aviso && <div role="status" className="flex items-start justify-between gap-3 rounded-md border border-zinc-800 px-3 py-2 text-sm text-zinc-300"><span>{aviso}</span><button type="button" aria-label="Fechar aviso" onClick={() => setAviso("")}><X size={16} /></button></div>}
+      {(consulta.error || indicadores.error) && <div role="alert" className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-rose-900/60 bg-rose-950/50 px-3 py-2 text-sm text-rose-200"><span>Falha ao consultar Clientes: {(consulta.error ?? indicadores.error)?.message}</span><Button type="button" variant="outline" onClick={() => { void consulta.refetch(); void indicadores.refetch(); }} className="border-rose-800 text-rose-300 hover:bg-rose-900/40">Tentar novamente</Button></div>}
 
-      <div className="flex flex-col gap-3 rounded-md border border-zinc-200 bg-white px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-600"><span className="inline-flex items-center gap-1.5"><Filter size={15} aria-hidden />{total} encontrado(s)</span><span aria-live="polite">{idsSelecionados.length} selecionado(s)</span>
-          <Button type="button" variant="link" disabled={operando || total === 0} onClick={() => void selecionarFiltrados()} className="h-auto p-0 text-[#008c44]">Selecionar todos os filtrados</Button>
+      <div className="flex flex-col gap-3 rounded-md border border-zinc-800 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-400"><span className="inline-flex items-center gap-1.5"><Filter size={15} aria-hidden />{total} encontrado(s)</span><span aria-live="polite">{idsSelecionados.length} selecionado(s)</span>
+          <Button type="button" variant="link" disabled={operando || total === 0} onClick={() => void selecionarFiltrados()} className="h-auto p-0 text-[#00A651] hover:text-[#00FF88]">Selecionar todos os filtrados</Button>
           {idsSelecionados.length > 0 && <Button type="button" variant="link" onClick={() => setSelecionados(new Set())} className="h-auto p-0 text-zinc-500">Limpar seleção</Button>}
         </div>
-        <div className="flex flex-wrap items-center gap-2"><label htmlFor="page-size" className="text-sm text-zinc-600">Por página</label><select id="page-size" disabled={operando} value={pageSize} onChange={(event) => { setPageSize(Number(event.target.value)); setPagina(0); setSelecionados(new Set()); }} className="h-9 rounded-md border border-zinc-300 bg-white px-2 text-sm disabled:bg-zinc-100">{PAGE_SIZES.map((size) => <option key={size} value={size}>{size}</option>)}</select>
-          {idsSelecionados.length > 0 && <Button type="button" variant="outline" disabled={operando} onClick={() => void excluirSelecionados()} className="border-rose-300 text-rose-700 hover:bg-rose-50"><Trash2 size={15} className="mr-2" />Excluir selecionados</Button>}
+        <div className="flex flex-wrap items-center gap-2"><label htmlFor="page-size" className="text-sm text-zinc-400">Por página</label><select id="page-size" disabled={operando} value={pageSize} onChange={(event) => { setPageSize(Number(event.target.value)); setPagina(0); setSelecionados(new Set()); }} className="h-9 rounded-md border border-zinc-700 bg-zinc-900 px-2 text-sm text-zinc-100 disabled:bg-zinc-800">{PAGE_SIZES.map((size) => <option key={size} value={size}>{size}</option>)}</select>
+          {idsSelecionados.length > 0 && <Button type="button" variant="outline" disabled={operando} onClick={() => void excluirSelecionados()} className="border-rose-800 text-rose-400 hover:bg-rose-950/60"><Trash2 size={15} className="mr-2" />Excluir selecionados</Button>}
         </div>
       </div>
 
       <ClienteList linhas={linhas} carregando={consulta.isPending} pausada={consulta.isPaused} erro={consulta.isError ? consulta.error : undefined} aoTentarNovamente={() => void consulta.refetch()} selecionados={selecionados} todosSelecionados={todosDaPaginaSelecionados} algunsSelecionados={algunsDaPaginaSelecionados} operando={operando} aoAlternar={alternarCliente} aoAlternarPagina={alternarPagina} aoEditar={editarCliente} aoVisualizar={setClienteVisualizado} aoVerHistorico={setClienteHistorico} aoExcluir={(cliente) => void excluirUmCliente(cliente)} />
 
-      <div className="flex flex-col gap-3 text-sm text-zinc-600 sm:flex-row sm:items-center sm:justify-between"><span>Página {Math.min(pagina + 1, totalPaginas)} de {totalPaginas}</span><div className="flex gap-2"><Button type="button" variant="outline" disabled={operando || pagina === 0 || consulta.isFetching} onClick={() => setPagina((atual) => Math.max(0, atual - 1))}>Anterior</Button><Button type="button" variant="outline" disabled={operando || pagina + 1 >= totalPaginas || consulta.isFetching} onClick={() => setPagina((atual) => atual + 1)}>Próxima</Button></div></div>
+      <div className="flex flex-col gap-3 text-sm text-zinc-400 sm:flex-row sm:items-center sm:justify-between"><span>Página {Math.min(pagina + 1, totalPaginas)} de {totalPaginas}</span><div className="flex gap-2"><Button type="button" variant="outline" disabled={operando || pagina === 0 || consulta.isFetching} onClick={() => setPagina((atual) => Math.max(0, atual - 1))}>Anterior</Button><Button type="button" variant="outline" disabled={operando || pagina + 1 >= totalPaginas || consulta.isFetching} onClick={() => setPagina((atual) => atual + 1)}>Próxima</Button></div></div>
 
       <ClienteForm aberto={formAberto} editando={clienteEditando} aoFechar={() => { setFormAberto(false); setClienteEditando(null); }} aoSalvar={salvarCliente} />
       <ClienteDetailsDialog cliente={clienteVisualizado} aoFechar={() => setClienteVisualizado(null)} aoEditar={editarCliente} aoVerHistorico={(cliente) => { setClienteVisualizado(null); setClienteHistorico(cliente); }} />

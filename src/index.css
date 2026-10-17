@@ -2,6 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --------------------------------------------------------------------------
+ * Tema escuro (shadcn/ui) — /sistema HC Tech
+ * O tailwind.config.ts mapeia background/card/foreground/etc para
+ * hsl(var(--...)). Sem estas variáveis os componentes shadcn (Card, Dialog,
+ * Input, Select, Badge, Table) usam o padrão CLARO (branco), o que deixa
+ * os diálogos ilegíveis sobre o fundo zinc-950 do /sistema.
+ * Paleta: zinc (fundo) + verde HC #00A651 (destaque) — mesma do dashboard.
+ * -------------------------------------------------------------------------- */
+:root {
+  /* Formulários nativos (input/select/date) e scrollbars seguem o tema escuro
+   * em vez do branco padrão do navegador. */
+  color-scheme: dark;
+  --background: 240 5% 4%; /* zinc-950 */
+  --foreground: 0 0% 98%; /* zinc-50 */
+  --card: 240 5% 10%; /* zinc-900 */
+  --card-foreground: 0 0% 98%;
+  --popover: 240 5% 8%; /* zinc-900 levemente mais escuro */
+  --popover-foreground: 0 0% 98%;
+  --primary: 153 100% 32%; /* verde HC #00A651 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 5% 14%; /* zinc-800 */
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 5% 14%; /* zinc-800 */
+  --muted-foreground: 240 7% 62%; /* zinc-400 */
+  --accent: 240 5% 16%; /* zinc-800 */
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5% 16%; /* zinc-800 */
+  --input: 240 5% 16%;
+  --ring: 153 100% 32%; /* verde HC */
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

@@ -101,12 +101,12 @@ export const ICONE_STATUS: Record<StatusOS, string> = {
 
 /** Classe Tailwind do badge — tema slate/zinc escuro com verde neon. */
 export const CLASSE_STATUS: Record<StatusOS, string> = {
-  PENDENTE: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  EM_ANDAMENTO: "bg-sky-500/15 text-sky-300 border-sky-500/30",
-  CONCLUIDA: "bg-[#00FF88]/15 text-[#00FF88] border-[#00FF88]/30",
-  ESTOQUE: "bg-violet-500/15 text-violet-300 border-violet-500/30",
-  DEVOLUCAO: "bg-rose-500/15 text-rose-300 border-rose-500/30",
-  CANCELADA: "bg-zinc-500/15 text-zinc-400 border-zinc-500/30",
+  PENDENTE: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+  EM_ANDAMENTO: "bg-sky-500/20 text-sky-300 border-sky-500/30",
+  CONCLUIDA: "bg-green-600/20 text-green-400 border-green-400/30",
+  ESTOQUE: "bg-violet-500/20 text-violet-300 border-violet-500/30",
+  DEVOLUCAO: "bg-rose-500/20 text-rose-300 border-rose-500/30",
+  CANCELADA: "bg-zinc-500/20 text-zinc-400 border-zinc-500/30",
 };
 
 /** Cor sólida usada no gráfico de barras do dashboard. */
@@ -277,9 +277,9 @@ export const ROTULO_ORCAMENTO: Record<StatusOrcamento, string> = {
 };
 
 export const CLASSE_ORCAMENTO: Record<StatusOrcamento, string> = {
-  PENDENTE: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-  APROVADO: "bg-[#00FF88]/15 text-[#00FF88] border-[#00FF88]/30",
-  REPROVADO: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+  PENDENTE: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+  APROVADO: "bg-green-600/20 text-green-400 border-green-400/30",
+  REPROVADO: "bg-rose-500/20 text-rose-300 border-rose-500/30",
 };
 
 // -----------------------------------------------------------------------------

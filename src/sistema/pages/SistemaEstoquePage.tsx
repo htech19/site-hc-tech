@@ -71,7 +71,7 @@ const SistemaEstoquePage = memo(function SistemaEstoquePage() {
             onChange={(e) => setBusca(e.target.value)}
             placeholder="Buscar aparelho, defeito, condição..."
             aria-label="Buscar no estoque"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-900 py-2.5 pl-9 pr-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:outline-none focus:ring-1 focus:ring-[#00FF88]/40"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-900 py-2.5 pl-9 pr-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:outline-none focus:ring-1 focus:ring-[#00FF88]/20"
           />
         </div>
         <div className="flex shrink-0 items-center gap-3">

@@ -67,21 +67,21 @@ export function ClienteImportDialog({ aberto, aoFechar, aoChecarDuplicados, aoIm
 
   return (
     <Dialog open={aberto} onOpenChange={(open) => { if (!open) fechar(); }}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-zinc-200 bg-white text-zinc-900 sm:max-w-4xl">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-zinc-700 sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>Importar clientes por CSV</DialogTitle>
           <DialogDescription>Valide e revise os registros antes de gravar. Importações aceitam até 500 linhas por arquivo.</DialogDescription>
         </DialogHeader>
         <label htmlFor="clientes-csv" className="text-sm font-medium">Arquivo CSV</label>
-        <input ref={arquivoRef} id="clientes-csv" type="file" accept=".csv,text/csv" disabled={lendo || salvando} onChange={(event) => void selecionarArquivo(event.currentTarget.files?.[0])} className="block w-full rounded-md border border-zinc-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-zinc-100 file:px-3 file:py-2" />
+        <input ref={arquivoRef} id="clientes-csv" type="file" accept=".csv,text/csv" disabled={lendo || salvando} onChange={(event) => void selecionarArquivo(event.currentTarget.files?.[0])} className="block w-full rounded-md border border-zinc-700 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-zinc-800 file:px-3 file:py-2" />
         {lendo && <p role="status" className="text-sm text-zinc-500">Analisando registros e verificando duplicidades...</p>}
-        {erroArquivo && <p role="alert" className="rounded-md border border-rose-200 bg-rose-50 p-3 text-sm text-rose-800">{erroArquivo}</p>}
+        {erroArquivo && <p role="alert" className="rounded-md border border-rose-900/60 bg-rose-950/50 p-3 text-sm text-rose-200">{erroArquivo}</p>}
         {linhas.length > 0 && <>
-          <p className="text-sm text-zinc-700">{elegiveis.length} prontos para importar; {duplicados} duplicados serão ignorados e {comErro} linhas contêm erros. A gravação inclui somente registros válidos e únicos.</p>
-          <div className="max-h-[45vh] overflow-auto rounded-md border border-zinc-200">
+          <p className="text-sm text-zinc-300">{elegiveis.length} prontos para importar; {duplicados} duplicados serão ignorados e {comErro} linhas contêm erros. A gravação inclui somente registros válidos e únicos.</p>
+          <div className="max-h-[45vh] overflow-auto rounded-md border border-zinc-700">
             <table className="w-full min-w-[720px] text-left text-sm">
-              <thead className="sticky top-0 bg-zinc-100 text-xs uppercase text-zinc-600"><tr><th className="px-3 py-2">Linha</th><th className="px-3 py-2">Nome</th><th className="px-3 py-2">Documento</th><th className="px-3 py-2">Telefone</th><th className="px-3 py-2">Resultado</th></tr></thead>
-              <tbody className="divide-y divide-zinc-100">{linhas.map((linha) => <tr key={linha.linha} className={linha.erros.length || linha.duplicado ? "bg-amber-50/70" : ""}>
+              <thead className="sticky top-0 bg-zinc-800 text-xs uppercase text-zinc-400"><tr><th className="px-3 py-2">Linha</th><th className="px-3 py-2">Nome</th><th className="px-3 py-2">Documento</th><th className="px-3 py-2">Telefone</th><th className="px-3 py-2">Resultado</th></tr></thead>
+              <tbody className="divide-y divide-zinc-800">{linhas.map((linha) => <tr key={linha.linha} className={linha.erros.length || linha.duplicado ? "bg-amber-500/10" : ""}>
                 <td className="px-3 py-2">{linha.linha}</td><td className="px-3 py-2">{linha.cliente.nome || "—"}</td><td className="px-3 py-2">{linha.cliente.documento || "—"}</td><td className="px-3 py-2">{linha.cliente.telefone || "—"}</td>
                 <td className="max-w-[320px] px-3 py-2 text-xs">{linha.erros.length ? linha.erros.join(" ") : linha.duplicado ?? "Pronto"}</td>
               </tr>)}</tbody>

@@ -51,7 +51,7 @@ export const DevolucaoList = memo(function DevolucaoList({
       largura: "110px",
       conteudo: (d) =>
         d.numeroOS ? (
-          <span className="font-mono text-[13px] font-bold text-[#00FF88]">
+          <span className="font-mono text-[13px] font-bold text-green-400">
             {osNum(d.numeroOS)}
           </span>
         ) : (

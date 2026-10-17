@@ -35,18 +35,18 @@ export function ClienteOSHistory({ cliente, aoFechar }: Props) {
 
   return (
     <Dialog open={Boolean(cliente)} onOpenChange={(open) => { if (!open) aoFechar(); }}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto border-zinc-200 bg-white text-zinc-900 sm:max-w-4xl">
+      <DialogContent className="max-h-[85vh] overflow-y-auto border-zinc-700 sm:max-w-4xl">
         <DialogHeader><DialogTitle>Histórico de OS: {cliente?.nome ?? ""}</DialogTitle>
           <DialogDescription>{cliente?.totalOS ?? 0} OS vinculada(s); última em {formatData(cliente?.ultimaOS)}.</DialogDescription>
         </DialogHeader>
         {/* `isPending` (não `isLoading`) para uma busca PAUSADA não virar "nenhuma OS". */}
         {consulta.isPending ? <p className="py-12 text-center text-sm text-zinc-500">Carregando histórico...</p>
-          : consulta.error ? <p role="alert" className="py-12 text-center text-sm text-rose-700">Não foi possível carregar o histórico: {consulta.error.message}</p>
-            : consulta.data?.ordens.length ? <div className="overflow-x-auto rounded-md border border-zinc-200"><table className="w-full min-w-[760px] text-left text-sm">
-              <thead className="bg-zinc-100 text-xs uppercase text-zinc-600"><tr><th className="px-3 py-2.5">OS</th><th className="px-3 py-2.5">Entrada</th><th className="px-3 py-2.5">Aparelho</th><th className="px-3 py-2.5">Defeito</th><th className="px-3 py-2.5">Status</th><th className="px-3 py-2.5 text-right">Valor</th></tr></thead>
-              <tbody className="divide-y divide-zinc-100">{consulta.data.ordens.map((os) => {
+          : consulta.error ? <p role="alert" className="py-12 text-center text-sm text-rose-400">Não foi possível carregar o histórico: {consulta.error.message}</p>
+            : consulta.data?.ordens.length ? <div className="overflow-x-auto rounded-md border border-zinc-700"><table className="w-full min-w-[760px] text-left text-sm">
+              <thead className="bg-zinc-800 text-xs uppercase text-zinc-400"><tr><th className="px-3 py-2.5">OS</th><th className="px-3 py-2.5">Entrada</th><th className="px-3 py-2.5">Aparelho</th><th className="px-3 py-2.5">Defeito</th><th className="px-3 py-2.5">Status</th><th className="px-3 py-2.5 text-right">Valor</th></tr></thead>
+              <tbody className="divide-y divide-zinc-800">{consulta.data.ordens.map((os) => {
                 const status = STATUS_OS.has(os.status as OS["status"]) ? os.status as OS["status"] : "pendente";
-                return <tr key={os.id} className="text-zinc-700"><td className="whitespace-nowrap px-3 py-3 font-mono font-bold text-[#008c44]">{osNum(os.numero)}</td><td className="whitespace-nowrap px-3 py-3 text-zinc-500">{formatData(os.data_entrada)}</td><td className="px-3 py-3 font-medium text-zinc-900">{os.quantidade > 1 ? `${os.quantidade}x ` : ""}{os.aparelho}</td><td className="max-w-[200px] truncate px-3 py-3 text-zinc-500">{os.defeito || "—"}</td><td className="px-3 py-3"><StatusBadge status={status} /></td><td className="whitespace-nowrap px-3 py-3 text-right">{formatBRL(os.valor)}</td></tr>;
+                return <tr key={os.id} className="text-zinc-300"><td className="whitespace-nowrap px-3 py-3 font-mono font-bold text-[#00A651]">{osNum(os.numero)}</td><td className="whitespace-nowrap px-3 py-3 text-zinc-400">{formatData(os.data_entrada)}</td><td className="px-3 py-3 font-medium text-zinc-100">{os.quantidade > 1 ? `${os.quantidade}x ` : ""}{os.aparelho}</td><td className="max-w-[200px] truncate px-3 py-3 text-zinc-400">{os.defeito || "—"}</td><td className="px-3 py-3"><StatusBadge status={status} /></td><td className="whitespace-nowrap px-3 py-3 text-right">{formatBRL(os.valor)}</td></tr>;
               })}</tbody></table></div>
               : <p className="py-12 text-center text-sm text-zinc-500">Nenhuma OS vinculada a este cliente.</p>}
         <DialogFooter className="flex-row items-center justify-between sm:justify-between">

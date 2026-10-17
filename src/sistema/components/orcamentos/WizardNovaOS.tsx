@@ -210,7 +210,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                   value={rascunho.fabricante}
                   onChange={(e) => setFabricante(e.target.value)}
                   placeholder="Ex: Samsung, Apple, Dell..."
-                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                 />
               </div>
               <div>
@@ -222,7 +222,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                   value={rascunho.modelo}
                   onChange={(e) => setModelo(e.target.value)}
                   placeholder="Ex: Galaxy S23, iPhone 15..."
-                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                 />
               </div>
             </div>
@@ -238,7 +238,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                   min={1}
                   value={rascunho.quantidade}
                   onChange={(e) => setQuantidade(parseInt(e.target.value, 10) || 1)}
-                  className="bg-zinc-800 border-zinc-700 text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                  className="bg-zinc-800 border-zinc-700 text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                 />
               </div>
               <div>
@@ -250,7 +250,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                   value={rascunho.serial}
                   onChange={(e) => setSerial(e.target.value)}
                   placeholder="Ex: ABC123XYZ"
-                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                  className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                 />
               </div>
             </div>
@@ -264,7 +264,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                 value={rascunho.observacao}
                 onChange={(e) => setObservacao(e.target.value)}
                 placeholder="Informações adicionais sobre o equipamento..."
-                className="min-h-[80px] resize-none bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                className="min-h-[80px] resize-none bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
               />
             </div>
 
@@ -277,7 +277,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                 value={rascunho.defeito?.descricao ?? ""}
                 onChange={(e) => setDefeitoRelatado({ descricao: e.target.value })}
                 placeholder="Descreva o problema relatado pelo cliente..."
-                className="min-h-[100px] resize-none bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                className="min-h-[100px] resize-none bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
               />
             </div>
 
@@ -473,7 +473,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                               min={1}
                               value={item.quantidade}
                               onChange={(e) => handleUpdateItem(item.id, "quantidade", parseInt(e.target.value, 10) || 1)}
-                              className="w-20 bg-zinc-800 border-zinc-700 text-center text-sm text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                              className="w-20 bg-zinc-800 border-zinc-700 text-center text-sm text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                             />
                           </td>
                           <td className="px-4 py-2">
@@ -483,7 +483,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                                 type="text"
                                 value={formatCurrencyInput(item.precoUnitario)}
                                 onChange={(e) => handleUpdateItem(item.id, "precoUnitario", parseCurrencyInput(e.target.value))}
-                                className="w-24 bg-zinc-800 border-zinc-700 text-right text-sm text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40"
+                                className="w-24 bg-zinc-800 border-zinc-700 text-right text-sm text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
                               />
                             </div>
                           </td>
@@ -522,7 +522,7 @@ const WizardNovaOS = ({ onClose }: PropsWizardNovaOS) => {
                       type="text"
                       value={formatCurrencyInput(rascunho.valorMaoObra)}
                       onChange={(e) => setValorMaoObra(parseCurrencyInput(e.target.value))}
-                      className="bg-zinc-800 border-zinc-700 text-right text-sm text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/40 w-40"
+                      className="bg-zinc-800 border-zinc-700 text-right text-sm text-zinc-100 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20 w-40"
                     />
                   </div>
                 </div>

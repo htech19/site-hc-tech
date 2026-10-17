@@ -63,7 +63,7 @@ export const EstoqueList = memo(function EstoqueList({
           className={
             i.quantidade <= 1
               ? "inline-flex min-w-8 justify-center rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-xs font-bold text-amber-300"
-              : "inline-flex min-w-8 justify-center rounded-md border border-[#00FF88]/30 bg-[#00FF88]/10 px-2 py-0.5 text-xs font-bold text-[#00FF88]"
+              : "inline-flex min-w-8 justify-center rounded-md border border-green-400/30 bg-green-400/10 px-2 py-0.5 text-xs font-bold text-green-400"
           }
         >
           {i.quantidade}

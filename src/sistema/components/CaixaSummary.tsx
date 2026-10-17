@@ -31,9 +31,9 @@ export const CaixaSummary = memo(function CaixaSummary({
       rotulo: "Entradas",
       valor: entradas,
       icone: ArrowDownLeft,
-      tom: "text-[#00FF88]",
-      borda: "border-[#00FF88]/30",
-      fundo: "bg-[#00FF88]/10",
+      tom: "text-green-400",
+      borda: "border-green-400/30",
+      fundo: "bg-green-400/10",
     },
     {
       rotulo: "Saídas",
@@ -47,9 +47,9 @@ export const CaixaSummary = memo(function CaixaSummary({
       rotulo: "Saldo",
       valor: saldo,
       icone: Wallet,
-      tom: saldo >= 0 ? "text-[#00FF88]" : "text-rose-400",
-      borda: saldo >= 0 ? "border-[#00FF88]/40" : "border-rose-500/40",
-      fundo: saldo >= 0 ? "bg-[#00FF88]/10" : "bg-rose-500/10",
+      tom: saldo >= 0 ? "text-green-400" : "text-rose-400",
+      borda: saldo >= 0 ? "border-green-400/40" : "border-rose-500/40",
+      fundo: saldo >= 0 ? "bg-green-400/10" : "bg-rose-500/10",
     },
   ];
 
