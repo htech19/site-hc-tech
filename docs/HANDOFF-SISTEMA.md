@@ -128,7 +128,7 @@ src/sistema/
 | Arquivo | Papel |
 |---|---|
 | `src/integrations/supabase/sistema.ts` (434 linhas, 15,6 KB) | Camada de integração Supabase (hooks de leitura do módulo) |
-| `supabase/migrations/0003_create_sistema_tables.sql` (232 linhas) | Migration idempotente do módulo |
+| `supabase/migrations/20261008000000_create_sistema_tables.sql` (232 linhas) | Migration idempotente do módulo |
 | `tsconfig.app.tsbuildinfo`, `tsconfig.node.tsbuildinfo` | Artefatos de build — **não levar**, são regenerados (e deveriam estar no `.gitignore`) |
 | `_wizardPreview.tsx`, `wizard-preview.html` | Harness temporário de preview do wizard — **descartável**, ver §9 |
 
@@ -181,12 +181,26 @@ existiam no repositório:
 | `drizzle/migrations/0000_create_sistema_tables.sql` | `clientes`, `ordens_servico`, `servicos` |
 | `drizzle/migrations/0001_clientes_modulo_completo.sql` | `cliente_contatos`, `cliente_interacoes`, `cliente_anexos` |
 | `drizzle/migrations/0002_sistema_gestao_completa.sql` | `caixa_movimentos`, `servico_tipos` |
-| **`supabase/migrations/0003_create_sistema_tables.sql`** (novo) | `estoque`, `orcamentos`, `devolucoes` + alterações |
+| **`supabase/migrations/20261008000000_create_sistema_tables.sql`** (novo) | `estoque`, `orcamentos`, `devolucoes` + alterações |
 
-⚠️ A migration `0003` está em `supabase/migrations/` enquanto `0000–0002` estão em
-`drizzle/migrations/`. **São dois diretórios para a mesma numeração** — ao
-replicar, aplique as quatro **em ordem** no mesmo banco. O Supabase não vai
-aplicá-las automaticamente; é execução manual (SQL Editor ou `psql`).
+⚠️ Só a migration do módulo está em `supabase/migrations/`; `0000–0002` estão em
+`drizzle/migrations/` e **não** são lidas pelo `supabase db push` (o CLI ignora
+essa pasta). Num banco novo, aplique `0000–0002` manualmente (SQL Editor ou
+`psql`) antes de deixar o CI rodar a de `supabase/migrations/`.
+
+O nome segue o padrão `<timestamp de 14 dígitos>_<descrição>.sql`, que é o que o
+CLI aceita sem reclamar — `supabase migration new <nome>` gera nesse formato.
+
+#### Migrations automáticas no CI
+
+O job `migrations` de `.github/workflows/deploy.yml` roda
+`supabase db push --project-ref chllhailtkuffciaanlx` antes do build, em todo
+push para `main`. A senha do Postgres **não** fica no repositório: ela vem do
+secret `SUPABASE_DB_PASSWORD`, lido pelo CLI via variável de ambiente (nunca
+como argumento de linha de comando). O `SUPABASE_ACCESS_TOKEN` é o PAT.
+
+Sem os dois secrets o job só emite um aviso e o deploy continua — configure-os
+em Settings → Secrets and variables → Actions.
 
 ### 5.2 O que a migration 0003 faz (é idempotente — pode rodar mais de uma vez)
 
@@ -261,7 +275,9 @@ VITE_SUPABASE_URL=https://<projeto>.supabase.co
 `.env.example` traz ainda `VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX` (Google Analytics
 do site institucional, não do `/sistema`).
 
-Projeto Supabase atual: `fiwbbhrrkongcryyqjmv`.
+Projeto Supabase atual: `chllhailtkuffciaanlx` (`site-hc-lovable-freebuff`).
+`supabase/config.toml` já aponta para ele. Projetos e tabelas podem ser
+consultados pela integração Supabase do Freebuff.
 
 O cliente Supabase (`src/integrations/supabase/client.ts`) é gerado
 automaticamente e usa `brokeredPreviewStorage()` — storage de sessão via

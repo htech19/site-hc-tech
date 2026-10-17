@@ -2,7 +2,7 @@
 -- APLICAR 0003 NO SQL EDITOR DO SUPABASE
 -- =============================================================================
 -- POR QUE ESTE ARQUIVO EXISTE
---   A migração `supabase/migrations/0003_create_sistema_tables.sql` nunca foi
+--   A migração `supabase/migrations/20261008000000_create_sistema_tables.sql` nunca foi
 --   aplicada ao banco remoto. Resultado medido na API REST do projeto:
 --
 --     GET /rest/v1/orcamentos   -> HTTP 404  PGRST205 (tabela não existe)

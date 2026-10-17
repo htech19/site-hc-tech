@@ -35,3 +35,6 @@ dist-ssr
 # Rascunhos locais
 _wizardPreview.tsx
 wizard-preview.html
+
+# Cache do Supabase CLI (gerado por `supabase` em qualquer comando)
+supabase/.temp/
