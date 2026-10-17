@@ -1,3 +1,6 @@
-project_id = "fiwbbhrrkongcryyqjmv"
+project_id = "chllhailtkuffciaanlx"
 [functions.solicitar-orcamento]
-verify_jwt = false
+# Deploy feito pelo CLI/API com verify_jwt = true: o site chama via supabase-js,
+# que envia a chave anon, então o JWT é sempre válido. Mantém o endpoint fechado
+# para chamadas sem chave.
+verify_jwt = true
