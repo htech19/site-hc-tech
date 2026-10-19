@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { buildClientesSearchFilter, clienteFormVazio, descreverDuplicidades, parseClientesCsv, serializeClientesCsv, validarCliente, type ClienteResumo } from "./clientes-utils";
+import { buildClientesSearchFilter, clienteFormVazio, descreverDuplicidades, parseClientesCsv, parseClientesTabela, serializeClientesCsv, validarCliente, type ClienteResumo } from "./clientes-utils";
+import { parseSpreadsheetML, toExcelXML } from "./utils";
 import type { Cliente } from "@/sistema/os-shared";
 
 describe("utilitários de Clientes", () => {
@@ -28,6 +29,29 @@ describe("utilitários de Clientes", () => {
     const [tipoInvalido] = parseClientesCsv("Nome,Telefone,Tipo\nAna,11999990000,Empresa");
     expect(semTelefone.erros).toContain("Telefone é obrigatório.");
     expect(tipoInvalido.erros).toContain("Tipo de pessoa deve ser PF ou PJ.");
+  });
+
+  it("importa uma tabela já convertida de Excel com as mesmas validações", () => {
+    const linhas = parseClientesTabela([
+      ["Nome", "Telefone"],
+      ["Ana", "11999990000"],
+      ["", ""],
+    ]);
+    expect(linhas[0].cliente.nome).toBe("Ana");
+    expect(linhas[0].erros).toEqual([]);
+    expect(linhas[1].erros).toContain("Nome é obrigatório.");
+  });
+
+  it("exporta e reimporta SpreadsheetML (.xls) sem perder colunas", () => {
+    const xml = toExcelXML([
+      ["Nome", "Telefone"],
+      ["Ana", "11999990000"],
+    ]);
+    const tabela = parseSpreadsheetML(xml);
+    expect(tabela[0]).toEqual(["Nome", "Telefone"]);
+    const [linha] = parseClientesTabela(tabela);
+    expect(linha.cliente.nome).toBe("Ana");
+    expect(linha.erros).toEqual([]);
   });
 
   it("identifica duplicidades por documento dentro do arquivo", () => {

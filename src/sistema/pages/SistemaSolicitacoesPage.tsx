@@ -22,6 +22,7 @@ import {
   CATEGORIAS_SOLICITACAO,
   STATUS_SOLICITACAO,
   classeStatusSolicitacao,
+  corStatusSolicitacao,
   formatarDataHora,
   rotuloStatusSolicitacao,
 } from "@/sistema/solicitacoes-shared";
@@ -232,15 +233,12 @@ export default function SistemaSolicitacoesPage() {
 
   return (
     <div className="space-y-4">
-      {/* Cabeçalho */}
-      <div className="flex flex-col gap-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-5 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-lg font-bold text-zinc-100">Solicitações de orçamento (site)</h1>
-          <p className="mt-1 max-w-2xl text-sm text-zinc-400">
-            Pedidos enviados pelo botão de orçamento da página inicial. O mesmo registro aparece no
-            Dashboard.
-          </p>
-        </div>
+      {/* Aviso curto: o título já vem da topbar, então aqui fica só a instrução. */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-2xl text-sm text-zinc-400">
+          Pedidos enviados pelo botão de orçamento da página inicial — os mesmos que aparecem no
+          Dashboard. Use o status de cada linha para acompanhar o funil.
+        </p>
         <Button
           variant="outline"
           onClick={() => {
@@ -390,61 +388,106 @@ export default function SistemaSolicitacoesPage() {
           {rows.map((s) => (
             <article
               key={s.id}
-              className="group flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-[#00A651]/50"
+              className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition hover:border-[#00A651]/50"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="font-mono text-xs font-bold text-[#00FF88]">{s.protocolo}</p>
-                  <h2 className="mt-1 truncate text-base font-bold text-zinc-100">{s.nome}</h2>
-                  <p className="truncate text-xs text-zinc-500">
-                    {s.telefone} • {formatarDataHora(s.created_at)}
+              {/* Barra lateral: status identificável de relance, sem ler o texto. */}
+              <span
+                className={`absolute inset-y-0 left-0 w-1 ${corStatusSolicitacao(s.status)}`}
+                aria-hidden
+              />
+
+              <div className="flex flex-col gap-3 p-4 pl-5">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-xs font-bold text-[#00FF88]">
+                        {s.protocolo}
+                      </span>
+                      <span
+                        className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${classeStatusSolicitacao(
+                          s.status
+                        )}`}
+                      >
+                        {rotuloStatusSolicitacao(s.status)}
+                      </span>
+                    </div>
+                    <h2 className="mt-1 truncate text-base font-bold text-zinc-100">{s.nome}</h2>
+                    <p className="truncate text-xs text-zinc-400">
+                      {s.telefone}
+                      {s.email ? ` • ${s.email}` : ""}
+                    </p>
+                  </div>
+                  <p className="shrink-0 text-[11px] text-zinc-500">
+                    {formatarDataHora(s.created_at)}
                   </p>
                 </div>
-                <span
-                  className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${classeStatusSolicitacao(
-                    s.status
-                  )}`}
-                >
-                  {rotuloStatusSolicitacao(s.status)}
-                </span>
-              </div>
 
-              <dl className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                <div className="min-w-0">
-                  <dt className="text-zinc-500">Equipamento</dt>
-                  <dd className="truncate font-medium text-zinc-200">
-                    {s.categoria} {s.marca} {s.modelo}
-                  </dd>
+                <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs sm:grid-cols-3">
+                  <div className="min-w-0">
+                    <dt className="text-zinc-500">Equipamento</dt>
+                    <dd className="truncate font-medium text-zinc-200">
+                      {s.categoria} {s.marca} {s.modelo}
+                    </dd>
+                  </div>
+                  <div className="min-w-0">
+                    <dt className="text-zinc-500">Serviço</dt>
+                    <dd className="truncate font-medium text-zinc-200">{s.servico}</dd>
+                  </div>
+                  <div className="min-w-0">
+                    <dt className="text-zinc-500">Atendimento</dt>
+                    <dd className="truncate font-medium text-zinc-200">{s.atendimento}</dd>
+                  </div>
+                </dl>
+
+                <p
+                  className="line-clamp-2 text-sm text-zinc-400"
+                  title={s.descricao_defeito}
+                >
+                  {s.descricao_defeito}
+                </p>
+
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-zinc-800 pt-3">
+                  <Select value={s.status} onValueChange={(v) => void mudarStatus(s, v)}>
+                    <SelectTrigger
+                      aria-label={`Status da solicitação ${s.protocolo}`}
+                      className="h-8 w-44 border-zinc-700 bg-zinc-800 text-xs text-zinc-200"
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {STATUS_SOLICITACAO.map((opcao) => (
+                        <SelectItem key={opcao.valor} value={opcao.valor}>
+                          {opcao.rotulo}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <a
+                      href={waCliente(s)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-[#00FF88]/30 bg-[#00FF88]/10 px-2.5 py-1.5 text-xs font-semibold text-[#00FF88] transition hover:bg-[#00FF88]/20"
+                    >
+                      <MessageCircle size={13} /> WhatsApp
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => void copiar(s)}
+                      className="inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2.5 py-1.5 text-xs font-semibold text-zinc-300 transition hover:bg-zinc-800 hover:text-white"
+                    >
+                      <Copy size={13} /> Copiar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSel(s)}
+                      className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-zinc-300 transition hover:bg-zinc-800 hover:text-white"
+                    >
+                      Detalhes <ChevronRight size={14} />
+                    </button>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <dt className="text-zinc-500">Serviço</dt>
-                  <dd className="truncate font-medium text-zinc-200">{s.servico}</dd>
-                </div>
-              </dl>
-
-              <p
-                className="mt-2 line-clamp-2 text-sm text-zinc-400"
-                title={s.descricao_defeito}
-              >
-                {s.descricao_defeito}
-              </p>
-
-              <div className="mt-3 flex items-center justify-between gap-2 border-t border-zinc-800 pt-3">
-                <a
-                  href={waCliente(s)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-[#00FF88]/30 bg-[#00FF88]/10 px-3 py-1.5 text-xs font-semibold text-[#00FF88] transition hover:bg-[#00FF88]/20"
-                >
-                  <MessageCircle size={13} /> WhatsApp
-                </a>
-                <button
-                  type="button"
-                  onClick={() => setSel(s)}
-                  className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-zinc-300 transition hover:bg-zinc-800 hover:text-white"
-                >
-                  Ver detalhes <ChevronRight size={14} />
-                </button>
               </div>
             </article>
           ))}

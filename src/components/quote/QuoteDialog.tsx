@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronLeft, ChevronRight, Loader2, MessageCircle, Send } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Check, ChevronLeft, ChevronRight, Loader2, MessageCircle, Send, ShoppingBag } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
+import { queryClient } from "@/sistema/queryClient";
 import { buildWhatsAppUrl, QUOTE_EVENT } from "@/config/contact";
 import {
   ATENDIMENTOS, CATEGORIAS, CONTATOS, ESTADOS, HISTORICO, MARCAS, PERIODOS, SERVICOS, SINTOMAS,
@@ -110,6 +112,7 @@ async function errorMessage(error: unknown): Promise<string> {
 }
 
 export default function QuoteDialog() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [f, setF] = useState<Form>(initial);
@@ -192,6 +195,10 @@ export default function QuoteDialog() {
     }
     setProtocolo(data.protocolo);
     openWhats(data.protocolo);
+    // O pedido já está salvo: o dashboard/solicitações podem recarregar agora.
+    void queryClient.invalidateQueries({ queryKey: ["sistema", "solicitacoes"] });
+    // Abre a loja por baixo do diálogo — o cliente fecha e já está na vitrine.
+    navigate("/loja");
   };
 
   const reset = () => {
@@ -252,8 +259,11 @@ export default function QuoteDialog() {
                 <MessageCircle size={18} /> Abrir WhatsApp novamente
               </a>
               <p className="text-xs text-gray-500">Guarde o protocolo. Seu orçamento já está salvo mesmo que o WhatsApp não abra.</p>
+              <p className="text-xs text-gray-400">Abrimos a <strong className="text-[#00A651]">loja</strong> para você enquanto o WhatsApp abre em outra aba.</p>
               <div className="flex gap-2">
-                <button onClick={() => setOpen(false)} className="min-h-[44px] flex-1 rounded-xl border border-white/10 text-sm text-gray-300 hover:bg-white/5">Continuar navegando</button>
+                <button onClick={() => setOpen(false)} className="flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#00A651] text-sm font-black uppercase text-white hover:bg-[#008c44]">
+                  <ShoppingBag size={16} /> Explorar a loja
+                </button>
                 <button onClick={reset} className="min-h-[44px] flex-1 rounded-xl border border-[#00A651]/40 text-sm text-[#00A651] hover:bg-[#00A651]/10">Novo orçamento</button>
               </div>
             </div>

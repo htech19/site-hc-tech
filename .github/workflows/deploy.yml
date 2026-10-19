@@ -1,5 +1,8 @@
 name: Deploy to GitHub Pages
 
+# Publicação de produção. Aplica somente o build estático — migrations do
+# Supabase são um workflow separado (`migrations.yml`) e exigem confirmação
+# manual, justamente para que um push em `main` nunca altere o banco.
 on:
   push:
     branches: [main]
@@ -10,43 +13,12 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  # Aplica supabase/migrations/** no banco remoto antes do build.
-  # A senha do banco fica em Settings → Secrets and variables → Actions:
-  #   SUPABASE_DB_PASSWORD  (Project Settings → Database → senha do Postgres)
-  #   SUPABASE_ACCESS_TOKEN (Personal Access Token, usado pelo CLI)
-  # Sem esses dois secrets o job apenas emite um aviso e o deploy segue,
-  # para não travar o site por causa de configuração pendente.
-  migrations:
-    runs-on: ubuntu-latest
-    # Duas execuções simultâneas colidiriam no histórico de migrations.
-    concurrency:
-      group: migrations-${{ github.ref }}
-      cancel-in-progress: false
-    env:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: supabase/setup-cli@v3
-        with:
-          version: 2.121.0
-
-      - name: Aplicar migrations no banco remoto
-        if: env.SUPABASE_DB_PASSWORD != '' && env.SUPABASE_ACCESS_TOKEN != ''
-        # A senha chega só pela variável de ambiente (o CLI lê
-        # SUPABASE_DB_PASSWORD automaticamente), nunca pela linha de comando.
-        run: supabase db push --project-ref chllhailtkuffciaanlx --yes
-
-      - name: Secrets ausentes — migrations ignoradas
-        if: env.SUPABASE_DB_PASSWORD == '' || env.SUPABASE_ACCESS_TOKEN == ''
-        run: |
-          echo "::warning::SUPABASE_DB_PASSWORD / SUPABASE_ACCESS_TOKEN não configurados; migrations não aplicadas."
-          echo "Configure em Settings → Secrets and variables → Actions."
-
   build:
-    needs: migrations
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -56,9 +28,12 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: Build
+        # O build lê o .env versionado (chaves públicas do Supabase). Quando o
+        # .env for removido do Git, defina VITE_SUPABASE_URL e
+        # VITE_SUPABASE_PUBLISHABLE_KEY como variáveis do repositório.
         env:
           VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
         run: bun run build
@@ -73,6 +48,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # O environment `github-pages` pode ter revisores obrigatórios em
+    # Settings → Environments. Com revisores configurados, o deploy espera
+    # aprovação explícita mesmo depois do build.
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -175,6 +175,25 @@ export async function parseXLSX(buf: ArrayBuffer): Promise<string[][]> {
   return rows.filter((r) => r.some((c) => String(c).trim()));
 }
 
+/**
+ * Lê de volta o SpreadsheetML (`.xls`) que exportamos em `toExcelXML`.
+ * Permite que um arquivo baixado do próprio sistema seja reimportado sem
+ * depender de biblioteca externa.
+ */
+export function parseSpreadsheetML(xml: string): string[][] {
+  const doc = new DOMParser().parseFromString(xml, "application/xml");
+  if (doc.querySelector("parsererror")) throw new Error("Arquivo Excel (XML) inválido.");
+  const rows: string[][] = [];
+  doc.querySelectorAll("Row").forEach((row) => {
+    const cells: string[] = [];
+    row.querySelectorAll("Cell").forEach((cell, indice) => {
+      cells[indice] = cell.querySelector("Data")?.textContent ?? "";
+    });
+    rows.push(cells);
+  });
+  return rows.filter((r) => r.some((c) => String(c).trim()));
+}
+
 /* ---------------- Excel (SpreadsheetML, abre no Excel/LibreOffice/Sheets) ---------------- */
 const xmlEsc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 export function toExcelXML(rows: unknown[][]) {

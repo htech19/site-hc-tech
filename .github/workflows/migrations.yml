@@ -1,0 +1,85 @@
+name: Migrations (manual)
+
+# Aplicação de migrations no Supabase — SEMPRE manual e separada do deploy.
+#
+# Por padrão este workflow roda em modo `--dry-run`: mostra o que o CLI
+# aplicaria e não altera nada. Para aplicar de verdade é preciso:
+#   1. disparar via "Run workflow" com `aplicar: true`;
+#   2. digitar a confirmação exata `APLICAR MIGRATIONS`;
+#   3. aprovar no environment correspondente (Settings → Environments).
+#
+# ATENÇÃO (FASE 0): o schema atual de produção foi criado fora do histórico do
+# CLI do Supabase. Antes de usar `--dry-run`/`db push` contra produção, crie uma
+# baseline (`supabase migration repair`) ou o CLI tentará reaplicar DDL antigo.
+on:
+  workflow_dispatch:
+    inputs:
+      projeto:
+        description: "Alvo da migration"
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - production
+      aplicar:
+        description: "Aplicar de verdade (false = dry-run)"
+        required: true
+        default: false
+        type: boolean
+      confirmacao:
+        description: "Para aplicar, digite exatamente: APLICAR MIGRATIONS"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: migrations-${{ inputs.projeto }}
+  cancel-in-progress: false
+
+jobs:
+  migrations:
+    runs-on: ubuntu-latest
+    # Environments separados: configure revisores obrigatórios em ambos.
+    # `supabase-preview` pode apontar para o projeto de homologação.
+    environment: ${{ inputs.projeto == 'production' && 'supabase-producao' || 'supabase-preview' }}
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      PROJECT_REF: ${{ inputs.projeto == 'production' && secrets.SUPABASE_PROJECT_REF_PRODUCTION || secrets.SUPABASE_PROJECT_REF_PREVIEW }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v3
+        with:
+          version: 2.121.0
+
+      - name: Conferir configuração
+        run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ] || [ -z "$SUPABASE_DB_PASSWORD" ] || [ -z "$PROJECT_REF" ]; then
+            echo "::error::Configure SUPABASE_ACCESS_TOKEN, SUPABASE_DB_PASSWORD e SUPABASE_PROJECT_REF_${{ inputs.projeto == 'production' && 'PRODUCTION' || 'PREVIEW' }}."
+            exit 1
+          fi
+
+      - name: Listar migrations do repositório
+        run: ls -1 supabase/migrations drizzle/migrations
+
+      - name: Dry-run (nenhuma alteração é feita)
+        if: ${{ !inputs.aplicar }}
+        # A senha chega só pela variável de ambiente (o CLI lê
+        # SUPABASE_DB_PASSWORD automaticamente), nunca pela linha de comando.
+        run: supabase db push --project-ref "$PROJECT_REF" --dry-run
+
+      - name: Exigir confirmação exata
+        if: ${{ inputs.aplicar }}
+        run: |
+          if [ "${{ inputs.confirmacao }}" != "APLICAR MIGRATIONS" ]; then
+            echo "::error::Confirmação inválida. Digite exatamente: APLICAR MIGRATIONS"
+            exit 1
+          fi
+
+      - name: Aplicar migrations
+        if: ${{ inputs.aplicar }}
+        run: supabase db push --project-ref "$PROJECT_REF" --yes

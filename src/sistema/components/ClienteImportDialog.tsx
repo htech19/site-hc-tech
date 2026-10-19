@@ -1,7 +1,10 @@
 import { useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { parseClientesCsv, type ClienteFormData, type ClienteImportacaoLinha } from "@/sistema/clientes/clientes-utils";
+import { parseClientesCsv, parseClientesTabela, type ClienteFormData, type ClienteImportacaoLinha } from "@/sistema/clientes/clientes-utils";
+import { parseSpreadsheetML, parseXLSX } from "@/sistema/clientes/utils";
+
+const EXTENSOES_ACEITAS = /\\.(csv|xlsx|xls)$/i;
 
 interface Props {
   aberto: boolean;
@@ -24,19 +27,31 @@ export function ClienteImportDialog({ aberto, aoFechar, aoChecarDuplicados, aoIm
     setLinhas([]);
     setErroArquivo("");
     if (!arquivo) return;
-    if (arquivo.size > 5 * 1024 * 1024) {
-      setErroArquivo("O arquivo CSV deve ter no máximo 5 MB.");
+    if (arquivo.size > 10 * 1024 * 1024) {
+      setErroArquivo("O arquivo deve ter no máximo 10 MB.");
+      if (arquivoRef.current) arquivoRef.current.value = "";
+      return;
+    }
+    if (!EXTENSOES_ACEITAS.test(arquivo.name)) {
+      setErroArquivo("Formato não suportado. Envie um arquivo .csv, .xlsx ou .xls.");
       if (arquivoRef.current) arquivoRef.current.value = "";
       return;
     }
     setLendo(true);
     try {
-      const parsed = parseClientesCsv(await arquivo.text());
+      const nome = arquivo.name.toLowerCase();
+      // Cada formato é convertido para a MESMA tabela e validado pelo mesmo
+      // caminho (`parseClientesTabela`) — nada de regra duplicada por formato.
+      const parsed = nome.endsWith(".xlsx")
+        ? parseClientesTabela(await parseXLSX(await arquivo.arrayBuffer()))
+        : nome.endsWith(".xls")
+          ? parseClientesTabela(parseSpreadsheetML(await arquivo.text()))
+          : parseClientesCsv(await arquivo.text());
       const candidatas = parsed.filter((linha) => linha.erros.length === 0);
       const encontradas = await aoChecarDuplicados(candidatas);
       setLinhas(parsed.map((linha) => ({ ...linha, duplicado: encontradas.get(linha.linha) ?? linha.duplicado })));
     } catch (erro) {
-      setErroArquivo(erro instanceof Error ? erro.message : "Não foi possível analisar o CSV.");
+      setErroArquivo(erro instanceof Error ? erro.message : "Não foi possível analisar o arquivo.");
     } finally {
       setLendo(false);
       if (arquivoRef.current) arquivoRef.current.value = "";
@@ -69,11 +84,11 @@ export function ClienteImportDialog({ aberto, aoFechar, aoChecarDuplicados, aoIm
     <Dialog open={aberto} onOpenChange={(open) => { if (!open) fechar(); }}>
       <DialogContent className="max-h-[90vh] overflow-y-auto border-zinc-700 sm:max-w-4xl">
         <DialogHeader>
-          <DialogTitle>Importar clientes por CSV</DialogTitle>
-          <DialogDescription>Valide e revise os registros antes de gravar. Importações aceitam até 500 linhas por arquivo.</DialogDescription>
+          <DialogTitle>Importar clientes (CSV ou Excel)</DialogTitle>
+          <DialogDescription>Valide e revise os registros antes de gravar. Importações aceitam até 500 linhas por arquivo — CSV, XLSX ou XLS.</DialogDescription>
         </DialogHeader>
-        <label htmlFor="clientes-csv" className="text-sm font-medium">Arquivo CSV</label>
-        <input ref={arquivoRef} id="clientes-csv" type="file" accept=".csv,text/csv" disabled={lendo || salvando} onChange={(event) => void selecionarArquivo(event.currentTarget.files?.[0])} className="block w-full rounded-md border border-zinc-700 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-zinc-800 file:px-3 file:py-2" />
+        <label htmlFor="clientes-csv" className="text-sm font-medium">Arquivo CSV, XLSX ou XLS</label>
+        <input ref={arquivoRef} id="clientes-csv" type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" disabled={lendo || salvando} onChange={(event) => void selecionarArquivo(event.currentTarget.files?.[0])} className="block w-full rounded-md border border-zinc-700 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-zinc-800 file:px-3 file:py-2" />
         {lendo && <p role="status" className="text-sm text-zinc-500">Analisando registros e verificando duplicidades...</p>}
         {erroArquivo && <p role="alert" className="rounded-md border border-rose-900/60 bg-rose-950/50 p-3 text-sm text-rose-200">{erroArquivo}</p>}
         {linhas.length > 0 && <>

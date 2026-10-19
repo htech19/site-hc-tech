@@ -1,0 +1,49 @@
+name: CI
+
+# Verificação obrigatória de pull request: lint, typecheck, testes e build.
+# Este workflow NÃO aplica migrations, NÃO publica e NÃO usa secrets de banco —
+# é seguro rodar em qualquer branch e em pull requests.
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        # Preserva o lockfile: dependências diferentes das revisadas quebram o CI.
+        run: bun install --frozen-lockfile
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Testes
+        run: bun run test
+
+      - name: Build
+        # O build lê o .env versionado (chaves públicas do Supabase). Quando o
+        # .env for removido do Git, defina VITE_SUPABASE_URL e
+        # VITE_SUPABASE_PUBLISHABLE_KEY como variáveis do repositório.
+        env:
+          VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
+        run: bun run build

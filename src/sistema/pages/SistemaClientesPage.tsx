@@ -17,7 +17,7 @@ import {
   type ClienteResumo,
   type FiltroStatus,
 } from "@/sistema/clientes/clientes-utils";
-import { maskDoc, maskPhone, onlyDigits } from "@/sistema/clientes/utils";
+import { EXPORT_HEAD, exportRow, maskDoc, maskPhone, onlyDigits, toExcelXML } from "@/sistema/clientes/utils";
 import type { Cliente } from "@/sistema/os-shared";
 
 const PAGE_SIZES = [10, 25, 50, 100] as const;
@@ -386,20 +386,31 @@ const SistemaClientesPage = () => {
     }
   };
 
-  const exportarClientes = async () => {
+  /**
+   * Exporta a seleção (ou os filtros atuais) em CSV ou Excel.
+   *
+   * O export roda 100% no navegador sobre os dados já vindos do Supabase — não
+   * há backend intermediário nem arquivo temporário no servidor.
+   */
+  const exportarClientes = async (formato: "csv" | "excel" = "csv") => {
     setOperando(true);
     setAviso("");
     try {
       const ids = idsSelecionados.length ? idsSelecionados : await carregarIdsFiltrados(buscaDebounced, status, tagDebounced);
       const clientes = await carregarParaExportacao(ids);
-      const file = new Blob([serializeClientesCsv(clientes)], { type: "text/csv;charset=utf-8" });
+      const conteudo = formato === "excel"
+        ? toExcelXML([EXPORT_HEAD, ...clientes.map(exportRow)])
+        : serializeClientesCsv(clientes);
+      const file = new Blob([conteudo], {
+        type: formato === "excel" ? "application/vnd.ms-excel;charset=utf-8" : "text/csv;charset=utf-8",
+      });
       const url = URL.createObjectURL(file);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `clientes-${new Date().toISOString().slice(0, 10)}.csv`;
+      link.download = `clientes-${new Date().toISOString().slice(0, 10)}.${formato === "excel" ? "xls" : "csv"}`;
       link.click();
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-      setAviso(`${clientes.length} cliente(s) exportado(s) conforme os filtros/seleção.`);
+      setAviso(`${clientes.length} cliente(s) exportado(s) em ${formato === "excel" ? "Excel" : "CSV"} conforme os filtros/seleção.`);
     } catch (erro) {
       setAviso(erro instanceof Error ? erro.message : "Não foi possível exportar os clientes.");
     } finally {
@@ -464,8 +475,9 @@ const SistemaClientesPage = () => {
           <Button type="button" variant="outline" disabled={operando || !filtroAtivo} onClick={limparFiltros} className="h-10 self-end border-zinc-700 text-zinc-300"><X size={15} className="mr-2" />Limpar filtros</Button>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="outline" disabled={operando} onClick={() => setImportAberto(true)} className="border-zinc-700 text-zinc-300"><Upload size={15} className="mr-2" />Importar CSV</Button>
-          <Button type="button" variant="outline" disabled={operando} onClick={() => void exportarClientes()} className="border-zinc-700 text-zinc-300"><Download size={15} className="mr-2" />Exportar {idsSelecionados.length ? `(${idsSelecionados.length})` : "filtrados"}</Button>
+          <Button type="button" variant="outline" disabled={operando} onClick={() => setImportAberto(true)} className="border-zinc-700 text-zinc-300"><Upload size={15} className="mr-2" />Importar CSV/Excel</Button>
+          <Button type="button" variant="outline" disabled={operando} onClick={() => void exportarClientes("csv")} className="border-zinc-700 text-zinc-300"><Download size={15} className="mr-2" />CSV {idsSelecionados.length ? `(${idsSelecionados.length})` : "filtrados"}</Button>
+          <Button type="button" variant="outline" disabled={operando} onClick={() => void exportarClientes("excel")} className="border-zinc-700 text-zinc-300"><Download size={15} className="mr-2" />Excel {idsSelecionados.length ? `(${idsSelecionados.length})` : "filtrados"}</Button>
           <Button type="button" disabled={operando} onClick={() => { setClienteEditando(null); setFormAberto(true); }} className="bg-[#00A651] font-semibold text-white hover:bg-[#008c44]"><Plus size={16} className="mr-1" />Novo Cliente</Button>
         </div>
       </div>

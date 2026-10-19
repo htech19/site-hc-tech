@@ -118,7 +118,10 @@ function valoresImportados(cabecalhos: string[], valores: string[]): ClienteForm
       const status = valor.toLocaleLowerCase("pt-BR");
       if (["ativo", "inativo", "bloqueado"].includes(status)) cliente.status = status as Cliente["status"];
     } else if (campo.key in cliente) {
-      Object.assign(cliente, { [campo.key]: valor || null });
+      // `nome` é o único campo textual não anulável: manter string vazia aqui
+      // faz a validação reportar "Nome é obrigatório." em vez de estourar em
+      // `cliente.nome.trim()` (o erro acontecia com linha em branco no CSV/Excel).
+      Object.assign(cliente, { [campo.key]: campo.key === "nome" ? valor : valor || null });
     }
   }
   const telefone2Index = cabecalhos.findIndex((cabecalho) => ["telefone 2", "telefone secundario", "telefone secundário"].map(normalizarCabecalho).includes(cabecalho));
@@ -148,7 +151,15 @@ export function validarCliente(cliente: ClienteFormData, exigirTelefone = true) 
 }
 
 export function parseClientesCsv(texto: string): ClienteImportacaoLinha[] {
-  const tabela = parseCSV(texto);
+  return parseClientesTabela(parseCSV(texto));
+}
+
+/**
+ * Valida uma tabela já lida (CSV, XLSX ou SpreadsheetML) e devolve as linhas
+ * tipadas. É o único ponto de validação da importação — qualquer formato passa
+ * pelas mesmas regras de obrigatoriedade, duplicidade e limites.
+ */
+export function parseClientesTabela(tabela: string[][]): ClienteImportacaoLinha[] {
   if (tabela.length < 2) throw new Error("O arquivo precisa conter cabeçalho e ao menos uma linha.");
   const cabecalhos = tabela[0].map(normalizarCabecalho);
   const temNome = IMPORT_FIELDS.find((campo) => campo.key === "nome")!.aliases.some((alias) => cabecalhos.includes(normalizarCabecalho(alias)));

@@ -1,4 +1,5 @@
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useClientesLeves, useOS } from "@/integrations/supabase/sistema";
@@ -14,7 +15,7 @@ import { Modal } from "@/sistema/components/Modal";
 import WizardNovaOS from "@/sistema/components/orcamentos/WizardNovaOS";
 import { LISTA_STATUS } from "@/sistema/components/OSStatusBadge";
 import { FormSelect } from "@/sistema/components/FormInput";
-import type { OrdemServico, StatusOS } from "@/sistema/types";
+import type { FiltroOS, OrdemServico, StatusOS } from "@/sistema/types";
 
 /**
  * Página Ordens de Serviço — CRUD completo com filtros.
@@ -30,9 +31,30 @@ const SistemaOsPage = memo(function SistemaOsPage() {
   const fecharCriacao = useSistemaStore((s) => s.fecharModalOS);
   const abrirCriacao = useSistemaStore((s) => s.abrirModalOS);
   const definirStatusOS = useSistemaStore((s) => s.definirStatusOS);
+  const definirFiltroOS = useSistemaStore((s) => s.definirFiltroOS);
 
   const [editando, setEditando] = useState<OrdemServico | null>(null);
   const [visualizando, setVisualizando] = useState<OrdemServico | null>(null);
+
+  // Cards do dashboard abrem a listagem já filtrada via query string
+  // (`/sistema/os?status=PENDENTE`). Aplicamos apenas quando a URL muda, para
+  // não sobrescrever o filtro que o usuário escolher na tela.
+  const [searchParams] = useSearchParams();
+  const parametrosAplicados = useRef<string | null>(null);
+  useEffect(() => {
+    const assinatura = searchParams.toString();
+    if (parametrosAplicados.current === assinatura) return;
+    parametrosAplicados.current = assinatura;
+
+    const parcial: Partial<FiltroOS> = {};
+    const statusUrl = searchParams.get("status");
+    const clienteUrl = searchParams.get("cliente");
+    if (statusUrl && LISTA_STATUS.some((s) => s.valor === statusUrl)) {
+      parcial.status = statusUrl as StatusOS;
+    }
+    if (clienteUrl) parcial.clienteId = clienteUrl;
+    if (Object.keys(parcial).length > 0) definirFiltroOS(parcial);
+  }, [searchParams, definirFiltroOS]);
 
   const { data: clientes } = useClientesLeves();
   const consultaOS = useOS();
