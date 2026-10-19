@@ -128,7 +128,7 @@ const Index = () => {
         </section>
 
         {/* NOSSOS SERVIÇOS */}
-        <section id="servicos" className="py-32 px-8 bg-black/20">
+        <section id="servicos" className="py-32 px-8 bg-zinc-950/95 border-y border-white/5">
           <div className="max-w-7xl mx-auto text-center">
             <span className="text-[#00A651] font-black text-xs uppercase tracking-[0.4em]">Expertise Técnica</span>
             <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mt-4 mb-20">
@@ -196,7 +196,7 @@ const Index = () => {
                         <CheckCircle size={16} className="text-[#00A651] shrink-0 mt-0.5" />
                         <div>
                           <span className="text-white font-bold text-sm block">{item.name}</span>
-                          <span className="text-gray-500 text-xs">{item.desc}</span>
+                          <span className="text-gray-300 text-xs">{item.desc}</span>
                         </div>
                       </div>
                     ))}
@@ -216,7 +216,7 @@ const Index = () => {
         </section>
 
         {/* SEÇÃO DE MARCAS - NOVA */}
-        <section className="py-20 bg-[#050505]/40 border-y border-white/5 overflow-hidden">
+        <section className="py-20 bg-zinc-950/95 border-y border-white/5 overflow-hidden">
           <div className="max-w-7xl mx-auto px-8 mb-10 text-center">
             <span className="text-[#00A651] font-black text-[10px] uppercase tracking-[0.5em]">Hardware & Software</span>
             <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter mt-2">MARCAS QUE <span className="text-[#00A651]">ATENDEMOS</span></h3>
@@ -229,7 +229,7 @@ const Index = () => {
               transition={{ ease: "linear", duration: 30, repeat: Infinity }}
             >
               {[...marcas, ...marcas].map((marca, i) => (
-                <span key={i} className="text-gray-600 hover:text-[#00A651] transition-colors font-black text-3xl md:text-5xl italic tracking-tighter uppercase opacity-30 hover:opacity-100 cursor-default">
+                <span key={i} className="text-gray-300 hover:text-[#00A651] transition-colors font-black text-3xl md:text-5xl italic tracking-tighter uppercase opacity-70 hover:opacity-100 cursor-default">
                   {marca}
                 </span>
               ))}
