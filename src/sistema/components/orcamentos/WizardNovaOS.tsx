@@ -19,6 +19,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   X,
   ArrowLeft,
@@ -237,6 +238,7 @@ function ComboBusca({
 // -----------------------------------------------------------------------------
 
 const WizardNovaOS = ({ onClose, onCriada }: PropsWizardNovaOS) => {
+  const navigate = useNavigate();
   const criarOSDeSolicitacao = useSistemaStore((s) => s.criarOSDeSolicitacao);
   const { data: clientes, isPending: carregandoClientes } = useClientesLeves();
 
@@ -418,6 +420,7 @@ const WizardNovaOS = ({ onClose, onCriada }: PropsWizardNovaOS) => {
     }
     setOsCriada(criada);
     onCriada?.(criada);
+    navigate("/loja");
   };
 
   const reiniciar = () => {

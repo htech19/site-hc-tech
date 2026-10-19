@@ -5,6 +5,7 @@ import {
   ClipboardList,
   Clock,
   DollarSign,
+  MessageCircle,
   Package,
   RotateCcw,
   Users,
@@ -100,10 +101,17 @@ export const DashboardMetrics = memo(function DashboardMetrics({
         // `null` = contagem não lida: mostramos "—" em vez de um 0 enganoso.
         valor: metricas.totalClientes ?? "—",
         icone: Users,
-        tom: "text-zinc-100",
-        para: "/sistema/clientes",
-      },
-    ],
+        tom: "text-zinc-100",para: "/sistema/clientes",
+    },
+    {
+        rotulo: "Solicitações",
+        // Vem do painel de solicitações do site
+        valor: metricas.solicitacoes ?? "—",
+        icone: MessageCircle,
+        tom: "text-sky-300",
+        para: "/sistema/solicitacoes",
+    },
+],
     [metricas]
   );
 

@@ -104,6 +104,20 @@ export const EstoqueList = memo(function EstoqueList({
       ),
     },
     {
+      chave: "proprietario",
+      rotulo: "Proprietário",
+      ordenavel: true,
+      chaveOrdenacao: (i) => i.proprietario,
+      conteudo: (i) => <span className="text-zinc-300">{i.proprietario || "—"}</span>,
+    },
+    {
+      chave: "canal_de_venda",
+      rotulo: "Canal Venda",
+      ordenavel: true,
+      chaveOrdenacao: (i) => i.canal_de_venda,
+      conteudo: (i) => <span className="text-zinc-400">{i.canal_de_venda || "—"}</span>,
+    },
+    {
       chave: "createdAt",
       rotulo: "Entrada",
       ordenavel: true,

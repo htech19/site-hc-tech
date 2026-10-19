@@ -70,6 +70,7 @@ const SistemaDashboardPage = memo(function SistemaDashboardPage() {
             faturamento: 0,
             totalClientes: null,
             itensEstoque: null,
+            solicitacoes: null,
           }
         }
         carregando={carregandoMetricas}

@@ -161,12 +161,11 @@ export function useClientesLeves() {
     },
     staleTime: STALE,
   });
-}
-
-// =============================================================================
-// DASHBOARD
-// =============================================================================
-
+}/**
+ * =============================================================================
+ * DASHBOARD
+ * =============================================================================
+ */
 export function useMetricasDashboard(): UseQueryResult<MetricasDashboard> {
   return useQuery({
     queryKey: ["sistema", "dashboard"],
@@ -177,13 +176,17 @@ export function useMetricasDashboard(): UseQueryResult<MetricasDashboard> {
         { data: os, error: erroOS },
         { count: totalClientes, error: erroClientes },
         { count: itensEstoque, error: erroEstoque },
+        { count: totalSolicitacoes, error: erroSolicitacoes },
       ] = await Promise.all([
-          supabase.from("ordens_servico").select("status, valor, quantidade"),
-          supabase.from("clientes").select("id", { count: "exact", head: true }),
-          supabase
-            .from("estoque")
-            .select("id", { count: "exact", head: true }),
-        ]);
+        supabase.from("ordens_servico").select("status, valor, quantidade"),
+        supabase.from("clientes").select("id", { count: "exact", head: true }),
+        supabase
+          .from("estoque")
+          .select("id", { count: "exact", head: true }),
+        supabase
+          .from("orcamento_solicitacoes")
+          .select("id", { count: "exact", head: true }),
+      ]);
 
       if (erroOS) throw erroOS;
 
@@ -204,6 +207,7 @@ export function useMetricasDashboard(): UseQueryResult<MetricasDashboard> {
           .reduce((soma, l) => soma + Number(l.valor ?? 0), 0),
         totalClientes: erroClientes ? null : totalClientes ?? 0,
         itensEstoque: erroEstoque ? null : itensEstoque ?? 0,
+        solicitacoes: erroSolicitacoes ? null : totalSolicitacoes ?? 0,
       } satisfies MetricasDashboard;
     },
     staleTime: STALE,

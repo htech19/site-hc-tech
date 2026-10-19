@@ -38,3 +38,6 @@ wizard-preview.html
 
 # Cache do Supabase CLI (gerado por `supabase` em qualquer comando)
 supabase/.temp/
+# Artefatos de build do Cloudflare Pages
+manifest.json
+site-manifest.json

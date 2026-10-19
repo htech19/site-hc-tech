@@ -88,6 +88,8 @@ export const FORMULARIO_ESTOQUE_VAZIO = {
   defeito: "",
   condicao: "",
   observacao: "",
+  proprietario: "HC TECH",
+  canal_de_venda: "Loja física",
 };
 
 export const FORMULARIO_CAIXA_VAZIO = {
@@ -456,6 +458,8 @@ export const useSistemaStore = create<EstadoSistema>((set, get) => {
         const userId = await pegarUsuarioId();
         const { error } = await supabase.from("estoque").insert({
           user_id: userId,
+          proprietario: form.proprietario || "HC TECH",
+          canal_de_venda: form.canal_de_venda || "Loja física",
           aparelho: form.aparelho.trim(),
           quantidade: Math.max(1, parseInt(form.quantidade, 10) || 1),
           defeito: form.defeito.trim() || null,
@@ -476,6 +480,8 @@ export const useSistemaStore = create<EstadoSistema>((set, get) => {
             defeito: form.defeito.trim() || null,
             condicao: form.condicao.trim() || null,
             observacao: form.observacao.trim() || null,
+            proprietario: form.proprietario || "HC TECH",
+            canal_de_venda: form.canal_de_venda || "Loja física",
           })
           .eq("id", id);
         if (error) throw new Error(traduzirErro(error.message));

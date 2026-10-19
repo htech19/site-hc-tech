@@ -178,6 +178,8 @@ export interface EstoqueItem {
   condicao?: string | null;
   observacao?: string | null;
   createdAt: string;
+  proprietario: string;
+  canal_de_venda: string;
 }
 
 /** Tipo de serviço cadastrável com contador de ocorrências. */
@@ -560,6 +562,8 @@ export interface LinhaCaixa {
 export interface LinhaEstoque {
   id: string;
   user_id: string;
+  proprietario: string;
+  canal_de_venda: string;
   aparelho: string;
   quantidade: number;
   defeito: string | null;
@@ -646,6 +650,8 @@ export function adaptarEstoque(l: LinhaEstoque): EstoqueItem {
     defeito: l.defeito,
     condicao: l.condicao,
     observacao: l.observacao,
+    proprietario: l.proprietario ?? "HC TECH",
+    canal_de_venda: l.canal_de_venda ?? "Loja física",
     createdAt: l.created_at,
   };
 }

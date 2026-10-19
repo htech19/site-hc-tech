@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import type { FiltroOS, OrdemServico, StatusOS } from "@/sistema/types";
  * - Edição/visualização são estados locais desta página.
  */
 const SistemaOsPage = memo(function SistemaOsPage() {
+  const navigate = useNavigate();
   const filtro = useSistemaStore((s) => s.filtroOS);
   const buscaGlobal = useSistemaStore((s) => s.buscaGlobal);
   const modalCriacaoAberto = useSistemaStore((s) => s.modalOS.aberto);
@@ -122,7 +124,7 @@ const SistemaOsPage = memo(function SistemaOsPage() {
       />
 
       {/* Criação: mesmo padrão do wizard de orçamento (busca de cliente/modelo) */}
-      {modalCriacaoAberto && <WizardNovaOS onClose={fecharCriacao} />}
+      {modalCriacaoAberto && <WizardNovaOS onClose={fecharCriacao} onCriada={() => navigate('/loja')} />}
 
       {/* Edição continua no formulário compacto */}
       <OSForm

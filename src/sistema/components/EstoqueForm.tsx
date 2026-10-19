@@ -45,6 +45,8 @@ export const EstoqueForm = memo(function EstoqueForm({
       defeito: editando.defeito ?? "",
       condicao: editando.condicao ?? "",
       observacao: editando.observacao ?? "",
+      proprietario: editando.proprietario ?? "HC TECH",
+      canal_de_venda: editando.canal_de_venda ?? "Loja física",
     });
   }
 

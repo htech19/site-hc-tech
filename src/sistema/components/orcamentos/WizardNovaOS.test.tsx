@@ -1,5 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import WizardNovaOS from "./WizardNovaOS";
 
 // O wizard usa a store e a lista de clientes do sistema. Nos testes, ambos são
@@ -28,7 +29,7 @@ describe("WizardNovaOS", () => {
   });
 
   it("oferece as quatro categorias pedidas", () => {
-    render(<WizardNovaOS onClose={() => {}} />);
+    render(<MemoryRouter><WizardNovaOS onClose={() => {}} /></MemoryRouter>);
 
     expect(screen.getByRole("heading", { name: /Nova OS/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Cliente cadastrado/i })).toBeInTheDocument();
@@ -50,7 +51,7 @@ describe("WizardNovaOS", () => {
 
   it("lista os modelos da tabela de telas e cria a OS com o cliente da base", async () => {
     const onClose = vi.fn();
-    render(<WizardNovaOS onClose={onClose} />);
+    render(<MemoryRouter><WizardNovaOS onClose={onClose} /></MemoryRouter>);
 
     // Etapa 1 — cliente cadastrado
     fireEvent.focus(screen.getByPlaceholderText("Buscar por nome ou telefone..."));
@@ -103,7 +104,7 @@ describe("WizardNovaOS", () => {
   });
 
   it("exige aviso para cliente avulso sem telefone", () => {
-    render(<WizardNovaOS onClose={() => {}} />);
+    render(<MemoryRouter><WizardNovaOS onClose={() => {}} /></MemoryRouter>);
 
     fireEvent.click(screen.getByRole("button", { name: /Cliente avulso/i }));
     fireEvent.change(screen.getByPlaceholderText("Nome completo"), {
