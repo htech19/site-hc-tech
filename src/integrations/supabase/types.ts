@@ -14,137 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      devolucoes: {
-        Row: {
-          aparelho: string
-          cliente: string
-          created_at: string
-          data_devolucao: string
-          defeito: string | null
-          id: string
-          observacao: string | null
-          os_id: string
-          user_id: string
-        }
-        Insert: {
-          aparelho: string
-          cliente: string
-          created_at?: string
-          data_devolucao?: string
-          defeito?: string | null
-          id?: string
-          observacao?: string | null
-          os_id: string
-          user_id: string
-        }
-        Update: {
-          aparelho?: string
-          cliente?: string
-          created_at?: string
-          data_devolucao?: string
-          defeito?: string | null
-          id?: string
-          observacao?: string | null
-          os_id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "devolucoes_os_id_fkey"
-            columns: ["os_id"]
-            isOneToOne: false
-            referencedRelation: "ordens_servico"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      estoque: {
-        Row: {
-          aparelho: string
-          condicao: string | null
-          created_at: string
-          defeito: string | null
-          id: string
-          observacao: string | null
-          quantidade: number
-          user_id: string
-        }
-        Insert: {
-          aparelho: string
-          condicao?: string | null
-          created_at?: string
-          defeito?: string | null
-          id?: string
-          observacao?: string | null
-          quantidade?: number
-          user_id: string
-        }
-        Update: {
-          aparelho?: string
-          condicao?: string | null
-          created_at?: string
-          defeito?: string | null
-          id?: string
-          observacao?: string | null
-          quantidade?: number
-          user_id?: string
-        }
-        Relationships: []
-      }
-      orcamentos: {
-        Row: {
-          cliente_id: string | null
-          created_at: string
-          data_orcamento: string
-          descricao: string | null
-          id: string
-          os_id: string | null
-          status: string
-          updated_at: string
-          user_id: string
-          valor: number
-        }
-        Insert: {
-          cliente_id?: string | null
-          created_at?: string
-          data_orcamento?: string
-          descricao?: string | null
-          id?: string
-          os_id?: string | null
-          status?: string
-          updated_at?: string
-          user_id: string
-          valor?: number
-        }
-        Update: {
-          cliente_id?: string | null
-          created_at?: string
-          data_orcamento?: string
-          descricao?: string | null
-          id?: string
-          os_id?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string
-          valor?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "orcamentos_cliente_id_fkey"
-            columns: ["cliente_id"]
-            isOneToOne: false
-            referencedRelation: "clientes"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "orcamentos_os_id_fkey"
-            columns: ["os_id"]
-            isOneToOne: false
-            referencedRelation: "ordens_servico"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       caixa_movimentos: {
         Row: {
           created_at: string
@@ -337,7 +206,9 @@ export type Database = {
           telefone: string | null
           telefone2: string | null
           tipo_pessoa: string
+          total_os: number
           uf: string | null
+          ultima_os: string | null
           updated_at: string
           user_id: string
           whatsapp: string | null
@@ -372,7 +243,9 @@ export type Database = {
           telefone?: string | null
           telefone2?: string | null
           tipo_pessoa?: string
+          total_os?: number
           uf?: string | null
+          ultima_os?: string | null
           updated_at?: string
           user_id: string
           whatsapp?: string | null
@@ -407,10 +280,89 @@ export type Database = {
           telefone?: string | null
           telefone2?: string | null
           tipo_pessoa?: string
+          total_os?: number
           uf?: string | null
+          ultima_os?: string | null
           updated_at?: string
           user_id?: string
           whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      devolucoes: {
+        Row: {
+          aparelho: string
+          cliente: string
+          created_at: string
+          data_devolucao: string
+          defeito: string | null
+          id: string
+          observacao: string | null
+          os_id: string
+          user_id: string
+        }
+        Insert: {
+          aparelho: string
+          cliente: string
+          created_at?: string
+          data_devolucao?: string
+          defeito?: string | null
+          id?: string
+          observacao?: string | null
+          os_id: string
+          user_id: string
+        }
+        Update: {
+          aparelho?: string
+          cliente?: string
+          created_at?: string
+          data_devolucao?: string
+          defeito?: string | null
+          id?: string
+          observacao?: string | null
+          os_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "devolucoes_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      estoque: {
+        Row: {
+          aparelho: string
+          condicao: string | null
+          created_at: string
+          defeito: string | null
+          id: string
+          observacao: string | null
+          quantidade: number
+          user_id: string
+        }
+        Insert: {
+          aparelho: string
+          condicao?: string | null
+          created_at?: string
+          defeito?: string | null
+          id?: string
+          observacao?: string | null
+          quantidade?: number
+          user_id: string
+        }
+        Update: {
+          aparelho?: string
+          condicao?: string | null
+          created_at?: string
+          defeito?: string | null
+          id?: string
+          observacao?: string | null
+          quantidade?: number
+          user_id?: string
         }
         Relationships: []
       }
@@ -503,6 +455,60 @@ export type Database = {
           whatsapp_status?: string
         }
         Relationships: []
+      }
+      orcamentos: {
+        Row: {
+          cliente_id: string | null
+          created_at: string
+          data_orcamento: string
+          descricao: string | null
+          id: string
+          os_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          cliente_id?: string | null
+          created_at?: string
+          data_orcamento?: string
+          descricao?: string | null
+          id?: string
+          os_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+          valor?: number
+        }
+        Update: {
+          cliente_id?: string | null
+          created_at?: string
+          data_orcamento?: string
+          descricao?: string | null
+          id?: string
+          os_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orcamentos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orcamentos_os_id_fkey"
+            columns: ["os_id"]
+            isOneToOne: false
+            referencedRelation: "ordens_servico"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ordens_servico: {
         Row: {
