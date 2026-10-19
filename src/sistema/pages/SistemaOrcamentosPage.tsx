@@ -36,6 +36,7 @@ import type { FormularioOS, Orcamento, StatusOrcamento, TipoTela } from "@/siste
 import { TipoEquipamento, ROTULO_TIPO_TELA } from "@/sistema/types";
 import type { DadosSolicitacao } from "@/sistema/components/orcamentos/SolicitacaoOrcamentoWizard";
 import SolicitacaoOrcamentoWizard from "@/sistema/components/orcamentos/SolicitacaoOrcamentoWizard";
+import WizardNovaOS from "@/sistema/components/orcamentos/WizardNovaOS";
 import { gerarProtocoloSolicitacao } from "@/sistema/services/precosService";
 
 function useDebounce<T>(valor: T, atraso = 300): T {
@@ -129,6 +130,7 @@ const SistemaOrcamentosPage = memo(function SistemaOrcamentosPage() {
     editando: null,
   });
   const [mostrarWizard, setMostrarWizard] = useState(false);
+  const [mostrarWizardOS, setMostrarWizardOS] = useState(false);
   const [solicitacaoSelecionada, setSolicitacaoSelecionada] = useState<SolicitaracaoOrcamento | null>(null);
 
   // --- Conversão de solicitação em OS (FASE 3) ---
@@ -476,6 +478,15 @@ const SistemaOrcamentosPage = memo(function SistemaOrcamentosPage() {
           <Button onClick={aoNovoOrcamento} className="bg-[#00FF88] font-bold text-zinc-950 hover:bg-[#00E67D]">
             <Plus size={16} className="mr-1" /> Novo Orçamento
           </Button>
+
+          {/* Mesmo padrão do orçamento: wizard com busca de cliente e modelo */}
+          <Button
+            onClick={() => setMostrarWizardOS(true)}
+            variant="outline"
+            className="border-[#00FF88]/60 font-bold text-[#00FF88] hover:bg-[#00FF88]/10"
+          >
+            <Plus size={16} className="mr-1" /> Nova OS
+          </Button>
         </div>
       </div>
 
@@ -674,6 +685,9 @@ const SistemaOrcamentosPage = memo(function SistemaOrcamentosPage() {
         aoFechar={aoFecharOrcamento}
         osDisponiveis={(os ?? []).map((o) => ({ id: o.id, numero: o.numero }))}
       />
+
+      {/* Wizard de Nova OS (mesmo padrão do orçamento) */}
+      {mostrarWizardOS && <WizardNovaOS onClose={() => setMostrarWizardOS(false)} />}
 
       {/* Wizard de Nova Solicitação */}
       {mostrarWizard && (

@@ -11,6 +11,7 @@ import { OSForm } from "@/sistema/components/OSForm";
 import { montarUrlWhatsapp } from "@/sistema/components/OSActions";
 import { OSStatusBadge } from "@/sistema/components/OSStatusBadge";
 import { Modal } from "@/sistema/components/Modal";
+import WizardNovaOS from "@/sistema/components/orcamentos/WizardNovaOS";
 import { LISTA_STATUS } from "@/sistema/components/OSStatusBadge";
 import { FormSelect } from "@/sistema/components/FormInput";
 import type { OrdemServico, StatusOS } from "@/sistema/types";
@@ -63,7 +64,6 @@ const SistemaOsPage = memo(function SistemaOsPage() {
     fecharCriacao();
   }, [fecharCriacao]);
 
-  const modalAberto = modalCriacaoAberto || !!editando;
 
   return (
     <div className="space-y-4">
@@ -99,10 +99,13 @@ const SistemaOsPage = memo(function SistemaOsPage() {
         }
       />
 
-      {/* Modal de criação/edição */}
+      {/* Criação: mesmo padrão do wizard de orçamento (busca de cliente/modelo) */}
+      {modalCriacaoAberto && <WizardNovaOS onClose={fecharCriacao} />}
+
+      {/* Edição continua no formulário compacto */}
       <OSForm
         clientes={clientes ?? []}
-        aberto={modalAberto}
+        aberto={!!editando}
         editando={editando}
         aoFechar={aoFecharModais}
       />
