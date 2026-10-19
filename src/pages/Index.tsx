@@ -238,29 +238,29 @@ const Index = () => {
         </section>
 
         {/* SOBRE NÓS */}
-        <section id="sobre-nos" className="py-32 px-8 bg-zinc-900/20 text-center">
+        <section id="sobre-nos" className="py-32 px-8 bg-zinc-950/95 text-center border-y border-white/5">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-5xl font-black text-white uppercase italic tracking-tighter mb-10">
               SOBRE <span className="text-[#00A651]">NÓS</span>
             </h2>
-            <p className="text-gray-300 font-medium leading-relaxed uppercase tracking-wide mb-8">
+            <p className="mx-auto max-w-3xl text-base md:text-lg leading-relaxed text-gray-200 mb-8">
               A HC Tech Infocell é uma empresa dedicada a fornecer soluções de alta qualidade para diversas necessidades de tecnologia. Localizada em São Bernardo do Campo, oferecemos reparos especializados por profissionais com formação em TI, serviço de leva e traz e garantia total em todos os procedimentos.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16">
               <div className="flex flex-col items-center gap-3">
                 <ShieldCheck className="text-[#00A651]" size={32} />
                 <span className="text-sm font-black uppercase tracking-widest">Garantia no Serviço</span>
-                <span className="text-gray-500 text-[10px] uppercase tracking-wide">Peças e mão de obra</span>
+                <span className="text-gray-300 text-xs">Peças e mão de obra</span>
               </div>
               <div className="flex flex-col items-center gap-3">
                 <Clock className="text-[#00A651]" size={32} />
                 <span className="text-sm font-black uppercase tracking-widest">Orçamento Grátis</span>
-                <span className="text-gray-500 text-[10px] uppercase tracking-wide">Diagnóstico sem compromisso</span>
+                <span className="text-gray-300 text-xs">Diagnóstico sem compromisso</span>
               </div>
               <div className="flex flex-col items-center gap-3">
                 <Award className="text-[#00A651]" size={32} />
                 <span className="text-sm font-black uppercase tracking-widest">Alta Precisão</span>
-                <span className="text-gray-500 text-[10px] uppercase tracking-wide">Micro-soldagem e reballing</span>
+                <span className="text-gray-300 text-xs">Micro-soldagem e reballing</span>
               </div>
             </div>
           </div>
