@@ -1,9 +1,10 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   BarChart3,
   ClipboardList,
   CreditCard,
+  KeyRound,
   LayoutDashboard,
   LogOut,
   Package,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSistemaAuth } from "@/sistema/auth";
+import AlterarSenhaDialog from "@/sistema/components/AlterarSenhaDialog";
 
 export interface ItemMenu {
   para: string;
@@ -81,6 +83,7 @@ interface Props {
  */
 export const SistemaSidebar = memo(function SistemaSidebar({ aberto, aoFechar, contagemOS }: Props) {
   const { session, loading } = useSistemaAuth();
+  const [dialogSenhaAberto, setDialogSenhaAberto] = useState(false);
 
   return (
     <>
@@ -175,6 +178,13 @@ export const SistemaSidebar = memo(function SistemaSidebar({ aberto, aoFechar, c
           </div>
           <button
             type="button"
+            onClick={() => setDialogSenhaAberto(true)}
+            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100"
+          >
+            <KeyRound size={16} /> Alterar senha
+          </button>
+          <button
+            type="button"
             onClick={() => {
               void import("@/integrations/supabase/client").then(({ supabase }) =>
                 supabase.auth.signOut()
@@ -186,6 +196,11 @@ export const SistemaSidebar = memo(function SistemaSidebar({ aberto, aoFechar, c
             <LogOut size={16} /> Sair
           </button>
         </div>
+
+        <AlterarSenhaDialog
+          open={dialogSenhaAberto}
+          onOpenChange={setDialogSenhaAberto}
+        />
       </aside>
     </>
   );
