@@ -14,7 +14,6 @@ import { getQueryClient } from "./sistema/queryClient";
 const LojaPage = lazy(() => import("./pages/LojaPage"));
 const ProdutoPage = lazy(() => import("./pages/ProdutoPage"));
 const TelasPage = lazy(() => import("./pages/TelasPage"));
-const TelasLandingPage = lazy(() => import("./pages/TelasLandingPage"));
 const PrivacidadePage = lazy(() => import("./pages/PrivacidadePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -61,7 +60,8 @@ const App = () => {
               <Route path="/produto/:slug" element={<ProdutoPage />} />
 
               <Route path="/telas" element={<TelasPage />} />
-              <Route path="/trocas-de-tela" element={<TelasLandingPage />} />
+              {/* Página antiga excluída: /telas absorveu o design e o conteúdo. */}
+              <Route path="/trocas-de-tela" element={<Navigate to="/telas" replace />} />
               <Route path="/privacidade" element={<PrivacidadePage />} />
               <Route
                 path="/sistema"
