@@ -10,6 +10,7 @@ import { DashboardMetrics } from "@/sistema/components/DashboardMetrics";
 import { EstadoErroCompacto } from "@/sistema/components/LoadingSpinner";
 import { OSByStatusChart } from "@/sistema/components/OSByStatusChart";
 import { RecentOSList } from "@/sistema/components/RecentOSList";
+import { SolicitacoesSitePanel } from "@/sistema/components/SolicitacoesSitePanel";
 import { TopDevicesTable } from "@/sistema/components/TopDevicesTable";
 
 /**
@@ -82,6 +83,9 @@ const SistemaDashboardPage = memo(function SistemaDashboardPage() {
           aoTentarNovamente={() => void recarregarMetricas()}
         />
       )}
+
+      {/* Pedidos recebidos pelo site — precisam aparecer também no dashboard. */}
+      <SolicitacoesSitePanel />
 
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
         <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">

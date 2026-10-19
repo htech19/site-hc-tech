@@ -1,67 +1,128 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { queryClient } from "@/sistema/queryClient";
+import { useResumoSolicitacoesSite } from "@/integrations/supabase/sistema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Copy, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  MessageCircle,
+  RefreshCw,
+  Search,
+  X,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { WHATSAPP_NUMBER } from "@/config/contact";
+import { estadoDaConsulta } from "@/sistema/services/erroConsulta";
+import {
+  CATEGORIAS_SOLICITACAO,
+  STATUS_SOLICITACAO,
+  classeStatusSolicitacao,
+  formatarDataHora,
+  rotuloStatusSolicitacao,
+} from "@/sistema/solicitacoes-shared";
+import { CarregandoArea, EstadoErroCompacto, EstadoVazio } from "@/sistema/components/LoadingSpinner";
 
-const STATUS = [
-  { v: "recebido", l: "Recebido" },
-  { v: "em_analise", l: "Em análise" },
-  { v: "aguardando_contato", l: "Aguardando contato" },
-  { v: "orcamento_enviado", l: "Orçamento enviado" },
-  { v: "aprovado", l: "Aprovado" },
-  { v: "recusado", l: "Recusado" },
-  { v: "concluido", l: "Concluído" },
-];
-const statusLabel = (v: string) => STATUS.find((s) => s.v === v)?.l ?? v;
-const CATS = ["Celular", "iPhone", "Tablet", "Notebook", "Computador"];
 const PAGE = 15;
 
 type Sol = {
-  id: string; protocolo: string; nome: string; telefone: string; email: string | null;
-  preferencia_contato: string | null; periodo_contato: string | null; categoria: string; marca: string; modelo: string;
-  numero_serie: string | null; imei1: string | null; imei2: string | null; estado_geral: string | null; info_adicional: string | null;
-  servico: string; descricao_defeito: string; sintomas: string[]; historico: string[]; atendimento: string;
-  observacoes: string | null; status: string; whatsapp_status: string; created_at: string; updated_at: string;
+  id: string;
+  protocolo: string;
+  nome: string;
+  telefone: string;
+  email: string | null;
+  preferencia_contato: string | null;
+  periodo_contato: string | null;
+  categoria: string;
+  marca: string;
+  modelo: string;
+  numero_serie: string | null;
+  imei1: string | null;
+  imei2: string | null;
+  estado_geral: string | null;
+  info_adicional: string | null;
+  servico: string;
+  descricao_defeito: string;
+  sintomas: string[];
+  historico: string[];
+  atendimento: string;
+  observacoes: string | null;
+  status: string;
+  whatsapp_status: string;
+  created_at: string;
+  updated_at: string;
 };
 
-const fmt = (d: string) => new Date(d).toLocaleString("pt-BR");
 const clean = (s: string) => s.replace(/[%,()]/g, " ").trim();
 
 function resumo(s: Sol) {
   return [
-    `Protocolo: ${s.protocolo}`, `Status: ${statusLabel(s.status)}`, `Data: ${fmt(s.created_at)}`,
+    `Protocolo: ${s.protocolo}`,
+    `Status: ${rotuloStatusSolicitacao(s.status)}`,
+    `Data: ${formatarDataHora(s.created_at)}`,
     `Cliente: ${s.nome} — ${s.telefone}${s.email ? ` — ${s.email}` : ""}`,
     `Equipamento: ${s.categoria} ${s.marca} ${s.modelo}`,
-    s.numero_serie ? `Série: ${s.numero_serie}` : "", s.imei1 ? `IMEI 1: ${s.imei1}` : "", s.imei2 ? `IMEI 2: ${s.imei2}` : "",
+    s.numero_serie ? `Série: ${s.numero_serie}` : "",
+    s.imei1 ? `IMEI 1: ${s.imei1}` : "",
+    s.imei2 ? `IMEI 2: ${s.imei2}` : "",
     s.estado_geral ? `Estado: ${s.estado_geral}` : "",
-    `Serviço: ${s.servico}`, `Defeito: ${s.descricao_defeito}`,
-    s.sintomas.length ? `Sintomas: ${s.sintomas.join(", ")}` : "", s.historico.length ? `Histórico: ${s.historico.join(", ")}` : "",
-    `Atendimento: ${s.atendimento}`, s.periodo_contato ? `Melhor período: ${s.periodo_contato}` : "",
+    `Serviço: ${s.servico}`,
+    `Defeito: ${s.descricao_defeito}`,
+    s.sintomas.length ? `Sintomas: ${s.sintomas.join(", ")}` : "",
+    s.historico.length ? `Histórico: ${s.historico.join(", ")}` : "",
+    `Atendimento: ${s.atendimento}`,
+    s.periodo_contato ? `Melhor período: ${s.periodo_contato}` : "",
     s.observacoes ? `Obs.: ${s.observacoes}` : "",
-  ].filter(Boolean).join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 function waCliente(s: Sol) {
-  const tel = s.telefone.replace(/\D/g, "");
+  let tel = s.telefone.replace(/\D/g, "");
+  // Já pode vir com o DDI; não duplicar o 55.
+  if (tel.length <= 11) tel = `55${tel}`;
   const msg = `Olá, ${s.nome.split(" ")[0]}! Aqui é da HC Tech Infocell, sobre seu orçamento ${s.protocolo} (${s.categoria} ${s.marca} ${s.modelo}).`;
-  return `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`;
+  return `https://wa.me/${tel}?text=${encodeURIComponent(msg)}`;
+}
+
+/** Rótulo + valor padronizados do painel de detalhes. */
+function Campo({ rotulo, valor }: { rotulo: string; valor?: string | null }) {
+  return (
+    <div>
+      <dt className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500">{rotulo}</dt>
+      <dd className="mt-0.5 break-words text-sm text-zinc-200">{valor?.trim() ? valor : "—"}</dd>
+    </div>
+  );
+}
+
+function Secao({ titulo, children }: { titulo: string; children: React.ReactNode }) {
+  return (
+    <section className="rounded-xl border border-zinc-800 bg-zinc-950/40 p-4">
+      <h4 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-[#00FF88]">
+        {titulo}
+      </h4>
+      {children}
+    </section>
+  );
 }
 
 export default function SistemaSolicitacoesPage() {
   const { toast } = useToast();
+  const consultaResumo = useResumoSolicitacoesSite();
+  const { data: resumoFunil, refetch: recarregarResumo } = consultaResumo;
+
   const [rows, setRows] = useState<Sol[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [erroDetalhe, setErroDetalhe] = useState<unknown>(null);
+
   const [busca, setBusca] = useState("");
   const [status, setStatus] = useState("todos");
   const [cat, setCat] = useState("todas");
@@ -72,127 +133,483 @@ export default function SistemaSolicitacoesPage() {
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
-    let q = supabase.from("orcamento_solicitacoes").select("*", { count: "exact" }).order("created_at", { ascending: false });
+    setErroDetalhe(null);
+    let q = supabase
+      .from("orcamento_solicitacoes")
+      .select("*", { count: "exact" })
+      .order("created_at", { ascending: false });
+
     const b = clean(busca);
-    if (b) q = q.or(`protocolo.ilike.%${b}%,nome.ilike.%${b}%,telefone.ilike.%${b.replace(/\D/g, "") || b}%,modelo.ilike.%${b}%`);
+    if (b) {
+      const somenteDigitos = b.replace(/\D/g, "");
+      q = q.or(
+        `protocolo.ilike.%${b}%,nome.ilike.%${b}%,telefone.ilike.${
+          somenteDigitos || b
+        }%,modelo.ilike.%${b}%`
+      );
+    }
     if (status !== "todos") q = q.eq("status", status);
     if (cat !== "todas") q = q.eq("categoria", cat);
     if (de) q = q.gte("created_at", `${de}T00:00:00-03:00`);
     if (ate) q = q.lte("created_at", `${ate}T23:59:59-03:00`);
+
     const { data, count, error: err } = await q.range(page * PAGE, page * PAGE + PAGE - 1);
-    if (err) setError("Não foi possível carregar as solicitações.");
-    else { setRows((data as Sol[]) ?? []); setTotal(count ?? 0); }
+    if (err) {
+      setError("Não foi possível carregar as solicitações.");
+      setErroDetalhe(err);
+      setRows([]);
+    } else {
+      setRows((data as Sol[]) ?? []);
+      setTotal(count ?? 0);
+    }
     setLoading(false);
   }, [busca, status, cat, de, ate, page]);
 
   useEffect(() => {
+    // Debounce curto: cada tecla na busca não dispara uma consulta.
     const t = setTimeout(load, 250);
     return () => clearTimeout(t);
   }, [load]);
 
-  const filtro = (fn: () => void) => { fn(); setPage(0); };
+  const filtro = (fn: () => void) => {
+    fn();
+    setPage(0);
+  };
+
+  const temFiltro = busca || status !== "todos" || cat !== "todas" || de || ate;
+
+  const limparFiltros = () => {
+    setBusca("");
+    setStatus("todos");
+    setCat("todas");
+    setDe("");
+    setAte("");
+    setPage(0);
+  };
 
   const mudarStatus = async (s: Sol, novo: string) => {
-    const { error: err } = await supabase.from("orcamento_solicitacoes").update({ status: novo }).eq("id", s.id);
-    if (err) return toast({ title: "Erro ao atualizar status", variant: "destructive" });
+    const { error: err } = await supabase
+      .from("orcamento_solicitacoes")
+      .update({ status: novo })
+      .eq("id", s.id);
+    if (err) {
+      return toast({
+        title: "Erro ao atualizar status",
+        description: err.message,
+        variant: "destructive",
+      });
+    }
     const upd = { ...s, status: novo, updated_at: new Date().toISOString() };
     setSel(upd);
     setRows((r) => r.map((x) => (x.id === s.id ? upd : x)));
-    toast({ title: "Status atualizado" });
+    // Dashboard e contadores usam a mesma chave-prefixo: atualizam juntos.
+    void queryClient.invalidateQueries({ queryKey: ["sistema", "solicitacoes"] });
+    void recarregarResumo();
+    toast({ title: "Status atualizado", description: `${s.protocolo} • ${rotuloStatusSolicitacao(novo)}` });
   };
 
   const copiar = async (s: Sol) => {
-    try { await navigator.clipboard.writeText(resumo(s)); toast({ title: "Dados copiados" }); }
-    catch { toast({ title: "Não foi possível copiar", variant: "destructive" }); }
+    try {
+      await navigator.clipboard.writeText(resumo(s));
+      toast({ title: "Dados copiados" });
+    } catch {
+      toast({ title: "Não foi possível copiar", variant: "destructive" });
+    }
   };
 
   const pages = Math.max(1, Math.ceil(total / PAGE));
+  const { carregando: carregandoResumo } = estadoDaConsulta(consultaResumo);
+
+  const cartoes = useMemo(
+    () => [
+      { rotulo: "Novos", valor: resumoFunil?.recebido, tom: "text-sky-300" },
+      { rotulo: "Em análise", valor: resumoFunil?.emAnalise, tom: "text-amber-300" },
+      { rotulo: "Aguardando contato", valor: resumoFunil?.aguardandoContato, tom: "text-violet-300" },
+      { rotulo: "Total recebido", valor: resumoFunil?.total, tom: "text-zinc-100" },
+    ],
+    [resumoFunil]
+  );
 
   return (
     <div className="space-y-4">
-      <Card>
-        <CardHeader><CardTitle className="text-base">Solicitações de orçamento (site)</CardTitle></CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
-            <Input placeholder="Protocolo, nome, telefone ou modelo" value={busca} onChange={(e) => filtro(() => setBusca(e.target.value))} className="lg:col-span-2" />
-            <Select value={status} onValueChange={(v) => filtro(() => setStatus(v))}>
-              <SelectTrigger><SelectValue placeholder="Status" /></SelectTrigger>
-              <SelectContent><SelectItem value="todos">Todos os status</SelectItem>{STATUS.map((s) => <SelectItem key={s.v} value={s.v}>{s.l}</SelectItem>)}</SelectContent>
-            </Select>
-            <Select value={cat} onValueChange={(v) => filtro(() => setCat(v))}>
-              <SelectTrigger><SelectValue placeholder="Categoria" /></SelectTrigger>
-              <SelectContent><SelectItem value="todas">Todas as categorias</SelectItem>{CATS.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
-            </Select>
-            <div className="flex gap-2">
-              <Input type="date" aria-label="De" value={de} onChange={(e) => filtro(() => setDe(e.target.value))} />
-              <Input type="date" aria-label="Até" value={ate} onChange={(e) => filtro(() => setAte(e.target.value))} />
+      {/* Cabeçalho */}
+      <div className="flex flex-col gap-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-lg font-bold text-zinc-100">Solicitações de orçamento (site)</h1>
+          <p className="mt-1 max-w-2xl text-sm text-zinc-400">
+            Pedidos enviados pelo botão de orçamento da página inicial. O mesmo registro aparece no
+            Dashboard.
+          </p>
+        </div>
+        <Button
+          variant="outline"
+          onClick={() => {
+            void load();
+            void recarregarResumo();
+          }}
+          className="shrink-0 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+        >
+          <RefreshCw size={15} className="mr-1" /> Atualizar
+        </Button>
+      </div>
+
+      {/* Funil */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {cartoes.map((c) => (
+          <article key={c.rotulo} className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
+              {c.rotulo}
+            </span>
+            <div
+              className={`mt-1 text-xl font-bold tabular-nums ${c.tom} ${
+                carregandoResumo ? "animate-pulse text-zinc-700" : ""
+              }`}
+            >
+              {carregandoResumo ? "—" : c.valor ?? "—"}
             </div>
+          </article>
+        ))}
+      </div>
+
+      {/* Filtros */}
+      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+        <div className="grid gap-2 lg:grid-cols-12">
+          <div className="relative lg:col-span-5">
+            <Search
+              size={15}
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500"
+              aria-hidden
+            />
+            <Input
+              placeholder="Protocolo, nome, telefone ou modelo"
+              value={busca}
+              onChange={(e) => filtro(() => setBusca(e.target.value))}
+              aria-label="Buscar solicitações"
+              className="border-zinc-700 bg-zinc-800 pl-9 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
+            />
           </div>
-        </CardContent>
-      </Card>
 
-      <Card>
-        <CardContent className="overflow-x-auto p-0">
-          <Table>
-            <TableHeader>
-              <TableRow><TableHead>Protocolo</TableHead><TableHead>Data</TableHead><TableHead>Cliente</TableHead><TableHead>Equipamento</TableHead><TableHead>Serviço</TableHead><TableHead>Status</TableHead></TableRow>
-            </TableHeader>
-            <TableBody>
-              {loading ? (
-                <TableRow><TableCell colSpan={6} className="py-10 text-center text-zinc-400">Carregando...</TableCell></TableRow>
-              ) : error ? (
-                <TableRow><TableCell colSpan={6} className="py-10 text-center text-red-600">{error} <Button variant="link" onClick={load}>Tentar novamente</Button></TableCell></TableRow>
-              ) : rows.length === 0 ? (
-                <TableRow><TableCell colSpan={6} className="py-10 text-center text-zinc-400">Nenhuma solicitação encontrada.</TableCell></TableRow>
-              ) : rows.map((s) => (
-                <TableRow key={s.id} className="cursor-pointer" onClick={() => setSel(s)}>
-                  <TableCell className="font-mono text-xs font-semibold">{s.protocolo}</TableCell>
-                  <TableCell className="whitespace-nowrap text-xs">{fmt(s.created_at)}</TableCell>
-                  <TableCell>{s.nome}<div className="text-xs text-zinc-400">{s.telefone}</div></TableCell>
-                  <TableCell>{s.categoria} {s.marca} {s.modelo}</TableCell>
-                  <TableCell>{s.servico}</TableCell>
-                  <TableCell><Badge variant="outline">{statusLabel(s.status)}</Badge></TableCell>
-                </TableRow>
+          <Select value={status} onValueChange={(v) => filtro(() => setStatus(v))}>
+            <SelectTrigger className="border-zinc-700 bg-zinc-800 text-zinc-100 lg:col-span-3">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="todos">Todos os status</SelectItem>
+              {STATUS_SOLICITACAO.map((s) => (
+                <SelectItem key={s.valor} value={s.valor}>
+                  {s.rotulo}
+                </SelectItem>
               ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+            </SelectContent>
+          </Select>
 
-      <div className="flex items-center justify-between text-sm text-zinc-400">
-        <span>{total} solicitação(ões)</span>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => p - 1)} aria-label="Página anterior"><ChevronLeft size={16} /></Button>
-          <span>{page + 1} / {pages}</span>
-          <Button variant="outline" size="sm" disabled={page + 1 >= pages} onClick={() => setPage((p) => p + 1)} aria-label="Próxima página"><ChevronRight size={16} /></Button>
+          <Select value={cat} onValueChange={(v) => filtro(() => setCat(v))}>
+            <SelectTrigger className="border-zinc-700 bg-zinc-800 text-zinc-100 lg:col-span-2">
+              <SelectValue placeholder="Categoria" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="todas">Todas as categorias</SelectItem>
+              {CATEGORIAS_SOLICITACAO.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <div className="flex gap-2 lg:col-span-2">
+            <Input
+              type="date"
+              aria-label="De"
+              value={de}
+              onChange={(e) => filtro(() => setDe(e.target.value))}
+              className="border-zinc-700 bg-zinc-800 text-zinc-100"
+            />
+            <Input
+              type="date"
+              aria-label="Até"
+              value={ate}
+              onChange={(e) => filtro(() => setAte(e.target.value))}
+              className="border-zinc-700 bg-zinc-800 text-zinc-100"
+            />
+          </div>
+        </div>
+
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-500">
+          <span aria-live="polite">
+            <strong className="text-zinc-200">{total}</strong> solicitação(ões)
+            {temFiltro ? " com os filtros atuais" : " no total"}
+          </span>
+          {temFiltro && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={limparFiltros}
+              className="h-8 text-xs text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100"
+            >
+              <X size={13} className="mr-1" /> Limpar filtros
+            </Button>
+          )}
         </div>
       </div>
 
+      {/* Lista */}
+      {loading ? (
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900">
+          <CarregandoArea altura="h-56" rotulo="Carregando solicitações..." />
+        </div>
+      ) : error ? (
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+          <EstadoErroCompacto
+            erro={erroDetalhe ?? error}
+            contexto="Solicitações do site"
+            aoTentarNovamente={() => void load()}
+          />
+        </div>
+      ) : rows.length === 0 ? (
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900">
+          <EstadoVazio
+            icone="📭"
+            titulo="Nenhuma solicitação encontrada"
+            descricao={
+              temFiltro
+                ? "Ajuste ou limpe os filtros para ver outros pedidos."
+                : "Os pedidos enviados pelo site aparecem aqui assim que chegam."
+            }
+            acao={
+              temFiltro ? (
+                <Button variant="outline" onClick={limparFiltros}>
+                  Limpar filtros
+                </Button>
+              ) : undefined
+            }
+          />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
+          {rows.map((s) => (
+            <article
+              key={s.id}
+              className="group flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-[#00A651]/50"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-mono text-xs font-bold text-[#00FF88]">{s.protocolo}</p>
+                  <h2 className="mt-1 truncate text-base font-bold text-zinc-100">{s.nome}</h2>
+                  <p className="truncate text-xs text-zinc-500">
+                    {s.telefone} • {formatarDataHora(s.created_at)}
+                  </p>
+                </div>
+                <span
+                  className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${classeStatusSolicitacao(
+                    s.status
+                  )}`}
+                >
+                  {rotuloStatusSolicitacao(s.status)}
+                </span>
+              </div>
+
+              <dl className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                <div className="min-w-0">
+                  <dt className="text-zinc-500">Equipamento</dt>
+                  <dd className="truncate font-medium text-zinc-200">
+                    {s.categoria} {s.marca} {s.modelo}
+                  </dd>
+                </div>
+                <div className="min-w-0">
+                  <dt className="text-zinc-500">Serviço</dt>
+                  <dd className="truncate font-medium text-zinc-200">{s.servico}</dd>
+                </div>
+              </dl>
+
+              <p
+                className="mt-2 line-clamp-2 text-sm text-zinc-400"
+                title={s.descricao_defeito}
+              >
+                {s.descricao_defeito}
+              </p>
+
+              <div className="mt-3 flex items-center justify-between gap-2 border-t border-zinc-800 pt-3">
+                <a
+                  href={waCliente(s)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-[#00FF88]/30 bg-[#00FF88]/10 px-3 py-1.5 text-xs font-semibold text-[#00FF88] transition hover:bg-[#00FF88]/20"
+                >
+                  <MessageCircle size={13} /> WhatsApp
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setSel(s)}
+                  className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-zinc-300 transition hover:bg-zinc-800 hover:text-white"
+                >
+                  Ver detalhes <ChevronRight size={14} />
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+
+      {/* Paginação */}
+      <div className="flex items-center justify-between text-sm text-zinc-400">
+        <span>
+          Página {page + 1} de {pages}
+        </span>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page === 0 || loading}
+            onClick={() => setPage((p) => p - 1)}
+            aria-label="Página anterior"
+            className="border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+          >
+            <ChevronLeft size={16} />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page + 1 >= pages || loading}
+            onClick={() => setPage((p) => p + 1)}
+            aria-label="Próxima página"
+            className="border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+          >
+            <ChevronRight size={16} />
+          </Button>
+        </div>
+      </div>
+
+      {/* Detalhes */}
       <Dialog open={!!sel} onOpenChange={(o) => !o && setSel(null)}>
-        <DialogContent className="max-h-[90vh] max-w-xl overflow-y-auto">
+        <DialogContent className="max-h-[92vh] max-w-2xl overflow-y-auto border-zinc-700 bg-zinc-900 p-0 text-zinc-100">
           {sel && (
             <>
-              <DialogHeader><DialogTitle className="font-mono">{sel.protocolo}</DialogTitle></DialogHeader>
-              <div className="space-y-3 text-sm">
-                <div className="flex items-center gap-2">
-                  <span className="text-zinc-400">Status:</span>
-                  <Select value={sel.status} onValueChange={(v) => mudarStatus(sel, v)}>
-                    <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
-                    <SelectContent>{STATUS.map((s) => <SelectItem key={s.v} value={s.v}>{s.l}</SelectItem>)}</SelectContent>
+              <div className="border-b border-zinc-800 p-5 pr-12">
+                <DialogHeader>
+                  <DialogTitle className="font-mono text-base text-[#00FF88]">
+                    {sel.protocolo}
+                  </DialogTitle>
+                  <p className="text-xs text-zinc-500">
+                    Recebido em {formatarDataHora(sel.created_at)} • atualizado em{" "}
+                    {formatarDataHora(sel.updated_at)}
+                  </p>
+                  <DialogDescription className="sr-only">
+                    Detalhes da solicitação de orçamento feita pelo site.
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-semibold text-zinc-400">Status:</span>
+                  <Select value={sel.status} onValueChange={(v) => void mudarStatus(sel, v)}>
+                    <SelectTrigger className="h-9 w-52 border-zinc-700 bg-zinc-800 text-zinc-100">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {STATUS_SOLICITACAO.map((s) => (
+                        <SelectItem key={s.valor} value={s.valor}>
+                          {s.rotulo}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
+                  <Badge
+                    className={`border ${classeStatusSolicitacao(sel.status)}`}
+                    variant="outline"
+                  >
+                    {rotuloStatusSolicitacao(sel.status)}
+                  </Badge>
                 </div>
-                <pre className="whitespace-pre-wrap rounded-lg border border-zinc-800 bg-zinc-950 p-3 font-sans text-sm leading-relaxed text-zinc-100">{resumo(sel)}</pre>
-                <p className="text-xs text-zinc-400">
-                  Criado em {fmt(sel.created_at)} • Atualizado em {fmt(sel.updated_at)} •{" "}
-                  WhatsApp do cliente: {sel.whatsapp_status === "aberto" ? "aberto no aparelho (envio não confirmado)" : "mensagem apenas preparada"}
-                </p>
+              </div>
+
+              <div className="space-y-3 p-5">
+                <Secao titulo="Cliente">
+                  <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <Campo rotulo="Nome" valor={sel.nome} />
+                    <Campo rotulo="Telefone" valor={sel.telefone} />
+                    <Campo rotulo="E-mail" valor={sel.email} />
+                    <Campo rotulo="Preferência" valor={sel.preferencia_contato} />
+                  </dl>
+                </Secao>
+
+                <Secao titulo="Equipamento">
+                  <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <Campo rotulo="Categoria" valor={sel.categoria} />
+                    <Campo rotulo="Marca / modelo" valor={`${sel.marca} ${sel.modelo}`.trim()} />
+                    <Campo rotulo="Nº de série" valor={sel.numero_serie} />
+                    <Campo rotulo="Estado geral" valor={sel.estado_geral} />
+                    {sel.imei1 && <Campo rotulo="IMEI 1" valor={sel.imei1} />}
+                    {sel.imei2 && <Campo rotulo="IMEI 2" valor={sel.imei2} />}
+                  </dl>
+                </Secao>
+
+                <Secao titulo="Serviço e defeito">
+                  <dl className="grid grid-cols-1 gap-3">
+                    <Campo rotulo="Serviço" valor={sel.servico} />
+                    <div>
+                      <dt className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+                        Defeito relatado
+                      </dt>
+                      <dd className="mt-1 whitespace-pre-wrap rounded-lg bg-zinc-900 p-3 text-sm text-zinc-200">
+                        {sel.descricao_defeito}
+                      </dd>
+                    </div>
+                  </dl>
+                  {(sel.sintomas.length > 0 || sel.historico.length > 0) && (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {sel.sintomas.map((s) => (
+                        <Badge
+                          key={`s-${s}`}
+                          variant="outline"
+                          className="border-amber-500/30 bg-amber-500/10 text-amber-200"
+                        >
+                          {s}
+                        </Badge>
+                      ))}
+                      {sel.historico.map((h) => (
+                        <Badge
+                          key={`h-${h}`}
+                          variant="outline"
+                          className="border-zinc-600/40 bg-zinc-800 text-zinc-300"
+                        >
+                          {h}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </Secao>
+
+                <Secao titulo="Atendimento">
+                  <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <Campo rotulo="Forma" valor={sel.atendimento} />
+                    <Campo rotulo="Melhor período" valor={sel.periodo_contato} />
+                    <Campo rotulo="Observações" valor={sel.observacoes} />
+                    <Campo rotulo="Informações adicionais" valor={sel.info_adicional} />
+                  </dl>
+                </Secao>
+
                 <div className="flex flex-wrap gap-2">
                   <a href={waCliente(sel)} target="_blank" rel="noopener noreferrer">
-                    <Button className="bg-[#00A651] text-white hover:bg-[#008c44]"><MessageCircle size={16} className="mr-1" /> Abrir WhatsApp</Button>
+                    <Button className="bg-[#00A651] text-white hover:bg-[#008c44]">
+                      <MessageCircle size={16} className="mr-1" /> Abrir WhatsApp
+                    </Button>
                   </a>
-                  <Button variant="outline" onClick={() => copiar(sel)}><Copy size={16} className="mr-1" /> Copiar dados</Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => void copiar(sel)}
+                    className="border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+                  >
+                    <Copy size={16} className="mr-1" /> Copiar dados
+                  </Button>
                 </div>
-                <p className="text-[11px] text-zinc-500">Número comercial do site: {WHATSAPP_NUMBER}</p>
+
+                <p className="text-[11px] text-zinc-500">
+                  WhatsApp do cliente:{" "}
+                  {sel.whatsapp_status === "aberto"
+                    ? "aberto no aparelho (envio não confirmado)"
+                    : "mensagem apenas preparada"}
+                  . Este status é independente do status do pedido.
+                </p>
               </div>
             </>
           )}

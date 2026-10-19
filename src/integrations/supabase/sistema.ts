@@ -288,6 +288,80 @@ export function useOSPorStatus() {
 }
 
 // =============================================================================
+// SOLICITAÇÕES DE ORÇAMENTO RECEBIDAS PELO SITE
+// =============================================================================
+// A tabela `orcamento_solicitacoes` não tem acesso anônimo: só administradores
+// leem (RLS via `has_role`). São os pedidos que o botão “Solicitar orçamento”
+// do site grava pela edge function `solicitar-orcamento`.
+
+/** Campos mínimos das solicitações exibidos na tela e no dashboard. */
+export interface SolicitacaoSiteResumo {
+  id: string;
+  protocolo: string;
+  nome: string;
+  telefone: string;
+  categoria: string;
+  marca: string;
+  modelo: string;
+  servico: string;
+  status: string;
+  created_at: string;
+}
+
+const COLUNAS_SOLICITACAO_SITE =
+  "id, protocolo, nome, telefone, categoria, marca, modelo, servico, status, created_at";
+
+/** Últimas solicitações recebidas pelo site (dashboard e resumos). */
+export function useSolicitacoesSiteRecentes(
+  limite = 6
+): UseQueryResult<SolicitacaoSiteResumo[]> {
+  return useQuery({
+    queryKey: ["sistema", "solicitacoes", "recentes", limite],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("orcamento_solicitacoes")
+        .select(COLUNAS_SOLICITACAO_SITE)
+        .order("created_at", { ascending: false })
+        .limit(limite);
+      if (error) throw error;
+      return (data ?? []) as SolicitacaoSiteResumo[];
+    },
+    staleTime: STALE,
+    // Mesmo polling do dashboard: um pedido novo aparece sem recarregar a página.
+    refetchInterval: 60_000,
+  });
+}
+
+/**
+ * Contagens do funil de solicitações do site.
+ * Cada contagem traz `null` quando a consulta falha (nunca um 0 enganoso).
+ */
+export function useResumoSolicitacoesSite() {
+  return useQuery({
+    queryKey: ["sistema", "solicitacoes", "resumo"],
+    queryFn: async () => {
+      const base = () => supabase.from("orcamento_solicitacoes").select("id", { count: "exact", head: true });
+      const [total, recebido, emAnalise, aguardando] = await Promise.all([
+        base(),
+        base().eq("status", "recebido"),
+        base().eq("status", "em_analise"),
+        base().eq("status", "aguardando_contato"),
+      ]);
+      // O total define se a tabela está acessível; se falhar, tudo falha.
+      if (total.error) throw total.error;
+      return {
+        total: total.count ?? 0,
+        recebido: recebido.error ? null : recebido.count ?? 0,
+        emAnalise: emAnalise.error ? null : emAnalise.count ?? 0,
+        aguardandoContato: aguardando.error ? null : aguardando.count ?? 0,
+      };
+    },
+    staleTime: STALE,
+    refetchInterval: 60_000,
+  });
+}
+
+// =============================================================================
 // ESTOQUE
 // =============================================================================
 
