@@ -276,7 +276,8 @@ const SolicitacaoOrcamentoWizard = ({ onClose, onSolicitacaoRegistrada }: PropsS
     );
 
     setMostrarModalSucesso(true);
-  }, [formulario, onSolicitacaoRegistrada]);
+  }, [formulario]);
+
 
   // Fechar modal de sucesso e fechar o wizard
   const handleFecharSucesso = useCallback(() => {

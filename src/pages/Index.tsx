@@ -243,8 +243,8 @@ const Index = () => {
             <h2 className="text-5xl font-black text-white uppercase italic tracking-tighter mb-10">
               SOBRE <span className="text-[#00A651]">NÓS</span>
             </h2>
-            <p className="mx-auto max-w-3xl text-base md:text-lg leading-relaxed text-gray-200 mb-8">
-              A HC Tech Infocell é uma empresa dedicada a fornecer soluções de alta qualidade para diversas necessidades de tecnologia. Localizada em São Bernardo do Campo, oferecemos reparos especializados por profissionais com formação em TI, serviço de leva e traz e garantia total em todos os procedimentos.
+            <p className="mx-auto max-w-3xl text-base md:text-lg leading-relaxed text-gray-200 mb-8">A HC Tech Infocell é uma empresa dedicada a fornecer soluções de alta qualidade para diversas necessidades de tecnologia. Localizada em São Bernardo do Campo, oferecemos reparos especializados por profissionais com formação em TI, serviço de leva e traz e garantia total em todos os procedimentos.
+              Nossa missão é transformar desafios tecnológicos em soluções concretas, com transparência, rapidez e atendimento personalizado.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16">
               <div className="flex flex-col items-center gap-3">
@@ -263,6 +263,9 @@ const Index = () => {
                 <span className="text-gray-300 text-xs">Micro-soldagem e reballing</span>
               </div>
             </div>
+            <p className="mt-6 text-sm text-gray-400 text-center max-w-2xl mx-auto">
+              Orçamentos sem compromisso • Diagnóstico gratuito • Atendimento via leva e traz • Pagamento facilitado • Agendamento online
+            </p>
           </div>
         </section>
 
