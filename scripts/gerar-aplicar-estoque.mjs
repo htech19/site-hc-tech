@@ -42,6 +42,14 @@ drop policy if exists "Users manage own estoque" on public.estoque;
 create policy "Users manage own estoque" on public.estoque for all to authenticated
   using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
+-- Tabela preexistente NÃO ganha colunas por "create table if not exists":
+-- as duas colunas podem faltar (é exatamente o estado do projeto real), então
+-- são criadas aqui antes de qualquer "alter column" — sem isso o script aborta
+-- com 42703 "column proprietario does not exist".
+alter table public.estoque
+  add column if not exists proprietario text not null default 'HC TECH',
+  add column if not exists canal_de_venda text not null default 'Loja física';
+
 -- Defaults também nas tabelas que já existiam sem eles (o INSERT do app
 -- sempre envia os dois campos, mas o default evita falha em inserts diretos).
 alter table public.estoque alter column proprietario set default 'HC TECH';

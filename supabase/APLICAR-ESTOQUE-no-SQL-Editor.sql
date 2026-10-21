@@ -64,6 +64,14 @@ drop policy if exists "Users manage own estoque" on public.estoque;
 create policy "Users manage own estoque" on public.estoque for all to authenticated
   using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
+-- Tabela preexistente NÃO ganha colunas por "create table if not exists":
+-- as duas colunas podem faltar (é exatamente o estado do projeto real), então
+-- são criadas aqui antes de qualquer "alter column" — sem isso o script aborta
+-- com 42703 "column proprietario does not exist".
+alter table public.estoque
+  add column if not exists proprietario text not null default 'HC TECH',
+  add column if not exists canal_de_venda text not null default 'Loja física';
+
 -- Defaults também nas tabelas que já existiam sem eles (o INSERT do app
 -- sempre envia os dois campos, mas o default evita falha em inserts diretos).
 alter table public.estoque alter column proprietario set default 'HC TECH';
@@ -787,9 +795,18 @@ insert into public.estoque_compatibilidade (user_id, estoque_id, aparelho_marca,
 select d.user_id, e.id, p.compat_marca, p.compat_modelo
 from produtos p
 cross join dono d
-join public.estoque e
-  on e.user_id = d.user_id
-  and ((p.sku is not null and e.sku = p.sku) or (p.sku is null and e.aparelho = p.aparelho))
+join (
+  -- Duas fontes de propósito: o snapshot deste statement NÃO enxerga as linhas
+  -- que o CTE `inseridos` acabou de gravar. Sem o UNION, um banco vazio (o caso
+  -- do projeto real) grava 187 produtos e 0 compatibilidades; com ele, o seed
+  -- funciona tanto na primeira execução quanto em re-runs.
+  select id, sku, aparelho from inseridos
+  union all
+  select e2.id, e2.sku, e2.aparelho
+  from public.estoque e2
+  join dono d2 on e2.user_id = d2.user_id
+) e
+  on (p.sku is not null and e.sku = p.sku) or (p.sku is null and e.aparelho = p.aparelho)
 where p.compat_marca is not null
   and not exists (
     select 1 from public.estoque_compatibilidade c

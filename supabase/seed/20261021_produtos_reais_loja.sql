@@ -302,9 +302,18 @@ insert into public.estoque_compatibilidade (user_id, estoque_id, aparelho_marca,
 select d.user_id, e.id, p.compat_marca, p.compat_modelo
 from produtos p
 cross join dono d
-join public.estoque e
-  on e.user_id = d.user_id
-  and ((p.sku is not null and e.sku = p.sku) or (p.sku is null and e.aparelho = p.aparelho))
+join (
+  -- Duas fontes de propósito: o snapshot deste statement NÃO enxerga as linhas
+  -- que o CTE `inseridos` acabou de gravar. Sem o UNION, um banco vazio (o caso
+  -- do projeto real) grava 187 produtos e 0 compatibilidades; com ele, o seed
+  -- funciona tanto na primeira execução quanto em re-runs.
+  select id, sku, aparelho from inseridos
+  union all
+  select e2.id, e2.sku, e2.aparelho
+  from public.estoque e2
+  join dono d2 on e2.user_id = d2.user_id
+) e
+  on (p.sku is not null and e.sku = p.sku) or (p.sku is null and e.aparelho = p.aparelho)
 where p.compat_marca is not null
   and not exists (
     select 1 from public.estoque_compatibilidade c
