@@ -14,8 +14,25 @@
 --   forçar categorias genéricas (as 226 do catálogo estático continuam).
 -- =============================================================================
 
-with dono as (
-  select id as user_id from auth.users order by created_at asc limit 1
+-- #############################################################################
+-- DONO DOS DADOS (user_id) — regra explicita, sem "pegar o mais antigo":
+--   1. Se OVERRIDE_DONO tiver um UUID, usa esse UUID.
+--   2. Se estiver vazio e o projeto tiver EXATAMENTE 1 usuario em auth.users,
+--      usa esse usuario.
+--   3. Se houver 2+ usuarios e OVERRIDE_DONO estiver vazio, NAO grava nada e
+--      aborta com mensagem pedindo o UUID — evita dados no dono errado.
+--   Ver a lista: select id, email, created_at from auth.users order by created_at;
+-- #############################################################################
+with cfg as (
+  select nullif('', '')::uuid as user_id  -- <<< OVERRIDE_DONO (UUID ou '')
+),
+dono as (
+  select coalesce(
+    (select user_id from cfg),
+    case
+      when (select count(*) from auth.users) = 1 then (select id from auth.users)
+    end
+  ) as user_id
 ),
 opcoes (tipo, valor, referencia) as (
   -- Proprietários (titularidade da mercadoria — nunca confundir com canal)
@@ -102,3 +119,19 @@ select d.user_id, o.tipo, o.valor, o.referencia
 from opcoes o cross join dono d
 on conflict (user_id, tipo, coalesce(referencia, ''), lower(btrim(valor)))
   do nothing;
+
+-- FALHA EXPLICITA: sem isso, um projeto com 2+ usuarios terminaria em silencio
+-- sem nenhuma opcao gravada (dono nulo) e o erro so apareceria no app.
+do $$
+declare
+  v_total int;
+  v_usuarios int;
+begin
+  select count(*) into v_total from public.estoque_opcoes;
+  if v_total = 0 then
+    select count(*) into v_usuarios from auth.users;
+    raise exception
+      'SEED DE OPCOES NAO GRAVOU NADA (% usuario(s) em auth.users). Preencha a linha OVERRIDE_DONO do bloco SEED 1 com o UUID do dono (select id, email from auth.users) e rode novamente.',
+      v_usuarios;
+  end if;
+end $$;

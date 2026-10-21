@@ -356,8 +356,25 @@ notify pgrst, 'reload schema';
 --   forçar categorias genéricas (as 226 do catálogo estático continuam).
 -- =============================================================================
 
-with dono as (
-  select id as user_id from auth.users order by created_at asc limit 1
+-- #############################################################################
+-- DONO DOS DADOS (user_id) — regra explicita, sem "pegar o mais antigo":
+--   1. Se OVERRIDE_DONO tiver um UUID, usa esse UUID.
+--   2. Se estiver vazio e o projeto tiver EXATAMENTE 1 usuario em auth.users,
+--      usa esse usuario.
+--   3. Se houver 2+ usuarios e OVERRIDE_DONO estiver vazio, NAO grava nada e
+--      aborta com mensagem pedindo o UUID — evita dados no dono errado.
+--   Ver a lista: select id, email, created_at from auth.users order by created_at;
+-- #############################################################################
+with cfg as (
+  select nullif('', '')::uuid as user_id  -- <<< OVERRIDE_DONO (UUID ou '')
+),
+dono as (
+  select coalesce(
+    (select user_id from cfg),
+    case
+      when (select count(*) from auth.users) = 1 then (select id from auth.users)
+    end
+  ) as user_id
 ),
 opcoes (tipo, valor, referencia) as (
   -- Proprietários (titularidade da mercadoria — nunca confundir com canal)
@@ -445,6 +462,22 @@ from opcoes o cross join dono d
 on conflict (user_id, tipo, coalesce(referencia, ''), lower(btrim(valor)))
   do nothing;
 
+-- FALHA EXPLICITA: sem isso, um projeto com 2+ usuarios terminaria em silencio
+-- sem nenhuma opcao gravada (dono nulo) e o erro so apareceria no app.
+do $$
+declare
+  v_total int;
+  v_usuarios int;
+begin
+  select count(*) into v_total from public.estoque_opcoes;
+  if v_total = 0 then
+    select count(*) into v_usuarios from auth.users;
+    raise exception
+      'SEED DE OPCOES NAO GRAVOU NADA (% usuario(s) em auth.users). Preencha a linha OVERRIDE_DONO do bloco SEED 1 com o UUID do dono (select id, email from auth.users) e rode novamente.',
+      v_usuarios;
+  end if;
+end $$;
+
 
 
 -- =============================================================================
@@ -474,8 +507,24 @@ on conflict (user_id, tipo, coalesce(referencia, ''), lower(btrim(valor)))
 -- Dedup por (user_id, sku) quando há SKU, senão por (user_id, aparelho).
 -- =============================================================================
 
-with dono as (
-  select id as user_id from auth.users order by created_at asc limit 1
+-- #############################################################################
+-- DONO DOS DADOS (user_id) — mesma regra do seed de opcoes:
+--   1. OVERRIDE_DONO com UUID -> usa esse UUID.
+--   2. vazio + EXATAMENTE 1 usuario em auth.users -> usa esse usuario.
+--   3. vazio + 2 ou mais usuarios -> NAO grava nada e aborta com mensagem.
+--   Use o MESMO UUID em OVERRIDE_DONO aqui e no bloco SEED 1 (opcoes), senao
+--   as listas e os produtos ficam em donos diferentes.
+-- #############################################################################
+with cfg as (
+  select nullif('', '')::uuid as user_id  -- <<< OVERRIDE_DONO (UUID ou '')
+),
+dono as (
+  select coalesce(
+    (select user_id from cfg),
+    case
+      when (select count(*) from auth.users) = 1 then (select id from auth.users)
+    end
+  ) as user_id
 ),
 produtos (
   aparelho, categoria, subcategoria, sku, marca, modelo,
@@ -748,6 +797,22 @@ where p.compat_marca is not null
       and lower(btrim(c.aparelho_marca)) = lower(btrim(p.compat_marca))
       and lower(btrim(c.aparelho_modelo)) = lower(btrim(p.compat_modelo))
   );
+
+-- FALHA EXPLICITA: evita terminar em silencio sem produtos (dono nulo por
+-- ambiguidade de usuarios).
+do $$
+declare
+  v_total int;
+  v_usuarios int;
+begin
+  select count(*) into v_total from public.estoque;
+  if v_total = 0 then
+    select count(*) into v_usuarios from auth.users;
+    raise exception
+      'SEED DE PRODUTOS NAO GRAVOU NADA (% usuario(s) em auth.users). Preencha a linha OVERRIDE_DONO do bloco SEED 2 (mesmo UUID usado no SEED 1) e rode novamente.',
+      v_usuarios;
+  end if;
+end $$;
 
 
 

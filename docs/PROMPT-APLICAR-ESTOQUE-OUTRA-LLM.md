@@ -48,6 +48,19 @@ O arquivo tem 5 blocos, nesta ordem, e todos são **aditivos e idempotentes**
 5. `SEED` — 93 opções de cadastro + 187 produtos reais da loja, com
    `ON CONFLICT DO NOTHING`.
 
+### Dono dos dados (importante)
+
+Os dois blocos `SEED` têm **duas linhas `OVERRIDE_DONO`** (uma em `SEED 1 — opções`,
+outra em `SEED 2 — produtos`). A regra do arquivo é:
+
+1. `OVERRIDE_DONO` com UUID → usa **exatamente** aquele usuário;
+2. vazio (`''`) + projeto com **exatamente 1** usuário em `auth.users` → usa esse
+   usuário;
+3. vazio + **2 ou mais** usuários → **não grava nada** e aborta com erro explícito.
+
+Portanto: antes de rodar, conte os usuários. Se houver mais de um, **pare e me
+pergunte qual é o dono**, e preencha as duas linhas com o **mesmo UUID**.
+
 ### Regras invioláveis
 
 - **Execute somente esse arquivo.** Não rode outras migrations, não crie/renomeie
@@ -58,6 +71,8 @@ O arquivo tem 5 blocos, nesta ordem, e todos são **aditivos e idempotentes**
   propósito (pendência `REVISAR` na observação). Não preencha preço, custo ou
   quantidade "para ficar bonito".
 - Não altere código da aplicação, variáveis de ambiente, nem outro projeto.
+- **Não escolha o dono por conta própria.** Se houver mais de um usuário, use a
+  regra acima e peça meu UUID — nunca invente, nunca pegue "o primeiro".
 - Se o seu cliente SQL não aceitar o arquivo inteiro (multi-statement), divida
   **exatamente** nos 5 marcadores `-- ===...` / títulos `PREFLIGHT`,
   `MIGRATION 1/3`, `MIGRATION 2/3`, `MIGRATION 3/3`, `SEED` e rode na mesma ordem,
@@ -69,6 +84,9 @@ O arquivo tem 5 blocos, nesta ordem, e todos são **aditivos e idempotentes**
    - a tabela `public.estoque` existe?
    - se existir: `select count(*) from public.estoque;` e a lista de colunas
      de `information_schema.columns`.
+   - **quantos usuários existem:** `select id, email, created_at from auth.users
+     order by created_at;`. Se for mais de 1, pare e me pergunte o dono antes de
+     executar.
 2. Execute o arquivo inteiro em uma única transação, se a ferramenta permitir.
 3. Cole aqui: (a) o resultado das consultas do bloco `VERIFICACAO`,
    (b) a lista final de colunas de `public.estoque`, (c) qualquer mensagem de erro
@@ -85,6 +103,7 @@ O arquivo tem 5 blocos, nesta ordem, e todos são **aditivos e idempotentes**
 | `count(*) from public.estoque_opcoes` | **93** |
 | `count(*) from public.estoque_compatibilidade` | **5** |
 | `count(*) from public.estoque_movimentos` | **0** (pode ser >0 se houve teste de trigger) |
+| `count(distinct user_id)` em `estoque` e em `estoque_opcoes` | **1** cada, e igual ao dono escolhido |
 | Colunas em `public.estoque` | **21** (8 da tabela base + `proprietario, canal_de_venda, categoria, subcategoria` + `sku, marca, modelo, preco_venda, custo, fornecedor, localizacao, unidade, ativo`) |
 | Duplicados de `sku` | 0 linhas |
 
@@ -100,17 +119,22 @@ não "corrija" apagando nada; apenas relate os números com a diferença.
 - `syntax error at or near "values"` → o arquivo foi editado/quebrado. **Pare**,
   restaure o original e me avise; não reescreva o SQL.
 - `relation "public.estoque_opcoes" does not exist` → o `MIGRATION 3/3` não rodou.
+- `SEED DE OPCOES NAO GRAVOU NADA` / `SEED DE PRODUTOS NAO GRAVOU NADA` →
+  existem 2+ usuários e `OVERRIDE_DONO` está vazio. **Não tente adivinhar:** pare
+  e me pergunte o UUID do dono; depois preencha as duas linhas e rode de novo.
 - `PGRST` no schema cache → normal logo após DDL; o arquivo já traz
   `notify pgrst, 'reload schema'` no fim. Reabra o app e recarregue.
 
 ### Formato do retorno
 
 1. Ref do projeto em que você executou + confirmação de que é `fiwbbhrrkongcryyqjmv`.
-2. Estado antes (tabela existia? quantas linhas?).
-3. Resultado da `VERIFICACAO` (tabela ou texto cru).
-4. Lista final de colunas de `public.estoque`.
-5. Erros, se houver (texto completo) — ou "nenhum erro".
-6. Confirmação explícita: "nenhuma outra alteração foi feita no banco ou no código".
+2. Estado antes (tabela existia? quantas linhas? quantos usuários?).
+3. Dono usado (UUID ou "único usuário do projeto") e confirmação de que
+   `estoque` e `estoque_opcoes` têm 1 único `user_id`.
+4. Resultado da `VERIFICACAO` (tabela ou texto cru).
+5. Lista final de colunas de `public.estoque`.
+6. Erros, se houver (texto completo) — ou "nenhum erro".
+7. Confirmação explícita: "nenhuma outra alteração foi feita no banco ou no código".
 
 ### Critério de conclusão
 
