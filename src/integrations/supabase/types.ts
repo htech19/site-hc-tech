@@ -336,33 +336,175 @@ export type Database = {
       estoque: {
         Row: {
           aparelho: string
+          ativo: boolean
+          canal_de_venda: string
+          categoria: string | null
           condicao: string | null
           created_at: string
+          custo: number | null
           defeito: string | null
+          fornecedor: string | null
           id: string
+          localizacao: string | null
+          marca: string | null
+          modelo: string | null
           observacao: string | null
+          preco_venda: number | null
+          proprietario: string
           quantidade: number
+          sku: string | null
+          subcategoria: string | null
+          unidade: string
           user_id: string
         }
         Insert: {
           aparelho: string
+          ativo?: boolean
+          canal_de_venda?: string
+          categoria?: string | null
           condicao?: string | null
           created_at?: string
+          custo?: number | null
           defeito?: string | null
+          fornecedor?: string | null
           id?: string
+          localizacao?: string | null
+          marca?: string | null
+          modelo?: string | null
           observacao?: string | null
+          preco_venda?: number | null
+          proprietario?: string
           quantidade?: number
+          sku?: string | null
+          subcategoria?: string | null
+          unidade?: string
           user_id: string
         }
         Update: {
           aparelho?: string
+          ativo?: boolean
+          canal_de_venda?: string
+          categoria?: string | null
           condicao?: string | null
           created_at?: string
+          custo?: number | null
           defeito?: string | null
+          fornecedor?: string | null
           id?: string
+          localizacao?: string | null
+          marca?: string | null
+          modelo?: string | null
           observacao?: string | null
+          preco_venda?: number | null
+          proprietario?: string
           quantidade?: number
+          sku?: string | null
+          subcategoria?: string | null
+          unidade?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      estoque_compatibilidade: {
+        Row: {
+          aparelho_marca: string
+          aparelho_modelo: string
+          created_at: string
+          estoque_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          aparelho_marca: string
+          aparelho_modelo: string
+          created_at?: string
+          estoque_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          aparelho_marca?: string
+          aparelho_modelo?: string
+          created_at?: string
+          estoque_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "estoque_compatibilidade_estoque_id_fkey"
+            columns: ["estoque_id"]
+            isOneToOne: false
+            referencedRelation: "estoque"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      estoque_movimentos: {
+        Row: {
+          created_at: string
+          estoque_id: string
+          id: string
+          motivo: string | null
+          quantidade: number
+          tipo: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          estoque_id: string
+          id?: string
+          motivo?: string | null
+          quantidade: number
+          tipo: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          estoque_id?: string
+          id?: string
+          motivo?: string | null
+          quantidade?: number
+          tipo?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "estoque_movimentos_estoque_id_fkey"
+            columns: ["estoque_id"]
+            isOneToOne: false
+            referencedRelation: "estoque"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      estoque_opcoes: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          id: string
+          referencia: string | null
+          tipo: string
+          user_id: string
+          valor: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          referencia?: string | null
+          tipo: string
+          user_id: string
+          valor: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          referencia?: string | null
+          tipo?: string
+          user_id?: string
+          valor?: string
         }
         Relationships: []
       }
