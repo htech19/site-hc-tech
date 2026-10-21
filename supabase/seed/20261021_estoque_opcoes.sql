@@ -25,7 +25,6 @@ opcoes (tipo, valor, referencia) as (
     ('proprietario', 'MERCADO LIVRE', null),
 
   -- Canais de venda (canal de comercialização — separado do proprietário)
-  values
     ('canal_de_venda', 'Loja física', null),
     ('canal_de_venda', 'Mercado Livre', null),
     ('canal_de_venda', 'WhatsApp', null),
@@ -33,7 +32,6 @@ opcoes (tipo, valor, referencia) as (
     ('canal_de_venda', 'Venda direta', null),
 
   -- Unidades de medida
-  values
     ('unidade', 'un', null),
     ('unidade', 'cx', null),
     ('unidade', 'par', null),
@@ -41,21 +39,18 @@ opcoes (tipo, valor, referencia) as (
     ('unidade', 'pç', null),
 
   -- Situações de item
-  values
     ('situacao', 'Novo', null),
     ('situacao', 'Usado bom', null),
     ('situacao', 'Recondicionado', null),
     ('situacao', 'Para peças', null),
 
   -- Qualidades
-  values
     ('qualidade', 'Original', null),
     ('qualidade', 'Premium', null),
     ('qualidade', 'Compatível', null),
     ('qualidade', 'Genérico', null),
 
   -- Tipos de movimentação
-  values
     ('tipo_movimentacao', 'ENTRADA', null),
     ('tipo_movimentacao', 'SAIDA', null),
     ('tipo_movimentacao', 'AJUSTE', null),
@@ -63,7 +58,6 @@ opcoes (tipo, valor, referencia) as (
   -- -------------------------------------------------------------------------
   -- MARCAS — referência do usuário + marcas REAIS da tabela da loja
   -- -------------------------------------------------------------------------
-  values
     ('marca', 'Apple', null), ('marca', 'Samsung', null), ('marca', 'Motorola', null),
     ('marca', 'Xiaomi', null), ('marca', 'Redmi', null), ('marca', 'POCO', null),
     ('marca', 'Realme', null), ('marca', 'Oppo', null), ('marca', 'Vivo', null),
@@ -88,7 +82,6 @@ opcoes (tipo, valor, referencia) as (
   -- -------------------------------------------------------------------------
   -- SUBCATEGORIAS NOVAS — exigidas pelos produtos reais (escopo: acessorios)
   -- -------------------------------------------------------------------------
-  values
     ('subcategoria', 'Cabos de áudio e vídeo', 'acessorios'),
     ('subcategoria', 'Cabos de força', 'acessorios'),
     ('subcategoria', 'Cabos de rede', 'acessorios'),

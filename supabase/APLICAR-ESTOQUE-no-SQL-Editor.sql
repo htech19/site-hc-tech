@@ -1,28 +1,152 @@
 -- =============================================================================
--- APLICAR ESTOQUE (MIGRATION + SEEDS) NO SQL EDITOR DO SUPABASE — PROJETO REAL
+-- APLICAR ESTOQUE (PREFLIGHT + MIGRATIONS + SEEDS) NO SQL EDITOR — PROJETO REAL
 -- =============================================================================
 -- PROJETO ALVO: fiwbbhrrkongcryyqjmv (onde a aplicacao roda, lido de VITE_SUPABASE_URL)
---   A integracao OAuth so alcanca o projeto chllhailtkuffciaanlx (403 no real),
---   por isso este script e para colar manualmente no Dashboard do projeto real.
+--   A integracao OAuth desta sessao so alcanca o projeto chllhailtkuffciaanlx (403 no real),
+--   por isso este script e para aplicar no SQL Editor do projeto real.
 --
 -- O QUE ESTE ARQUIVO FAZ (tudo aditivo e idempotente — roda N vezes sem quebrar):
---   1) estoque: colunas de PRODUTO (sku, marca, modelo, preco_venda, custo,
---      fornecedor, localizacao, unidade, ativo) — nada existente e removido;
---      RLS e dados intactos.
---   2) estoque_opcoes: listas suspensas centralizadas (marcas, proprietarios,
---      canais, subcategorias...) com RLS proprio.
---   3) estoque_compatibilidade: uma peca compativel com VARIOS aparelhos.
---   4) estoque_movimentos: historico de entrada/saida (preenchido por trigger).
---   5) SEED de opcoes (93) e dos 187 PRODUTOS REAIS da loja (tabela site nova).
+--   0) PREFLIGHT: garante a tabela `estoque` no formato final (cobre os 3
+--      estados possíveis do banco: sem tabela / tabela da 0003 / tabela da 0004).
+--   1) categoria + subcategoria (migration 20261020000000).
+--   2) proprietario + canal_de_venda (migration 20261020001000) — este ALTER
+--      NUNCA foi aplicado no projeto real; sem ele o INSERT falha.
+--   3) colunas de produto (sku, marca, modelo, preco_venda, custo, fornecedor,
+--      localizacao, unidade, ativo) + estoque_opcoes + estoque_compatibilidade
+--      + estoque_movimentos + trigger de movimentacao (migration 20261021000000).
+--   4) SEED: 93 opcoes de cadastro + 187 PRODUTOS REAIS da loja.
 --      Custo/quantidade NAO inventados: custo=NULL, quantidade=0 + REVISAR na
 --      observacao; precos sob consulta/faixa ficam NULL com pendencia.
 --
+-- NADA EXISTENTE E REMOVIDO: nenhuma coluna/tabela e dropada, nenhuma linha e
+-- apagada, nenhuma policy e alterada fora do padrao auth.uid() = user_id.
+--
 -- COMO USAR
 --   1. Supabase -> SQL Editor -> New query (projeto fiwbbhrrkongcryyqjmv).
---   2. Cole TODO o conteudo e clique Run.
+--   2. Cole TODO o conteudo deste arquivo e clique Run.
 --   3. Confira o bloco VERIFICACAO no final (totais esperados).
+--   4. Pode rodar quantas vezes quiser — e idempotente.
 -- =============================================================================
 
+
+
+-- =============================================================================
+-- PREFLIGHT
+-- =============================================================================
+-- =============================================================================
+-- PREFLIGHT — estado mínimo garantido antes das migrations (idempotente)
+-- =============================================================================
+-- O projeto real (`fiwbbhrrkongcryyqjmv`) pode estar em 3 estados diferentes:
+--   (a) sem a tabela `estoque`       -> criada aqui no formato final;
+--   (b) com a tabela da migration 0003 (sem proprietario/canal_de_venda);
+--   (c) com a tabela da migration 20261008000000 (com as colunas NOT NULL
+--       sem default).
+-- Este bloco cobre os 3 casos sem remover nem renomear nada.
+-- =============================================================================
+
+create table if not exists public.estoque (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null,
+  proprietario text not null default 'HC TECH',
+  canal_de_venda text not null default 'Loja física',
+  aparelho text not null,
+  quantidade integer not null default 1 check (quantidade >= 0),
+  defeito text,
+  condicao text,
+  observacao text,
+  created_at timestamptz not null default now()
+);
+
+grant select, insert, update, delete on public.estoque to authenticated;
+grant all on public.estoque to service_role;
+alter table public.estoque enable row level security;
+drop policy if exists "Users manage own estoque" on public.estoque;
+create policy "Users manage own estoque" on public.estoque for all to authenticated
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- Defaults também nas tabelas que já existiam sem eles (o INSERT do app
+-- sempre envia os dois campos, mas o default evita falha em inserts diretos).
+alter table public.estoque alter column proprietario set default 'HC TECH';
+alter table public.estoque alter column canal_de_venda set default 'Loja física';
+
+
+
+-- =============================================================================
+-- MIGRATION 1/3 — categoria + subcategoria
+-- =============================================================================
+-- =============================================================================
+-- Estoque: colunas de CATEGORIA e SUBCATEGORIA (aditiva, idempotente)
+-- =============================================================================
+-- Objetivo: permitir classificar o item de estoque pelo "tipo de item" escolhido
+-- em cards no cadastro (catálogo §4.1–§4.12 + estágios de aparelho de cliente
+-- do §2A da especificação do ERP de Estoque).
+--
+-- Regras preservadas:
+-- * Nenhuma coluna existente é removida ou renomeada; linhas existentes ficam
+--   intactas (ambas as colunas são ANULÁVEIS e sem default).
+-- * A política RLS `Users manage own estoque` (auth.uid() = user_id) cobre a
+--   tabela inteira — nada muda em segurança.
+-- * Nenhum dado fictício: categorias são gravadas apenas pelo usuário.
+--
+-- Pode ser aplicada mais de uma vez (IF NOT EXISTS).
+-- =============================================================================
+
+alter table public.estoque
+  add column if not exists categoria text,
+  add column if not exists subcategoria text;
+
+comment on column public.estoque.categoria is
+  'Slug do tipo de item escolhido em cards (ex.: telas, acessorios, aparelho_cliente). Categorias: src/sistema/data/categoriasEstoque.ts';
+comment on column public.estoque.subcategoria is
+  'Subcategoria/opção específica dentro do grupo de categoria escolhido.';
+
+
+
+-- =============================================================================
+-- MIGRATION 2/3 — proprietario + canal_de_venda (a que nunca chegou ao projeto real)
+-- =============================================================================
+-- =============================================================================
+-- Estoque: PROPRIETARIO e CANAL DE VENDA (corretiva — aditiva, idempotente)
+-- =============================================================================
+-- Contexto (auditoria 2026-10-20): a migration 0003 registrou a criação de
+-- `estoque` e o ALTER de `proprietario`/`canal_de_venda`, mas esse ALTER foi
+-- executado manualmente no projeto `chllhailtkuffciaanlx` e NUNCA chegou ao
+-- projeto em que a aplicação roda (`fiwbbhrrkongcryyqjmv`, lido de
+-- VITE_SUPABASE_URL). Sintoma: toda INSERT em `estoque` falhava com 400
+-- ("column estoque.proprietario does not exist") — módulo de entrada quebrado
+-- em produção.
+--
+-- Esta migration torna o estado correto reproduzível em qualquer projeto:
+-- * `proprietario` / `canal_de_venda`: NOT NULL com default (a table está
+--   vazia; defaults iguais aos do formulário — store.ts).
+-- * `categoria` / `subcategoria`: anuláveis (migration 20261020000000).
+-- * Nenhuma coluna removida; RLS `Users manage own estoque` inalterado.
+--
+-- Pode ser aplicada mais de uma vez (IF NOT EXISTS).
+-- =============================================================================
+
+alter table public.estoque
+  add column if not exists proprietario text not null default 'HC TECH',
+  add column if not exists canal_de_venda text not null default 'Loja física';
+
+alter table public.estoque
+  add column if not exists categoria text,
+  add column if not exists subcategoria text;
+
+comment on column public.estoque.proprietario is
+  'Dono da mercadoria: HC TECH, FASTCELL, MERCADO LIVRE (campo separado do canal de venda).';
+comment on column public.estoque.canal_de_venda is
+  'Canal onde o item é vendido: Loja física, Mercado Livre, WhatsApp, Site, Venda direta, Outros.';
+comment on column public.estoque.categoria is
+  'Slug do tipo de item escolhido em cards (ex.: telas, acessorios, aparelho_cliente). Categorias: src/sistema/data/categoriasEstoque.ts';
+comment on column public.estoque.subcategoria is
+  'Subcategoria/opção específica dentro do grupo de categoria escolhido.';
+
+
+
+-- =============================================================================
+-- MIGRATION 3/3 — colunas de produto + catalogos + trigger de movimentos
+-- =============================================================================
 -- =============================================================================
 -- ESTOQUE — COLUNAS DE PRODUTO + CATÁLOGOS CENTRALIZADOS (aditiva, idempotente)
 -- =============================================================================
@@ -212,6 +336,10 @@ create trigger estoque_movimento_trigger
 notify pgrst, 'reload schema';
 
 
+
+-- =============================================================================
+-- SEED — estoque_opcoes (93 listas centralizadas)
+-- =============================================================================
 -- =============================================================================
 -- SEED — estoque_opcoes (listas centralizadas do Estoque) — idempotente
 -- =============================================================================
@@ -239,7 +367,6 @@ opcoes (tipo, valor, referencia) as (
     ('proprietario', 'MERCADO LIVRE', null),
 
   -- Canais de venda (canal de comercialização — separado do proprietário)
-  values
     ('canal_de_venda', 'Loja física', null),
     ('canal_de_venda', 'Mercado Livre', null),
     ('canal_de_venda', 'WhatsApp', null),
@@ -247,7 +374,6 @@ opcoes (tipo, valor, referencia) as (
     ('canal_de_venda', 'Venda direta', null),
 
   -- Unidades de medida
-  values
     ('unidade', 'un', null),
     ('unidade', 'cx', null),
     ('unidade', 'par', null),
@@ -255,21 +381,18 @@ opcoes (tipo, valor, referencia) as (
     ('unidade', 'pç', null),
 
   -- Situações de item
-  values
     ('situacao', 'Novo', null),
     ('situacao', 'Usado bom', null),
     ('situacao', 'Recondicionado', null),
     ('situacao', 'Para peças', null),
 
   -- Qualidades
-  values
     ('qualidade', 'Original', null),
     ('qualidade', 'Premium', null),
     ('qualidade', 'Compatível', null),
     ('qualidade', 'Genérico', null),
 
   -- Tipos de movimentação
-  values
     ('tipo_movimentacao', 'ENTRADA', null),
     ('tipo_movimentacao', 'SAIDA', null),
     ('tipo_movimentacao', 'AJUSTE', null),
@@ -277,7 +400,6 @@ opcoes (tipo, valor, referencia) as (
   -- -------------------------------------------------------------------------
   -- MARCAS — referência do usuário + marcas REAIS da tabela da loja
   -- -------------------------------------------------------------------------
-  values
     ('marca', 'Apple', null), ('marca', 'Samsung', null), ('marca', 'Motorola', null),
     ('marca', 'Xiaomi', null), ('marca', 'Redmi', null), ('marca', 'POCO', null),
     ('marca', 'Realme', null), ('marca', 'Oppo', null), ('marca', 'Vivo', null),
@@ -302,7 +424,6 @@ opcoes (tipo, valor, referencia) as (
   -- -------------------------------------------------------------------------
   -- SUBCATEGORIAS NOVAS — exigidas pelos produtos reais (escopo: acessorios)
   -- -------------------------------------------------------------------------
-  values
     ('subcategoria', 'Cabos de áudio e vídeo', 'acessorios'),
     ('subcategoria', 'Cabos de força', 'acessorios'),
     ('subcategoria', 'Cabos de rede', 'acessorios'),
@@ -325,6 +446,10 @@ on conflict (user_id, tipo, coalesce(referencia, ''), lower(btrim(valor)))
   do nothing;
 
 
+
+-- =============================================================================
+-- SEED — 187 produtos reais da loja
+-- =============================================================================
 -- =============================================================================
 -- SEED — PRODUTOS REAIS DA LOJA HC TECH (tabela "tabela site nova.md") — idempotente
 -- =============================================================================
@@ -624,12 +749,29 @@ where p.compat_marca is not null
       and lower(btrim(c.aparelho_modelo)) = lower(btrim(p.compat_modelo))
   );
 
+
+
 -- =============================================================================
--- VERIFICACAO (rodar junto; mostra os totais esperados)
+-- VERIFICACAO (o resultado esperado vem logo abaixo de cada item)
 -- =============================================================================
 select
-  (select count(*) from public.estoque) as total_produtos,
-  (select count(*) from public.estoque where preco_venda is null) as preco_pendente,
-  (select count(*) from public.estoque_opcoes) as total_opcoes,
-  (select count(*) from public.estoque_compatibilidade) as total_compat,
-  (select count(*) from public.estoque_movimentos) as total_movimentos;
+  (select count(*) from public.estoque) as total_produtos_esperado_187,
+  (select count(*) from public.estoque where preco_venda is null) as preco_pendente_esperado_5,
+  (select count(*) from public.estoque where custo is not null) as custo_informado_esperado_0,
+  (select count(*) from public.estoque where quantidade <> 0) as com_saldo_esperado_0,
+  (select count(*) from public.estoque_opcoes) as total_opcoes_esperado_93,
+  (select count(*) from public.estoque_compatibilidade) as total_compat_esperado_5,
+  (select count(*) from public.estoque_movimentos) as total_movimentos_esperado_0;
+
+-- Nenhum duplicado de produto (SKU repetido no mesmo dono):
+select sku, count(*)
+from public.estoque
+where sku is not null
+group by sku
+having count(*) > 1;
+
+-- Colunas de produto presentes (todas devem aparecer):
+select column_name, data_type
+from information_schema.columns
+where table_schema = 'public' and table_name = 'estoque'
+order by ordinal_position;
