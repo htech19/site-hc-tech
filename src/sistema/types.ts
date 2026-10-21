@@ -180,6 +180,25 @@ export interface EstoqueItem {
   createdAt: string;
   proprietario: string;
   canal_de_venda: string;
+  /** Slug do tipo de item (cards) — ver `src/sistema/data/categoriasEstoque.ts`. */
+  categoria?: string | null;
+  /** Subcategoria/opção específica dentro do grupo escolhido. */
+  subcategoria?: string | null;
+  // ---- Campos de PRODUTO (mercadoria de venda) — migration 20261021000000 ----
+  /** Código interno/fornecedor (ex.: KD-788). */
+  sku?: string | null;
+  /** Marca DO PRODUTO (não confundir com a marca do aparelho compatível). */
+  marca?: string | null;
+  /** Modelo DO PRODUTO. */
+  modelo?: string | null;
+  /** Preço de venda. `null` = sob consulta / não informado. */
+  precoVenda?: number | null;
+  /** Custo de aquisição. `null` = não informado (nunca estimar). */
+  custo?: number | null;
+  /** Fornecedor. */
+  fornecedor?: string | null;
+  /** Desativação lógica (some das listas sem apagar histórico). */
+  ativo?: boolean;
 }
 
 /** Tipo de serviço cadastrável com contador de ocorrências. */
@@ -569,6 +588,15 @@ export interface LinhaEstoque {
   defeito: string | null;
   condicao: string | null;
   observacao: string | null;
+  categoria: string | null;
+  subcategoria: string | null;
+  sku: string | null;
+  marca: string | null;
+  modelo: string | null;
+  preco_venda: number | null;
+  custo: number | null;
+  fornecedor: string | null;
+  ativo: boolean;
   created_at: string;
 }
 
@@ -652,6 +680,15 @@ export function adaptarEstoque(l: LinhaEstoque): EstoqueItem {
     observacao: l.observacao,
     proprietario: l.proprietario ?? "HC TECH",
     canal_de_venda: l.canal_de_venda ?? "Loja física",
+    categoria: l.categoria,
+    subcategoria: l.subcategoria,
+    sku: l.sku,
+    marca: l.marca,
+    modelo: l.modelo,
+    precoVenda: l.preco_venda != null ? Number(l.preco_venda) : null,
+    custo: l.custo != null ? Number(l.custo) : null,
+    fornecedor: l.fornecedor,
+    ativo: l.ativo ?? true,
     createdAt: l.created_at,
   };
 }
@@ -752,6 +789,8 @@ export interface MetricasDashboard {
    */
   totalClientes: number | null;
   itensEstoque: number | null;
+  /** Solicitações de orçamento recebidas pelo site (`orcamento_solicitacoes`). */
+  solicitacoes: number | null;
 }
 
 /** Linha agregada "aparelhos mais atendidos". */

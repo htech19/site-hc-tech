@@ -375,10 +375,52 @@ export function useEstoque(): UseQueryResult<EstoqueItem[]> {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("estoque")
-        .select("id, aparelho, quantidade, defeito, condicao, observacao, created_at")
+        .select(
+          "id, aparelho, quantidade, defeito, condicao, observacao, categoria, subcategoria, sku, marca, modelo, preco_venda, custo, fornecedor, ativo, created_at",
+        )
         .order("created_at", { ascending: false });
       if (error) throw error;
       return ((data ?? []) as LinhaEstoque[]).map(adaptarEstoque);
+    },
+    staleTime: STALE,
+  });
+}
+
+// -----------------------------------------------------------------------------
+// ESTOQUE — OPÇÕES DE LISTAS (cadastros centralizados no banco)
+// -----------------------------------------------------------------------------
+
+export interface EstoqueOpcao {
+  id: string;
+  tipo: string;
+  valor: string;
+  referencia: string | null;
+  ativo: boolean;
+}
+
+/**
+ * Opções de uma lista suspensa do Estoque (`estoque_opcoes`), filtradas por
+ * `tipo` (ex.: "marca", "proprietario", "canal_de_venda", "fornecedor",
+ * "subcategoria") e opcionalmente por `referencia` (ex.: categoria da
+ * subcategoria). É a fonte de verdade das listas — o frontend não deve usar
+ * arrays fixos no lugar do banco (regra do módulo).
+ */
+export function useEstoqueOpcoes(
+  tipo: string,
+  referencia?: string,
+): UseQueryResult<EstoqueOpcao[]> {
+  return useQuery({
+    queryKey: ["sistema", "estoque-opcoes", tipo, referencia ?? ""],
+    queryFn: async () => {
+      let q = supabase
+        .from("estoque_opcoes")
+        .select("id, tipo, valor, referencia, ativo")
+        .eq("tipo", tipo)
+        .eq("ativo", true);
+      if (referencia) q = q.eq("referencia", referencia);
+      const { data, error } = await q.order("valor");
+      if (error) throw error;
+      return (data ?? []) as EstoqueOpcao[];
     },
     staleTime: STALE,
   });

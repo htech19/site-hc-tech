@@ -43,6 +43,7 @@ import { LISTA_STATUS } from "@/sistema/components/OSStatusBadge";
 import { telas } from "@/sistema/data/telas";
 import { MARCAS_CELULAR, MARCAS_NOTEBOOK, MODELOS_POR_MARCA } from "@/sistema/data/catalogos";
 import type { FormularioOS, StatusOS } from "@/sistema/types";
+import { ComboBusca, type ComboBuscaOpcao } from "@/sistema/components/ComboBusca";
 
 // -----------------------------------------------------------------------------
 // TIPOS E CONSTANTES
@@ -87,14 +88,8 @@ const normalizar = (v: string) =>
     .toLowerCase()
     .trim();
 
-interface Opcao {
-  /** Valor efetivamente gravado no campo. */
-  valor: string;
-  /** Texto principal exibido na lista. */
-  rotulo: string;
-  /** Complemento (marca) exibido à direita. */
-  detalhe?: string;
-}
+/** Opção de lista do ComboBusca (valor gravado, rótulo e detalhe/marca). */
+type Opcao = ComboBuscaOpcao;
 
 // Marcas: base da Tabela de Telas + catálogo de celulares.
 const MARCAS_CELULAR_OPCOES: Opcao[] = Array.from(new Set(MARCAS_CELULAR))
@@ -128,110 +123,6 @@ const MODELOS_TELA: Opcao[] = (() => {
 const MODELOS_CATALOGO: Opcao[] = Object.entries(MODELOS_POR_MARCA).flatMap(([marca, modelos]) =>
   modelos.map((modelo) => ({ valor: modelo, rotulo: modelo, detalhe: marca }))
 );
-
-// -----------------------------------------------------------------------------
-// COMBOBOX DE BUSCA (mesmo comportamento do datalist do wizard de orçamento,
-// porém com lista própria — mostra marca junto do modelo e permite selecionar
-// com um clique)
-// -----------------------------------------------------------------------------
-
-interface ComboProps {
-  id: string;
-  label: string;
-  valor: string;
-  opcoes: Opcao[];
-  aoDigitar: (v: string) => void;
-  aoSelecionar: (o: Opcao) => void;
-  placeholder: string;
-  obrigatorio?: boolean;
-  erro?: string;
-  dica?: string;
-}
-
-function ComboBusca({
-  id,
-  label,
-  valor,
-  opcoes,
-  aoDigitar,
-  aoSelecionar,
-  placeholder,
-  obrigatorio,
-  erro,
-  dica,
-}: ComboProps) {
-  const [aberto, setAberto] = useState(false);
-
-  const filtradas = useMemo(() => {
-    const termo = normalizar(valor);
-    const base = termo
-      ? opcoes.filter((o) => normalizar(`${o.rotulo} ${o.detalhe ?? ""}`).includes(termo))
-      : opcoes;
-    return base.slice(0, 80);
-  }, [valor, opcoes]);
-
-  return (
-    <div className="relative">
-      <label htmlFor={id} className="mb-2 block text-sm font-semibold text-zinc-300">
-        {label} {obrigatorio && <span className="text-[#00FF88]">*</span>}
-      </label>
-      <Input
-        id={id}
-        value={valor}
-        onChange={(e) => {
-          aoDigitar(e.target.value);
-          setAberto(true);
-        }}
-        onFocus={() => setAberto(true)}
-        onBlur={() => setTimeout(() => setAberto(false), 150)}
-        placeholder={placeholder}
-        role="combobox"
-        aria-expanded={aberto}
-        aria-controls={`${id}-lista`}
-        aria-autocomplete="list"
-        autoComplete="off"
-        className="border-zinc-700 bg-zinc-800 text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:ring-1 focus:ring-[#00FF88]/20"
-      />
-      {aberto && filtradas.length > 0 && (
-        <ul
-          id={`${id}-lista`}
-          role="listbox"
-          className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-zinc-700 bg-zinc-900 py-1 shadow-2xl"
-        >
-          {filtradas.map((o) => (
-            <li key={`${o.detalhe ?? ""}|${o.valor}`}>
-              <button
-                type="button"
-                role="option"
-                aria-selected={o.valor === valor}
-                // onMouseDown em vez de onClick: o input perde o foco antes do
-                // clique terminar e a lista fecharia sem selecionar.
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  aoSelecionar(o);
-                  setAberto(false);
-                }}
-                className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm transition-colors hover:bg-zinc-800"
-              >
-                <span className="truncate text-zinc-200">{o.rotulo}</span>
-                {o.detalhe && (
-                  <span className="shrink-0 text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                    {o.detalhe}
-                  </span>
-                )}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-      {erro ? (
-        <p className="mt-1 text-xs text-rose-400">{erro}</p>
-      ) : (
-        dica && <p className="mt-1 text-[11px] text-zinc-500">{dica}</p>
-      )}
-    </div>
-  );
-}
 
 // -----------------------------------------------------------------------------
 // WIZARD
