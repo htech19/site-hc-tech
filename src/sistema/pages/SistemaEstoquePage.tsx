@@ -40,9 +40,17 @@ const SistemaEstoquePage = memo(function SistemaEstoquePage() {
     const lista = itens ?? [];
     if (!q) return lista;
     return lista.filter((i) =>
-      [i.aparelho, i.defeito ?? "", i.condicao ?? "", i.observacao ?? ""].some((c) =>
-        c.toLowerCase().includes(q)
-      )
+      [
+        i.aparelho,
+        i.sku ?? "",
+        i.marca ?? "",
+        i.modelo ?? "",
+        i.fornecedor ?? "",
+        i.subcategoria ?? "",
+        i.defeito ?? "",
+        i.condicao ?? "",
+        i.observacao ?? "",
+      ].some((c) => c.toLowerCase().includes(q)),
     );
   }, [itens, buscaDebounced]);
 

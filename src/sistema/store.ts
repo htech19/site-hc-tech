@@ -90,6 +90,27 @@ export const FORMULARIO_ESTOQUE_VAZIO = {
   observacao: "",
   proprietario: "HC TECH",
   canal_de_venda: "Loja física",
+  /** Slug do tipo de item escolhido nos cards (categoriasEstoque.ts). */
+  categoria: "",
+  /** Subcategoria/opção específica dentro do grupo escolhido. */
+  subcategoria: "",
+  // ---- Campos de PRODUTO (mercadoria de venda) ----
+  sku: "",
+  /** Preço de varejo (string para o input; vazio = sob consulta). */
+  preco_venda: "",
+  /** Custo de aquisição (vazio = não informado — nunca estimar). */
+  custo: "",
+  fornecedor: "",
+};
+
+/**
+ * Formulário de Estoque completo. `marca`/`modelo` são preenchidos pelo combo
+ * (estado próprio no EstoqueForm) e mesclados no payload no submit — por isso
+ * ficam fora de `FORMULARIO_ESTOQUE_VAZIO`.
+ */
+export type FormularioEstoque = typeof FORMULARIO_ESTOQUE_VAZIO & {
+  marca: string;
+  modelo: string;
 };
 
 export const FORMULARIO_CAIXA_VAZIO = {
@@ -215,8 +236,8 @@ interface EstadoSistema {
   excluirCliente: (id: string) => Promise<boolean>;
 
   // ---- CRUD: Estoque ----
-  criarItemEstoque: (form: typeof FORMULARIO_ESTOQUE_VAZIO) => Promise<boolean>;
-  atualizarItemEstoque: (id: string, form: typeof FORMULARIO_ESTOQUE_VAZIO) => Promise<boolean>;
+  criarItemEstoque: (form: FormularioEstoque) => Promise<boolean>;
+  atualizarItemEstoque: (id: string, form: FormularioEstoque) => Promise<boolean>;
   excluirItemEstoque: (id: string) => Promise<boolean>;
 
   // ---- CRUD: Tipos de serviço ----
@@ -465,6 +486,14 @@ export const useSistemaStore = create<EstadoSistema>((set, get) => {
           defeito: form.defeito.trim() || null,
           condicao: form.condicao.trim() || null,
           observacao: form.observacao.trim() || null,
+          categoria: form.categoria || null,
+          subcategoria: form.subcategoria || null,
+          sku: form.sku.trim() || null,
+          marca: form.marca.trim() || null,
+          modelo: form.modelo.trim() || null,
+          preco_venda: form.preco_venda.trim() ? parseFloat(form.preco_venda.replace(",", ".")) : null,
+          custo: form.custo.trim() ? parseFloat(form.custo.replace(",", ".")) : null,
+          fornecedor: form.fornecedor.trim() || null,
         });
         if (error) throw new Error(traduzirErro(error.message));
         invalidar(["sistema"]);
@@ -482,6 +511,14 @@ export const useSistemaStore = create<EstadoSistema>((set, get) => {
             observacao: form.observacao.trim() || null,
             proprietario: form.proprietario || "HC TECH",
             canal_de_venda: form.canal_de_venda || "Loja física",
+            categoria: form.categoria || null,
+            subcategoria: form.subcategoria || null,
+            sku: form.sku.trim() || null,
+            marca: form.marca.trim() || null,
+            modelo: form.modelo.trim() || null,
+            preco_venda: form.preco_venda.trim() ? parseFloat(form.preco_venda.replace(",", ".")) : null,
+            custo: form.custo.trim() ? parseFloat(form.custo.replace(",", ".")) : null,
+            fornecedor: form.fornecedor.trim() || null,
           })
           .eq("id", id);
         if (error) throw new Error(traduzirErro(error.message));

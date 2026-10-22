@@ -25,6 +25,14 @@ dist-ssr
 
 # Secrets
 .env.local
+# Connection string do banco (arquivo local, nunca versionado)
+
+# Artefatos de deployment locais (never version these)
+public/__apply.sql
+
+# Artefatos de build
+*.tsbuildinfo
+.db-url*
 
 # Artefatos de build
 *.tsbuildinfo

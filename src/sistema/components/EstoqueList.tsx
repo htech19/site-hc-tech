@@ -52,6 +52,15 @@ export const EstoqueList = memo(function EstoqueList({
       conteudo: (i) => <span className="font-semibold text-zinc-100">{i.aparelho}</span>,
     },
     {
+      chave: "sku",
+      rotulo: "SKU",
+      ordenavel: true,
+      chaveOrdenacao: (i) => i.sku ?? "",
+      largura: "110px",
+      ocultarNoMobile: true,
+      conteudo: (i) => <span className="font-mono text-xs text-zinc-400">{i.sku || "—"}</span>,
+    },
+    {
       chave: "quantidade",
       rotulo: "Qtd.",
       ordenavel: true,
@@ -67,6 +76,19 @@ export const EstoqueList = memo(function EstoqueList({
           }
         >
           {i.quantidade}
+        </span>
+      ),
+    },
+    {
+      chave: "preco_venda",
+      rotulo: "Preço",
+      ordenavel: true,
+      chaveOrdenacao: (i) => i.precoVenda ?? -1,
+      largura: "100px",
+      alinhar: "right",
+      conteudo: (i) => (
+        <span className="text-[#00FF88]">
+          {i.precoVenda != null ? `R$ ${i.precoVenda.toFixed(2)}` : "—"}
         </span>
       ),
     },
