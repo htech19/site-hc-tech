@@ -199,6 +199,8 @@ export interface EstoqueItem {
   fornecedor?: string | null;
   /** Desativação lógica (some das listas sem apagar histórico). */
   ativo?: boolean;
+  /** IMEI/SN para aparelhos (celular/notebook). */
+  imeiSn?: string | null;
 }
 
 /** Tipo de serviço cadastrável com contador de ocorrências. */
@@ -597,6 +599,7 @@ export interface LinhaEstoque {
   custo: number | null;
   fornecedor: string | null;
   ativo: boolean;
+  imei_sn: string | null;
   created_at: string;
 }
 
@@ -689,6 +692,7 @@ export function adaptarEstoque(l: LinhaEstoque): EstoqueItem {
     custo: l.custo != null ? Number(l.custo) : null,
     fornecedor: l.fornecedor,
     ativo: l.ativo ?? true,
+    imeiSn: l.imei_sn,
     createdAt: l.created_at,
   };
 }

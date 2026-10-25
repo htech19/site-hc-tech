@@ -48,13 +48,29 @@ export interface CategoriaEstoque {
 
 export const CATEGORIAS_ESTOQUE: CategoriaEstoque[] = [
   // -------------------------------------------------------------------------
-  // §2A — Aparelhos de clientes (custódia; nunca entra como mercadoria)
+  // §2A — Assistência técnica (custódia)
   // -------------------------------------------------------------------------
   {
     valor: "aparelho_cliente",
-    rotulo: "Aparelho de cliente",
-    descricao: "Conserto / custódia",
+    rotulo: "Celular",
+    descricao: "Assistência / custódia",
     icone: Smartphone,
+    aparelhoDeCliente: true,
+    subcategorias: [
+      "Aguardando orçamento",
+      "Aguardando aprovação",
+      "Em manutenção",
+      "Aguardando peças",
+      "Em teste",
+      "Pronto para retirada",
+      "Aguardando devolução",
+    ],
+  },
+  {
+    valor: "notebook",
+    rotulo: "Notebook",
+    descricao: "Assistência / custódia",
+    icone: Monitor,
     aparelhoDeCliente: true,
     subcategorias: [
       "Aguardando orçamento",

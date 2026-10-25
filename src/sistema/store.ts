@@ -101,6 +101,8 @@ export const FORMULARIO_ESTOQUE_VAZIO = {
   /** Custo de aquisição (vazio = não informado — nunca estimar). */
   custo: "",
   fornecedor: "",
+  /** IMEI/SN para celulares e notebooks. */
+  imei_sn: "",
 };
 
 /**
@@ -494,6 +496,7 @@ export const useSistemaStore = create<EstadoSistema>((set, get) => {
           preco_venda: form.preco_venda.trim() ? parseFloat(form.preco_venda.replace(",", ".")) : null,
           custo: form.custo.trim() ? parseFloat(form.custo.replace(",", ".")) : null,
           fornecedor: form.fornecedor.trim() || null,
+          imei_sn: form.imei_sn.trim() || null,
         });
         if (error) throw new Error(traduzirErro(error.message));
         invalidar(["sistema"]);
@@ -519,6 +522,7 @@ export const useSistemaStore = create<EstadoSistema>((set, get) => {
             preco_venda: form.preco_venda.trim() ? parseFloat(form.preco_venda.replace(",", ".")) : null,
             custo: form.custo.trim() ? parseFloat(form.custo.replace(",", ".")) : null,
             fornecedor: form.fornecedor.trim() || null,
+            imei_sn: form.imei_sn.trim() || null,
           })
           .eq("id", id);
         if (error) throw new Error(traduzirErro(error.message));

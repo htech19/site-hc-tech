@@ -1,0 +1,7 @@
+{
+  "entrypoint": "index.js",
+  "compatibilityDate": "2026-10-19",
+  "modules": [{"name": "index.js", "type": "esm", "path": "./dist/assets/index-BhaeC_OU.js"}],
+  "assetsDirectory": "./dist/assets",
+  "spa": true
+}

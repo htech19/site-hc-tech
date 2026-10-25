@@ -129,6 +129,7 @@ export const EstoqueForm = memo(function EstoqueForm({
       preco_venda: editando.precoVenda != null ? String(editando.precoVenda) : "",
       custo: editando.custo != null ? String(editando.custo) : "",
       fornecedor: editando.fornecedor ?? "",
+      imei_sn: editando.imeiSn ?? "",
     });
     // Marca/modelo salvos têm prioridade; senão, melhor esforço separando do
     // aparelho ("Samsung Galaxy A54" → marca Samsung, modelo Galaxy A54).
@@ -526,6 +527,12 @@ export const EstoqueForm = memo(function EstoqueForm({
               valor={form.quantidade}
               aoMudar={(v) => alterar("quantidade", v)}
               erro={erros.quantidade}
+            />
+            <FormInput
+              label="IMEI/SN"
+              placeholder="Opcional"
+              valor={form.imei_sn}
+              aoMudar={(v) => alterar("imei_sn", v)}
             />
             <FormInput
               label="Defeito"
