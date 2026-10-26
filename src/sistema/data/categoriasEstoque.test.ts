@@ -2,15 +2,17 @@ import { describe, expect, it } from "vitest";
 import { CATEGORIAS_ESTOQUE, categoriaPorValor, rotuloCategoria } from "./categoriasEstoque";
 
 describe("catálogo de categorias de estoque (spec §2A e §4)", () => {
-  it("tem os 12 grupos comerciais + aparelho de cliente", () => {
-    expect(CATEGORIAS_ESTOQUE).toHaveLength(13);
+  it("tem os 12 grupos comerciais + aparelhos de cliente (celular e notebook)", () => {
+    expect(CATEGORIAS_ESTOQUE).toHaveLength(14);
     expect(CATEGORIAS_ESTOQUE.filter((c) => !c.aparelhoDeCliente)).toHaveLength(12);
+    expect(CATEGORIAS_ESTOQUE.filter((c) => c.aparelhoDeCliente)).toHaveLength(2);
     expect(categoriaPorValor("aparelho_cliente")?.aparelhoDeCliente).toBe(true);
+    expect(categoriaPorValor("notebook")?.aparelhoDeCliente).toBe(true);
   });
 
-  it("traz TODO o conteúdo de subcategorias do documento (226 itens)", () => {
+  it("traz TODO o conteúdo de subcategorias do documento (233 itens)", () => {
     const total = CATEGORIAS_ESTOQUE.reduce((soma, c) => soma + c.subcategorias.length, 0);
-    expect(total).toBe(226);
+    expect(total).toBe(233);
   });
 
   it("cada grupo tem subcategorias e nenhum valor de categoria é duplicado", () => {

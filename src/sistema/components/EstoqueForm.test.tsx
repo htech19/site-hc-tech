@@ -13,8 +13,8 @@ describe("EstoqueForm — passo 1 (cards de tipo de item)", () => {
     for (const c of CATEGORIAS_ESTOQUE) {
       expect(screen.getByRole("button", { name: new RegExp(c.rotulo) })).toBeInTheDocument();
     }
-    // 13 cards = 12 grupos comerciais + aparelho de cliente
-    expect(CATEGORIAS_ESTOQUE).toHaveLength(13);
+    // 14 cards = 12 grupos comerciais + 2 aparelhos de cliente (celular e notebook)
+    expect(CATEGORIAS_ESTOQUE).toHaveLength(14);
   });
 
   it("bloqueia Continuar até que uma categoria seja escolhida", () => {

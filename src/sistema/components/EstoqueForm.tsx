@@ -528,6 +528,81 @@ export const EstoqueForm = memo(function EstoqueForm({
               aoMudar={(v) => alterar("quantidade", v)}
               erro={erros.quantidade}
             />
+
+            {/* Proprietário do item (HC TECH, FASTCELL, Mercado Livre) */}
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                Proprietário
+              </label>
+              <select
+                value={
+                  ["HC TECH", "FASTCELL", "Mercado Livre", "Cliente / Assistência"].includes(form.proprietario)
+                    ? form.proprietario
+                    : "OUTRO"
+                }
+                onChange={(e) => {
+                  if (e.target.value === "OUTRO") {
+                    alterar("proprietario", "");
+                  } else {
+                    alterar("proprietario", e.target.value);
+                  }
+                }}
+                className="h-10 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 text-sm text-zinc-100 focus:border-[#00FF88] focus:outline-none"
+              >
+                <option value="HC TECH">HC TECH (Loja Própria)</option>
+                <option value="FASTCELL">FASTCELL</option>
+                <option value="Mercado Livre">Mercado Livre</option>
+                <option value="Cliente / Assistência">Cliente / Assistência</option>
+                <option value="OUTRO">Outro proprietário...</option>
+              </select>
+              {!["HC TECH", "FASTCELL", "Mercado Livre", "Cliente / Assistência"].includes(form.proprietario) && (
+                <input
+                  type="text"
+                  placeholder="Digite o nome do proprietário..."
+                  value={form.proprietario}
+                  onChange={(e) => alterar("proprietario", e.target.value)}
+                  className="mt-1.5 h-9 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:outline-none"
+                />
+              )}
+            </div>
+
+            {/* Canal de venda do item (Loja física, Mercado Livre) */}
+            <div>
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-400">
+                Canal de Venda
+              </label>
+              <select
+                value={
+                  ["Loja física", "Mercado Livre", "Ambos", "Shopee", "WhatsApp"].includes(form.canal_de_venda)
+                    ? form.canal_de_venda
+                    : "OUTRO"
+                }
+                onChange={(e) => {
+                  if (e.target.value === "OUTRO") {
+                    alterar("canal_de_venda", "");
+                  } else {
+                    alterar("canal_de_venda", e.target.value);
+                  }
+                }}
+                className="h-10 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 text-sm text-zinc-100 focus:border-[#00FF88] focus:outline-none"
+              >
+                <option value="Loja física">Loja física (Balcão)</option>
+                <option value="Mercado Livre">Mercado Livre (E-commerce)</option>
+                <option value="Ambos">Ambos (Loja física e ML)</option>
+                <option value="Shopee">Shopee</option>
+                <option value="WhatsApp">WhatsApp / Catálogo</option>
+                <option value="OUTRO">Outro canal...</option>
+              </select>
+              {!["Loja física", "Mercado Livre", "Ambos", "Shopee", "WhatsApp"].includes(form.canal_de_venda) && (
+                <input
+                  type="text"
+                  placeholder="Digite o canal de venda..."
+                  value={form.canal_de_venda}
+                  onChange={(e) => alterar("canal_de_venda", e.target.value)}
+                  className="mt-1.5 h-9 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-[#00FF88] focus:outline-none"
+                />
+              )}
+            </div>
             <FormInput
               label="IMEI/SN"
               placeholder="Opcional"

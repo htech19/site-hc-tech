@@ -11,13 +11,19 @@ import {
   ChevronLeft,
   ChevronRight,
   Copy,
+  FileText,
+  Mail,
   MessageCircle,
+  Pencil,
   RefreshCw,
   Search,
+  Trash2,
+  Undo2,
   X,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { estadoDaConsulta } from "@/sistema/services/erroConsulta";
+import { CONTACT_CONFIG } from "@/config/contact";
 import {
   CATEGORIAS_SOLICITACAO,
   STATUS_SOLICITACAO,
@@ -111,6 +117,156 @@ function Secao({ titulo, children }: { titulo: string; children: React.ReactNode
     </section>
   );
 }
+
+  const [editandoNome, setEditandoNome] = useState(false);
+  const [novoNome, setNovoNome] = useState("");
+  const [excluidosAbertos, setExcluidosAbertos] = useState(false);
+  const [rowsExcluidos, setRowsExcluidos] = useState<Sol[]>([]);
+  const [loadingExcluidos, setLoadingExcluidos] = useState(false);
+
+  const carregarExcluidos = useCallback(async () => {
+    setLoadingExcluidos(true);
+    const { data, error: err } = await supabase
+      .from("orcamento_solicitacoes")
+      .select("*")
+      .eq("status", "cancelada")
+      .order("updated_at", { ascending: false });
+    if (!err && data) {
+      setRowsExcluidos(data as Sol[]);
+    }
+    setLoadingExcluidos(false);
+  }, []);
+
+  const salvarNovoNome = async (s: Sol) => {
+    const nomeLimpo = novoNome.trim();
+    if (!nomeLimpo) {
+      return toast({ title: "Nome inválido", description: "O nome do dono não pode ficar vazio.", variant: "destructive" });
+    }
+    const { error: err } = await supabase
+      .from("orcamento_solicitacoes")
+      .update({ nome: nomeLimpo })
+      .eq("id", s.id);
+    if (err) {
+      return toast({ title: "Erro ao atualizar nome", description: err.message, variant: "destructive" });
+    }
+    const upd = { ...s, nome: nomeLimpo, updated_at: new Date().toISOString() };
+    setSel(upd);
+    setRows((r) => r.map((x) => (x.id === s.id ? upd : x)));
+    setEditandoNome(false);
+    toast({ title: "Nome do dono atualizado", description: `Novo nome: ${nomeLimpo}` });
+  };
+
+  const excluirSolicitacao = async (s: Sol) => {
+    if (!window.confirm(`Deseja realmente enviar a solicitação ${s.protocolo} para a lixeira (excluídos)?`)) return;
+    const { error: err } = await supabase
+      .from("orcamento_solicitacoes")
+      .update({ status: "cancelada" })
+      .eq("id", s.id);
+    if (err) {
+      return toast({ title: "Erro ao excluir", description: err.message, variant: "destructive" });
+    }
+    toast({ title: "Solicitação movida para excluídos", description: `Protocolo ${s.protocolo}` });
+    setSel(null);
+    void load();
+    void recarregarResumo();
+  };
+
+  const restaurarSolicitacao = async (s: Sol) => {
+    const { error: err } = await supabase
+      .from("orcamento_solicitacoes")
+      .update({ status: "recebido" })
+      .eq("id", s.id);
+    if (err) {
+      return toast({ title: "Erro ao restaurar", description: err.message, variant: "destructive" });
+    }
+    toast({ title: "Solicitação restaurada", description: `Protocolo ${s.protocolo} retornado para ativos.` });
+    void carregarExcluidos();
+    void load();
+  const gerarPDFOrcamento = (s: Sol) => {
+    const win = window.open("", "_blank");
+    if (!win) return;
+    const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Orçamento Técnico - HC TECH ${s.protocolo}</title>
+  <style>
+    body { font-family: Arial, sans-serif; color: #111; margin: 0; padding: 20px; background: #fff; }
+    .header { border-bottom: 2px solid #00A651; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: bold; color: #00A651; }
+    .protocolo { text-align: right; font-size: 14px; color: #555; }
+    .section { margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; padding: 15px; }
+    .section h3 { margin-top: 0; color: #00A651; font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; }
+    .label { font-weight: bold; color: #444; }
+    .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #ddd; padding-top: 15px; }
+    @media print { body { padding: 0; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">HC TECH INFOCELL</div>
+    <div class="protocolo">
+      <strong>Protocolo:</strong> ${s.protocolo}<br>
+      <strong>Data:</strong> ${formatarDataHora(s.created_at)}
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>1. Dados do Cliente / Dono</h3>
+    <div class="grid">
+      <div><span class="label">Nome:</span> ${s.nome}</div>
+      <div><span class="label">Telefone:</span> ${s.telefone}</div>
+      <div><span class="label">E-mail:</span> ${s.email || "—"}</div>
+      <div><span class="label">Preferência de Contato:</span> ${s.preferencia_contato || "—"}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>2. Aparelho / Equipamento</h3>
+    <div class="grid">
+      <div><span class="label">Categoria:</span> ${s.categoria}</div>
+      <div><span class="label">Marca / Modelo:</span> ${s.marca} ${s.modelo}</div>
+      <div><span class="label">Nº de Série / IMEI:</span> ${s.numero_serie || s.imei1 || "—"}</div>
+      <div><span class="label">Estado Geral:</span> ${s.estado_geral || "—"}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>3. Solicitação de Serviço & Defeito Relatado</h3>
+    <p><strong>Serviço Solicitado:</strong> ${s.servico}</p>
+    <p><strong>Relato do Cliente:</strong> ${s.descricao_defeito}</p>
+    ${s.sintomas.length ? `<p><strong>Sintomas:</strong> ${s.sintomas.join(", ")}</p>` : ""}
+  </div>
+
+  <div class="section">
+    <h3>4. Termos e Condições</h3>
+    <p style="font-size: 12px; color: #555;">
+      Este orçamento é uma estimativa preliminar baseada nas informações fornecidas. O diagnóstico definitivo e a aprovação final de valores ocorrem em laboratório físico após testes de bancada. Garantia de 90 dias para os serviços executados conforme CDC.
+    </p>
+  </div>
+
+  <div class="footer">
+    HC TECH INFOCELL • WhatsApp Comercial: (11) 97793-4634 • Atendimento Especializado
+  </div>
+
+  <script>
+    window.onload = function() { window.print(); };
+  </script>
+</body>
+</html>`;
+    win.document.write(html);
+    win.document.close();
+  };
+
+  const emailClientePro = (s: Sol) => {
+    const assunto = encodeURIComponent(`Orçamento Técnico HC Tech - Protocolo ${s.protocolo}`);
+    const corpo = encodeURIComponent(`Olá, ${s.nome}!\n\nRecebemos sua solicitação de orçamento (${s.protocolo}) para o aparelho ${s.categoria} ${s.marca} ${s.modelo}.\n\nServiço solicitado: ${s.servico}\nDefeito relatado: ${s.descricao_defeito}\n\nEntre em contato conosco para prosseguirmos com a manutenção especializada.\n\nAtenciosamente,\nHC Tech Infocell\nWhatsApp: (11) 97793-4634`);
+    return `mailto:${s.email || ""}?subject=${assunto}&body=${corpo}`;
+  };
+
+    void recarregarResumo();
+  };
 
 export default function SistemaSolicitacoesPage() {
   const { toast } = useToast();
@@ -248,6 +404,20 @@ export default function SistemaSolicitacoesPage() {
           className="shrink-0 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
         >
           <RefreshCw size={15} className="mr-1" /> Atualizar
+        </Button>
+      </div>
+      {/* Botão para abrir modal de Itens Excluídos (Lixeira) */}
+      <div className="flex justify-end">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            setExcluidosAbertos(true);
+            void carregarExcluidos();
+          }}
+          className="border-zinc-700 bg-zinc-900 text-xs text-zinc-300 hover:border-rose-500/40 hover:text-rose-400"
+        >
+          <Trash2 size={14} className="mr-1.5" /> Ver Solicitações Excluídas / Lixeira
         </Button>
       </div>
 
@@ -566,13 +736,61 @@ export default function SistemaSolicitacoesPage() {
               </div>
 
               <div className="space-y-3 p-5">
-                <Secao titulo="Cliente">
-                  <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <Campo rotulo="Nome" valor={sel.nome} />
-                    <Campo rotulo="Telefone" valor={sel.telefone} />
-                    <Campo rotulo="E-mail" valor={sel.email} />
-                    <Campo rotulo="Preferência" valor={sel.preferencia_contato} />
-                  </dl>
+                <Secao titulo="Cliente / Dono da Solicitação">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="text-xs text-zinc-400">Nome cadastrado pelo cliente:</span>
+                    {!editandoNome ? (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setNovoNome(sel.nome);
+                          setEditandoNome(true);
+                        }}
+                        className="h-7 text-xs text-[#00FF88] hover:bg-zinc-800"
+                      >
+                        <Pencil size={12} className="mr-1" /> Corrigir Nome do Dono
+                      </Button>
+                    ) : (
+                      <div className="flex items-center gap-1.5">
+                        <Button
+                          type="button"
+                          size="sm"
+                          onClick={() => void salvarNovoNome(sel)}
+                          className="h-7 bg-[#00FF88] text-xs font-bold text-zinc-950 hover:bg-[#00E67D]"
+                        >
+                          Salvar
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setEditandoNome(false)}
+                          className="h-7 text-xs text-zinc-400 hover:text-white"
+                        >
+                          Cancelar
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                  {editandoNome ? (
+                    <div className="mt-2">
+                      <Input
+                        value={novoNome}
+                        onChange={(e) => setNovoNome(e.target.value)}
+                        placeholder="Nome correto do cliente/dono"
+                        className="border-zinc-700 bg-zinc-900 text-zinc-100"
+                      />
+                    </div>
+                  ) : (
+                    <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 mt-2">
+                      <Campo rotulo="Nome / Dono" valor={sel.nome} />
+                      <Campo rotulo="Telefone" valor={sel.telefone} />
+                      <Campo rotulo="E-mail" valor={sel.email} />
+                      <Campo rotulo="Preferência" valor={sel.preferencia_contato} />
+                    </dl>
+                  )}
                 </Secao>
 
                 <Secao titulo="Equipamento">
@@ -631,19 +849,53 @@ export default function SistemaSolicitacoesPage() {
                   </dl>
                 </Secao>
 
-                <div className="flex flex-wrap gap-2">
-                  <a href={waCliente(sel)} target="_blank" rel="noopener noreferrer">
-                    <Button className="bg-[#00A651] text-white hover:bg-[#008c44]">
-                      <MessageCircle size={16} className="mr-1" /> Abrir WhatsApp
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-800 bg-zinc-950 p-4">
+                  <div className="space-y-1">
+                    <h5 className="text-xs font-bold uppercase tracking-wider text-[#00FF88]">
+                      Ações e Envio Profissional ao Cliente
+                    </h5>
+                    <p className="text-xs text-zinc-400">
+                      Envie o orçamento formatado via WhatsApp, E-mail ou gere o PDF para impressão/compartilhamento direto.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <a href={waCliente(sel)} target="_blank" rel="noopener noreferrer">
+                      <Button className="bg-[#00A651] font-bold text-white hover:bg-[#008c44]">
+                        <MessageCircle size={16} className="mr-1.5" /> Enviar WhatsApp
+                      </Button>
+                    </a>
+
+                    <a href={emailClientePro(sel)}>
+                      <Button variant="outline" className="border-zinc-700 bg-zinc-900 text-zinc-200 hover:border-[#00FF88] hover:text-[#00FF88]">
+                        <Mail size={16} className="mr-1.5" /> Enviar E-mail
+                      </Button>
+                    </a>
+
+                    <Button
+                      variant="outline"
+                      onClick={() => gerarPDFOrcamento(sel)}
+                      className="border-zinc-700 bg-zinc-900 text-zinc-200 hover:border-[#00FF88] hover:text-[#00FF88]"
+                    >
+                      <FileText size={16} className="mr-1.5" /> Gerar PDF
                     </Button>
-                  </a>
-                  <Button
-                    variant="outline"
-                    onClick={() => void copiar(sel)}
-                    className="border-zinc-700 text-zinc-300 hover:bg-zinc-800"
-                  >
-                    <Copy size={16} className="mr-1" /> Copiar dados
-                  </Button>
+
+                    <Button
+                      variant="outline"
+                      onClick={() => void copiar(sel)}
+                      className="border-zinc-700 bg-zinc-900 text-zinc-300 hover:bg-zinc-800"
+                    >
+                      <Copy size={15} className="mr-1" /> Copiar
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      onClick={() => void excluirSolicitacao(sel)}
+                      className="text-rose-400 hover:bg-rose-500/10 hover:text-rose-300"
+                    >
+                      <Trash2 size={16} className="mr-1" /> Excluir
+                    </Button>
+                  </div>
                 </div>
 
                 <p className="text-[11px] text-zinc-500">
@@ -656,6 +908,60 @@ export default function SistemaSolicitacoesPage() {
               </div>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal / Dialog de Solicitações Excluídas (Lixeira) */}
+      <Dialog open={excluidosAbertos} onOpenChange={setExcluidosAbertos}>
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto border-zinc-700 bg-zinc-900 p-6 text-zinc-100">
+          <DialogHeader>
+            <DialogTitle className="text-base font-bold text-rose-400">
+              🗑️ Solicitações de Orçamento Excluídas (Lixeira)
+            </DialogTitle>
+            <DialogDescription className="text-xs text-zinc-400">
+              Pedidos removidos da listagem principal. Você pode restaurá-los a qualquer momento.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-4 space-y-3">
+            {loadingExcluidos ? (
+              <CarregandoArea altura="h-32" rotulo="Carregando excluídos..." />
+            ) : rowsExcluidos.length === 0 ? (
+              <EstadoVazio
+                icone="🗑️"
+                titulo="Nenhuma solicitação excluída"
+                descricao="As solicitações movidas para a lixeira aparecerão aqui."
+              />
+            ) : (
+              rowsExcluidos.map((ex) => (
+                <div
+                  key={ex.id}
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 text-xs"
+                >
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-bold text-zinc-400">{ex.protocolo}</span>
+                      <span className="rounded bg-rose-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-rose-300 border border-rose-500/20">
+                        Excluído
+                      </span>
+                    </div>
+                    <p className="mt-1 font-semibold text-zinc-200">{ex.nome} • {ex.telefone}</p>
+                    <p className="text-[11px] text-zinc-500">
+                      {ex.categoria} {ex.marca} {ex.modelo} • Excluído em {formatarDataHora(ex.updated_at)}
+                    </p>
+                  </div>
+
+                  <Button
+                    size="sm"
+                    onClick={() => void restaurarSolicitacao(ex)}
+                    className="bg-[#00FF88] text-zinc-950 font-bold hover:bg-[#00E67D]"
+                  >
+                    <Undo2 size={14} className="mr-1.5" /> Restaurar
+                  </Button>
+                </div>
+              ))
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>

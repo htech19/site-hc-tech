@@ -1,4 +1,4 @@
-import { memo, useMemo, useState, type ReactNode } from "react";
+import { memo, useEffect, useMemo, useState, type ReactNode } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AvisoSemConexao, EstadoErro, EstadoVazio } from "./LoadingSpinner";
@@ -52,6 +52,12 @@ interface Props<T> {
   /** Ativa/desativa a paginação client-side. */
   paginar?: boolean;
   linhasPorPagina?: number;
+  /** Opções de quantidade de linhas por página selecionáveis pelo usuário. */
+  linhasPorPaginaOpcoes?: number[];
+  /** Densidade da tabela: "compacta" diminui espaçamentos para ver mais itens. */
+  densidade?: "normal" | "compacta";
+  /** Callback opcional quando o usuário troca o tamanho da página. */
+  onMudarLinhasPorPagina?: (linhas: number) => void;
   /** Número total (quando a paginação é server-side, a página controla externamente). */
   totalLinhas?: number;
   /** Classe extra do container. */
@@ -83,11 +89,19 @@ function DataTableInterna<T>({
   vazioAcao,
   paginar = true,
   linhasPorPagina = 15,
+  linhasPorPaginaOpcoes,
+  densidade = "normal",
+  onMudarLinhasPorPagina,
   className,
   aoClicarLinha,
 }: Props<T>) {
   const [ordenacao, setOrdenacao] = useState<{ chave: string; direcao: Direcao } | null>(null);
   const [pagina, setPagina] = useState(0);
+  const [tamanhoPagina, setTamanhoPagina] = useState(linhasPorPagina);
+
+  useEffect(() => {
+    setTamanhoPagina(linhasPorPagina);
+  }, [linhasPorPagina]);
 
   const alternarOrdenacao = (col: Coluna<T>) => {
     if (!col.ordenavel) return;
@@ -113,19 +127,22 @@ function DataTableInterna<T>({
     });
   }, [linhas, ordenacao, colunas]);
 
-  const totalPaginas = Math.max(1, Math.ceil(linhasOrdenadas.length / linhasPorPagina));
+  const totalPaginas = Math.max(1, Math.ceil(linhasOrdenadas.length / tamanhoPagina));
   const paginaAtual = Math.min(pagina, totalPaginas - 1);
 
   const linhasVisiveis = useMemo(
     () =>
       paginar
-        ? linhasOrdenadas.slice(paginaAtual * linhasPorPagina, (paginaAtual + 1) * linhasPorPagina)
+        ? linhasOrdenadas.slice(paginaAtual * tamanhoPagina, (paginaAtual + 1) * tamanhoPagina)
         : linhasOrdenadas,
-    [linhasOrdenadas, paginaAtual, linhasPorPagina, paginar]
+    [linhasOrdenadas, paginaAtual, tamanhoPagina, paginar]
   );
 
   const alinhamento = (a?: Coluna<T>["alinhar"]) =>
     a === "right" ? "text-right" : a === "center" ? "text-center" : "text-left";
+
+  const classePaddingCabecalho = densidade === "compacta" ? "px-3 py-2 text-[10px]" : "px-4 py-3 text-[11px]";
+  const classePaddingCelula = densidade === "compacta" ? "px-3 py-1.5 text-xs" : "px-4 py-3 text-sm";
 
   if (carregando) {
     return (
@@ -161,7 +178,8 @@ function DataTableInterna<T>({
                   scope="col"
                   style={col.largura ? { width: col.largura } : undefined}
                   className={cn(
-                    "whitespace-nowrap border-b border-zinc-700 px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-zinc-400",
+                    "whitespace-nowrap border-b border-zinc-700 font-semibold uppercase tracking-wide text-zinc-400",
+                    classePaddingCabecalho,
                     alinhamento(col.alinhar),
                     col.ocultarNoMobile && "hidden md:table-cell"
                   )}
@@ -200,7 +218,8 @@ function DataTableInterna<T>({
                   <td
                     key={col.chave}
                     className={cn(
-                      "px-4 py-3 align-middle text-zinc-200",
+                      "align-middle text-zinc-200",
+                      classePaddingCelula,
                       alinhamento(col.alinhar),
                       col.ocultarNoMobile && "hidden md:table-cell"
                     )}
@@ -214,34 +233,60 @@ function DataTableInterna<T>({
         </table>
       </div>
 
-      {paginar && totalPaginas > 1 && (
+      {paginar && (
         <nav
           className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-800 px-4 py-3"
           aria-label="Paginação"
         >
-          <span className="text-xs text-zinc-500">
-            Página {paginaAtual + 1} de {totalPaginas} · {linhasOrdenadas.length} registro(s)
-          </span>
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setPagina((p) => Math.max(0, p - 1))}
-              disabled={paginaAtual === 0}
-              className="rounded-md border border-zinc-700 bg-zinc-800 p-1.5 text-zinc-300 transition hover:border-[#00FF88] hover:text-[#00FF88] disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label="Página anterior"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              type="button"
-              onClick={() => setPagina((p) => Math.min(totalPaginas - 1, p + 1))}
-              disabled={paginaAtual >= totalPaginas - 1}
-              className="rounded-md border border-zinc-700 bg-zinc-800 p-1.5 text-zinc-300 transition hover:border-[#00FF88] hover:text-[#00FF88] disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label="Próxima página"
-            >
-              <ChevronRight size={16} />
-            </button>
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="text-xs text-zinc-500">
+              Página {paginaAtual + 1} de {totalPaginas} · {linhasOrdenadas.length} registro(s)
+            </span>
+            {linhasPorPaginaOpcoes && linhasPorPaginaOpcoes.length > 0 && (
+              <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+                <span>Exibir:</span>
+                <select
+                  value={tamanhoPagina}
+                  onChange={(e) => {
+                    const novo = Number(e.target.value);
+                    setTamanhoPagina(novo);
+                    setPagina(0);
+                    onMudarLinhasPorPagina?.(novo);
+                  }}
+                  className="rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-200 focus:border-[#00FF88] focus:outline-none"
+                  aria-label="Itens por página"
+                >
+                  {linhasPorPaginaOpcoes.map((op) => (
+                    <option key={op} value={op}>
+                      {op} por página
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
+          {totalPaginas > 1 && (
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setPagina((p) => Math.max(0, p - 1))}
+                disabled={paginaAtual === 0}
+                className="rounded-md border border-zinc-700 bg-zinc-800 p-1.5 text-zinc-300 transition hover:border-[#00FF88] hover:text-[#00FF88] disabled:cursor-not-allowed disabled:opacity-40"
+                aria-label="Página anterior"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setPagina((p) => Math.min(totalPaginas - 1, p + 1))}
+                disabled={paginaAtual >= totalPaginas - 1}
+                className="rounded-md border border-zinc-700 bg-zinc-800 p-1.5 text-zinc-300 transition hover:border-[#00FF88] hover:text-[#00FF88] disabled:cursor-not-allowed disabled:opacity-40"
+                aria-label="Próxima página"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
         </nav>
       )}
     </div>

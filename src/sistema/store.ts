@@ -241,6 +241,22 @@ interface EstadoSistema {
   criarItemEstoque: (form: FormularioEstoque) => Promise<boolean>;
   atualizarItemEstoque: (id: string, form: FormularioEstoque) => Promise<boolean>;
   excluirItemEstoque: (id: string) => Promise<boolean>;
+  registrarMovimentacaoEstoque: (dados: {
+    estoqueId: string;
+    tipo: "ENTRADA" | "SAIDA" | "AJUSTE";
+    quantidade: number;
+    motivo: string;
+  }) => Promise<boolean>;
+  atualizarEmMassaEstoque: (
+    ids: string[],
+    alteracoes: {
+      proprietario?: string;
+      canal_de_venda?: string;
+      categoria?: string;
+      subcategoria?: string;
+    }
+  ) => Promise<boolean>;
+  excluirEmMassaEstoque: (ids: string[]) => Promise<boolean>;
 
   // ---- CRUD: Tipos de serviço ----
   criarTipoServico: (nome: string) => Promise<boolean>;
@@ -535,6 +551,73 @@ export const useSistemaStore = create<EstadoSistema>((set, get) => {
         if (error) throw new Error(traduzirErro(error.message));
         invalidar(["sistema"]);
       }, "Item removido do estoque."),
+
+    registrarMovimentacaoEstoque: (dados) =>
+      executar(async () => {
+        const userId = await pegarUsuarioId();
+        const { data: item, error: erroConsulta } = await supabase
+          .from("estoque")
+          .select("quantidade")
+          .eq("id", dados.estoqueId)
+          .single();
+        if (erroConsulta) throw new Error(traduzirErro(erroConsulta.message));
+
+        const qtdAtual = item?.quantidade ?? 0;
+        let novaQtd = qtdAtual;
+        if (dados.tipo === "ENTRADA") {
+          novaQtd = qtdAtual + dados.quantidade;
+        } else if (dados.tipo === "SAIDA") {
+          if (dados.quantidade > qtdAtual) {
+            throw new Error(`Saldo insuficiente no estoque (disponível: ${qtdAtual}).`);
+          }
+          novaQtd = Math.max(0, qtdAtual - dados.quantidade);
+        } else if (dados.tipo === "AJUSTE") {
+          novaQtd = Math.max(0, dados.quantidade);
+        }
+
+        const { error: erroUpdate } = await supabase
+          .from("estoque")
+          .update({ quantidade: novaQtd })
+          .eq("id", dados.estoqueId);
+        if (erroUpdate) throw new Error(traduzirErro(erroUpdate.message));
+
+        // Tenta registrar na tabela de auditoria se existir
+        try {
+          await supabase.from("estoque_movimentos").insert({
+            user_id: userId,
+            estoque_id: dados.estoqueId,
+            tipo: dados.tipo,
+            quantidade: dados.quantidade,
+            motivo: dados.motivo,
+          });
+        } catch {
+          // Fallback silencioso se a tabela ainda não estiver criada no Supabase
+        }
+
+        invalidar(["sistema"]);
+      }, "Movimentação de estoque registrada com sucesso!"),
+
+    atualizarEmMassaEstoque: (ids, alteracoes) =>
+      executar(async () => {
+        if (!ids.length) return;
+        const { error } = await supabase
+          .from("estoque")
+          .update(alteracoes)
+          .in("id", ids);
+        if (error) throw new Error(traduzirErro(error.message));
+        invalidar(["sistema"]);
+      }, `${ids.length} item(ns) atualizado(s) com sucesso!`),
+
+    excluirEmMassaEstoque: (ids) =>
+      executar(async () => {
+        if (!ids.length) return;
+        const { error } = await supabase
+          .from("estoque")
+          .delete()
+          .in("id", ids);
+        if (error) throw new Error(traduzirErro(error.message));
+        invalidar(["sistema"]);
+      }, `${ids.length} item(ns) removido(s) do estoque.`),
 
     // -------------------------------------------------------------------------
     // CRUD: TIPOS DE SERVIÇO
