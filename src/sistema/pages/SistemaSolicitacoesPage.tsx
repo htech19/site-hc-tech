@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { estadoDaConsulta } from "@/sistema/services/erroConsulta";
-import { CONTACT_CONFIG } from "@/config/contact";
 import {
   CATEGORIAS_SOLICITACAO,
   STATUS_SOLICITACAO,
@@ -118,6 +117,25 @@ function Secao({ titulo, children }: { titulo: string; children: React.ReactNode
   );
 }
 
+export default function SistemaSolicitacoesPage() {
+  const { toast } = useToast();
+  const consultaResumo = useResumoSolicitacoesSite();
+  const { data: resumoFunil, refetch: recarregarResumo } = consultaResumo;
+
+  const [rows, setRows] = useState<Sol[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [erroDetalhe, setErroDetalhe] = useState<unknown>(null);
+
+  const [busca, setBusca] = useState("");
+  const [status, setStatus] = useState("todos");
+  const [cat, setCat] = useState("todas");
+  const [de, setDe] = useState("");
+  const [ate, setAte] = useState("");
+  const [sel, setSel] = useState<Sol | null>(null);
+
   const [editandoNome, setEditandoNome] = useState(false);
   const [novoNome, setNovoNome] = useState("");
   const [excluidosAbertos, setExcluidosAbertos] = useState(false);
@@ -182,81 +200,6 @@ function Secao({ titulo, children }: { titulo: string; children: React.ReactNode
     toast({ title: "Solicitação restaurada", description: `Protocolo ${s.protocolo} retornado para ativos.` });
     void carregarExcluidos();
     void load();
-  const gerarPDFOrcamento = (s: Sol) => {
-    const win = window.open("", "_blank");
-    if (!win) return;
-    const html = `<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Orçamento Técnico - HC TECH ${s.protocolo}</title>
-  <style>
-    body { font-family: Arial, sans-serif; color: #111; margin: 0; padding: 20px; background: #fff; }
-    .header { border-bottom: 2px solid #00A651; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 24px; font-weight: bold; color: #00A651; }
-    .protocolo { text-align: right; font-size: 14px; color: #555; }
-    .section { margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; padding: 15px; }
-    .section h3 { margin-top: 0; color: #00A651; font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; }
-    .label { font-weight: bold; color: #444; }
-    .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #ddd; padding-top: 15px; }
-    @media print { body { padding: 0; } }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="logo">HC TECH INFOCELL</div>
-    <div class="protocolo">
-      <strong>Protocolo:</strong> ${s.protocolo}<br>
-      <strong>Data:</strong> ${formatarDataHora(s.created_at)}
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>1. Dados do Cliente / Dono</h3>
-    <div class="grid">
-      <div><span class="label">Nome:</span> ${s.nome}</div>
-      <div><span class="label">Telefone:</span> ${s.telefone}</div>
-      <div><span class="label">E-mail:</span> ${s.email || "—"}</div>
-      <div><span class="label">Preferência de Contato:</span> ${s.preferencia_contato || "—"}</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>2. Aparelho / Equipamento</h3>
-    <div class="grid">
-      <div><span class="label">Categoria:</span> ${s.categoria}</div>
-      <div><span class="label">Marca / Modelo:</span> ${s.marca} ${s.modelo}</div>
-      <div><span class="label">Nº de Série / IMEI:</span> ${s.numero_serie || s.imei1 || "—"}</div>
-      <div><span class="label">Estado Geral:</span> ${s.estado_geral || "—"}</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>3. Solicitação de Serviço & Defeito Relatado</h3>
-    <p><strong>Serviço Solicitado:</strong> ${s.servico}</p>
-    <p><strong>Relato do Cliente:</strong> ${s.descricao_defeito}</p>
-    ${s.sintomas.length ? `<p><strong>Sintomas:</strong> ${s.sintomas.join(", ")}</p>` : ""}
-  </div>
-
-  <div class="section">
-    <h3>4. Termos e Condições</h3>
-    <p style="font-size: 12px; color: #555;">
-      Este orçamento é uma estimativa preliminar baseada nas informações fornecidas. O diagnóstico definitivo e a aprovação final de valores ocorrem em laboratório físico após testes de bancada. Garantia de 90 dias para os serviços executados conforme CDC.
-    </p>
-  </div>
-
-  <div class="footer">
-    HC TECH INFOCELL • WhatsApp Comercial: (11) 97793-4634 • Atendimento Especializado
-  </div>
-
-  <script>
-    window.onload = function() { window.print(); };
-  </script>
-</body>
-</html>`;
-    win.document.write(html);
-    win.document.close();
   };
 
   const emailClientePro = (s: Sol) => {
@@ -265,27 +208,54 @@ function Secao({ titulo, children }: { titulo: string; children: React.ReactNode
     return `mailto:${s.email || ""}?subject=${assunto}&body=${corpo}`;
   };
 
-    void recarregarResumo();
+  const gerarPDFOrcamento = (s: Sol) => {
+    const win = window.open("", "_blank");
+    if (!win) return;
+    const html = [
+      "<!DOCTYPE html>",
+      `<html lang="pt-BR"><head><meta charset="UTF-8">`,
+      `<title>Orçamento Técnico - HC TECH ${s.protocolo}</title>`,
+      "<style>",
+      "body{font-family:Arial,sans-serif;color:#111;margin:0;padding:20px;background:#fff}",
+      ".header{border-bottom:2px solid #00A651;padding-bottom:15px;display:flex;justify-content:space-between;align-items:center}",
+      ".logo{font-size:24px;font-weight:bold;color:#00A651}",
+      ".protocolo{text-align:right;font-size:14px;color:#555}",
+      ".section{margin-top:20px;border:1px solid #ddd;border-radius:8px;padding:15px}",
+      ".section h3{margin-top:0;color:#00A651;font-size:16px;border-bottom:1px solid #eee;padding-bottom:8px}",
+      ".grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px}",
+      ".label{font-weight:bold;color:#444}",
+      ".footer{margin-top:30px;text-align:center;font-size:12px;color:#777;border-top:1px solid #ddd;padding-top:15px}",
+      "@media print{body{padding:0}}",
+      "</style></head><body>",
+      `<div class="header"><div class="logo">HC TECH INFOCELL</div>`,
+      `<div class="protocolo"><strong>Protocolo:</strong> ${s.protocolo}<br><strong>Data:</strong> ${formatarDataHora(s.created_at)}</div></div>`,
+      `<div class="section"><h3>1. Dados do Cliente</h3><div class="grid">`,
+      `<div><span class="label">Nome:</span> ${s.nome}</div>`,
+      `<div><span class="label">Telefone:</span> ${s.telefone}</div>`,
+      `<div><span class="label">E-mail:</span> ${s.email || "—"}</div>`,
+      `<div><span class="label">Preferência:</span> ${s.preferencia_contato || "—"}</div>`,
+      `</div></div>`,
+      `<div class="section"><h3>2. Equipamento</h3><div class="grid">`,
+      `<div><span class="label">Categoria:</span> ${s.categoria}</div>`,
+      `<div><span class="label">Marca/Modelo:</span> ${s.marca} ${s.modelo}</div>`,
+      `<div><span class="label">Série/IMEI:</span> ${s.numero_serie || s.imei1 || "—"}</div>`,
+      `<div><span class="label">Estado:</span> ${s.estado_geral || "—"}</div>`,
+      `</div></div>`,
+      `<div class="section"><h3>3. Serviço & Defeito</h3>`,
+      `<p><strong>Serviço:</strong> ${s.servico}</p>`,
+      `<p><strong>Defeito:</strong> ${s.descricao_defeito}</p>`,
+      s.sintomas.length ? `<p><strong>Sintomas:</strong> ${s.sintomas.join(", ")}</p>` : "",
+      `</div>`,
+      `<div class="section"><h3>4. Termos</h3>`,
+      `<p style="font-size:12px;color:#555;">Este orçamento é uma estimativa preliminar. O diagnóstico definitivo ocorre em laboratório físico. Garantia de 90 dias para os serviços executados conforme CDC.</p>`,
+      `</div>`,
+      `<div class="footer">HC TECH INFOCELL • WhatsApp: (11) 97793-4634 • Atendimento Especializado</div>`,
+      `<script>window.onload=function(){window.print();};</script>`,
+      "</body></html>",
+    ].join("");
+    win.document.write(html);
+    win.document.close();
   };
-
-export default function SistemaSolicitacoesPage() {
-  const { toast } = useToast();
-  const consultaResumo = useResumoSolicitacoesSite();
-  const { data: resumoFunil, refetch: recarregarResumo } = consultaResumo;
-
-  const [rows, setRows] = useState<Sol[]>([]);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [erroDetalhe, setErroDetalhe] = useState<unknown>(null);
-
-  const [busca, setBusca] = useState("");
-  const [status, setStatus] = useState("todos");
-  const [cat, setCat] = useState("todas");
-  const [de, setDe] = useState("");
-  const [ate, setAte] = useState("");
-  const [sel, setSel] = useState<Sol | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
