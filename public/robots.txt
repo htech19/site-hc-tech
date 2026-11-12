@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hctechinfocell.com.br/sitemap.xml

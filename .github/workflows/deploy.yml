@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+# Publicação de produção. Aplica somente o build estático — migrations do
+# Supabase são um workflow separado (`migrations.yml`) e exigem confirmação
+# manual, justamente para que um push em `main` nunca altere o banco.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        # O build lê o .env versionado (chaves públicas do Supabase). Quando o
+        # .env for removido do Git, defina VITE_SUPABASE_URL e
+        # VITE_SUPABASE_PUBLISHABLE_KEY como variáveis do repositório.
+        env:
+          VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
+        run: bun run build
+
+      - name: SPA fallback (deep links)
+        run: cp dist/index.html dist/404.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # O environment `github-pages` pode ter revisores obrigatórios em
+    # Settings → Environments. Com revisores configurados, o deploy espera
+    # aprovação explícita mesmo depois do build.
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

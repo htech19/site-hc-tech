@@ -1,0 +1,7 @@
+{
+  "entrypoint": "index.js",
+  "compatibilityDate": "2026-10-21",
+  "modules": [{"name": "index.js", "type": "esm", "path": "./dist/assets/index-Cm56Qc_7.js"}],
+  "assetsDirectory": "dist",
+  "spa": true
+}

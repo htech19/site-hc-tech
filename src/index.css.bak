@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------------------------------------------------
+ * TEMA HC TECH — Design System Profissional
+ * Inspirado em Linear, Vercel, Stripe
+ * Paleta: Slate + Emerald
+ * -------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    /* Fundo: branco puro com leve tom */
+    --background: 210 20% 99%;
+    --foreground: 224 35% 9%;
+
+    /* Cards: branco com sombra sutil */
+    --card: 0 0% 100%;
+    --card-foreground: 224 35% 9%;
+
+    /* Popovers: branco */
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 35% 9%;
+
+    /* Primary: Emerald 600 - verde profissional */
+    --primary: 152 71% 34%;
+    --primary-foreground: 350 100% 98%;
+
+    /* Secondary: Slate 100 */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 224 35% 9%;
+
+    /* Muted: Slate 100 */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    /* Accent: Slate 100 */
+    --accent: 220 14% 96%;
+    --accent-foreground: 224 35% 9%;
+
+    /* Destructive: Red 500 */
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Border: Slate 200 */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+
+    /* Ring: Emerald 600 */
+    --ring: 152 71% 34%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Fundo: Slate 950 */
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+
+    /* Cards: Slate 900 */
+    --card: 240 10% 9%;
+    --card-foreground: 0 0% 98%;
+
+    /* Popovers: Slate 900 */
+    --popover: 240 10% 9%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary: Emerald 500 */
+    --primary: 152 76% 42%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Slate 800 */
+    --secondary: 240 5% 14%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Muted: Slate 800 */
+    --muted: 240 5% 14%;
+    --muted-foreground: 240 5% 65%;
+
+    /* Accent: Slate 800 */
+    --accent: 240 5% 14%;
+    --accent-foreground: 0 0% 98%;
+
+    /* Destructive: Red 500 */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Border: Slate 800 */
+    --border: 240 5% 14%;
+    --input: 240 5% 14%;
+
+    /* Ring: Emerald 500 */
+    --ring: 152 76% 42%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Componentes Customizados
+ * -------------------------------------------------------------------------- */
+@layer components {
+  /* Card moderno com sombra sutil */
+  .card-modern {
+    @apply rounded-xl border border-border bg-card shadow-sm;
+  }
+
+  /* Botão moderno com hover suave */
+  .btn-modern {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  /* Input moderno */
+  .input-modern {
+    @apply flex h-10 w-full rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}
+
+  /* Inputs com foco visível */
+  .input-modern {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl hover:border-[#00A651]/40 transition-all duration-500 shadow-2xl;
+  }
+  
+  .btn-primary {
+    @apply bg-[#00A651] text-white px-8 py-4 rounded-2xl font-black flex items-center gap-2 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,166,81,0.4)] transition-all uppercase tracking-tighter active:scale-95;
+  }
+
+  .text-glow-green {
+    text-shadow: 0 0 20px rgba(0, 166, 81, 0.6);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+

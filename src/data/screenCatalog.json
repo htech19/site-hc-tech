@@ -1,0 +1,4297 @@
+{
+  "meta": {
+    "marcas": [
+      "ASUS",
+      "IPHONE",
+      "LG",
+      "MOTOROLA",
+      "REALME",
+      "SAMSUNG",
+      "XIAOMI"
+    ],
+    "total_modelos": 470,
+    "total_telas": 665,
+    "atualizado": "2025"
+  },
+  "catalog": {
+    "ASUS": {
+      "K6": {
+        "INC": {
+          "codigo": "HC0554",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "K6 PLUS": {
+        "INC": {
+          "codigo": "HC0555",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "KL": {
+        "INC": {
+          "codigo": "HC0547",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "ZB501KL": {
+        "INC": {
+          "codigo": "HC0529",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "ZB551KL": {
+        "INC": {
+          "codigo": "HC0530",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "ZB553KL": {
+        "INC": {
+          "codigo": "HC0531",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "ZB555KL": {
+        "INC": {
+          "codigo": "HC0532",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        }
+      },
+      "ZB570TL": {
+        "INC": {
+          "codigo": "HC0533",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "ZB601KL": {
+        "INC": {
+          "codigo": "HC0534",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "ZB601KL C/A": {
+        "INC": {
+          "codigo": "HC0537",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        }
+      },
+      "ZB631KL": {
+        "INC": {
+          "codigo": "HC0535",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "ZB634KL": {
+        "INC": {
+          "codigo": "HC0536",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "ZC520KL": {
+        "INC": {
+          "codigo": "HC0538",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "ZC520TL": {
+        "INC": {
+          "codigo": "HC0539",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "ZC553KL": {
+        "INC": {
+          "codigo": "HC0540",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "ZC554KL": {
+        "INC": {
+          "codigo": "HC0541",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "ZC600": {
+        "INC": {
+          "codigo": "HC0553",
+          "valor": 380.0,
+          "valor_str": "R$ 380,00"
+        }
+      },
+      "ZC600KL": {
+        "INC": {
+          "codigo": "HC0542",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "ZD551KL": {
+        "INC": {
+          "codigo": "HC0543",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "ZD552KL C/A": {
+        "INC": {
+          "codigo": "HC0544",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "ZD553KL": {
+        "INC": {
+          "codigo": "HC0545",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "ZE520KL": {
+        "INC": {
+          "codigo": "HC0546",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        }
+      },
+      "ZE551ML": {
+        "INC": {
+          "codigo": "HC0547",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "ZE552KL": {
+        "INC": {
+          "codigo": "HC0548",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        }
+      },
+      "ZE553KL": {
+        "INC": {
+          "codigo": "HC0549",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "ZE554KL": {
+        "INC": {
+          "codigo": "HC0550",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "ZE620KL": {
+        "INC": {
+          "codigo": "HC0551",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        }
+      },
+      "ZS620KL": {
+        "INC": {
+          "codigo": "HC0552",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      }
+    },
+    "IPHONE": {
+      "11": {
+        "JK": {
+          "codigo": "HC0344",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "OLED": {
+          "codigo": "HC0345",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "VIVD": {
+          "codigo": "HC0343",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "11 PRO": {
+        "JK": {
+          "codigo": "HC0347",
+          "valor": 290.0,
+          "valor_str": "R$ 290,00"
+        },
+        "OLED": {
+          "codigo": "HC0348",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "VIVD": {
+          "codigo": "HC0346",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "11 PRO MAX": {
+        "JK": {
+          "codigo": "HC0350",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        },
+        "OLED": {
+          "codigo": "HC0351",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "VIVD": {
+          "codigo": "HC0349",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        }
+      },
+      "12": {
+        "JK": {
+          "codigo": "HC0362",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        },
+        "OLED": {
+          "codigo": "HC0363",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        },
+        "VIVD": {
+          "codigo": "HC0361",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "12 MINI": {
+        "JK": {
+          "codigo": "HC0364",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "OLED": {
+          "codigo": "HC0365",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "12 PRO": {
+        "JK": {
+          "codigo": "HC0362",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        },
+        "OLED": {
+          "codigo": "HC0363",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        },
+        "VIVD": {
+          "codigo": "HC0361",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "12 PRO MAX": {
+        "JK": {
+          "codigo": "HC0367",
+          "valor": 420.0,
+          "valor_str": "R$ 420,00"
+        },
+        "OLED": {
+          "codigo": "HC0368",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "VIVD": {
+          "codigo": "HC0366",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "13": {
+        "JK": {
+          "codigo": "HC0370",
+          "valor": 420.0,
+          "valor_str": "R$ 420,00"
+        },
+        "OLED": {
+          "codigo": "HC0371",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        },
+        "VIVD": {
+          "codigo": "HC0369",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "13 MINI": {
+        "VIVD": {
+          "codigo": "HC0372",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "13 PRO": {
+        "JK": {
+          "codigo": "HC0373",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "OLED": {
+          "codigo": "HC0374",
+          "valor": 680.0,
+          "valor_str": "R$ 680,00"
+        }
+      },
+      "13 PRO MAX": {
+        "JK": {
+          "codigo": "HC0375",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "OLED": {
+          "codigo": "HC0376",
+          "valor": 900.0,
+          "valor_str": "R$ 900,00"
+        }
+      },
+      "14": {
+        "JK": {
+          "codigo": "HC0377",
+          "valor": 290.0,
+          "valor_str": "R$ 290,00"
+        },
+        "OLED": {
+          "codigo": "HC0378",
+          "valor": 560.0,
+          "valor_str": "R$ 560,00"
+        }
+      },
+      "14 PLUS": {
+        "OLED": {
+          "codigo": "HC0380",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "VIVD": {
+          "codigo": "HC0379",
+          "valor": 370.0,
+          "valor_str": "R$ 370,00"
+        }
+      },
+      "14 PRO": {
+        "VIVD": {
+          "codigo": "HC0381",
+          "valor": 440.0,
+          "valor_str": "R$ 440,00"
+        }
+      },
+      "14 PRO MAX": {
+        "JK": {
+          "codigo": "HC0382",
+          "valor": 420.0,
+          "valor_str": "R$ 420,00"
+        },
+        "OLED": {
+          "codigo": "HC0383",
+          "valor": 1560.0,
+          "valor_str": "R$ 1560,00"
+        }
+      },
+      "15": {
+        "JK": {
+          "codigo": "HC0384",
+          "valor": 680.0,
+          "valor_str": "R$ 680,00"
+        },
+        "OLED": {
+          "codigo": "HC0385",
+          "valor": 1220.0,
+          "valor_str": "R$ 1220,00"
+        }
+      },
+      "15 PRO": {
+        "JK": {
+          "codigo": "HC0386",
+          "valor": 520.0,
+          "valor_str": "R$ 520,00"
+        },
+        "OLED": {
+          "codigo": "HC0387",
+          "valor": 2500.0,
+          "valor_str": "R$ 2500,00"
+        }
+      },
+      "15 PRO MAX": {
+        "VIVD": {
+          "codigo": "HC0388",
+          "valor": 440.0,
+          "valor_str": "R$ 440,00"
+        }
+      },
+      "5C": {
+        "VIVD": {
+          "codigo": "HC0330",
+          "valor": 135.0,
+          "valor_str": "R$ 135,00"
+        }
+      },
+      "5S": {
+        "VIVD": {
+          "codigo": "HC0330",
+          "valor": 135.0,
+          "valor_str": "R$ 135,00"
+        }
+      },
+      "5SE": {
+        "VIVD": {
+          "codigo": "HC0330",
+          "valor": 135.0,
+          "valor_str": "R$ 135,00"
+        }
+      },
+      "6 PLUS": {
+        "VIVD": {
+          "codigo": "HC0334",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "6G": {
+        "VIVD": {
+          "codigo": "HC0331",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "6S": {
+        "VIVD": {
+          "codigo": "HC0332",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "6S PLUS": {
+        "VIVD": {
+          "codigo": "HC0333",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "7 PLUS": {
+        "JK": {
+          "codigo": "HC0338",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "VIVD": {
+          "codigo": "HC0337",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "7G": {
+        "JK": {
+          "codigo": "HC0336",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        },
+        "VIVD": {
+          "codigo": "HC0335",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "8 PLUS": {
+        "JK": {
+          "codigo": "HC0342",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "VIVD": {
+          "codigo": "HC0341",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "8G": {
+        "JK": {
+          "codigo": "HC0340",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "VIVD": {
+          "codigo": "HC0339",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "X": {
+        "JK": {
+          "codigo": "HC0353",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        },
+        "OLED": {
+          "codigo": "HC0354",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "VIVD": {
+          "codigo": "HC0352",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "XR": {
+        "JK": {
+          "codigo": "HC0359",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        },
+        "OLED": {
+          "codigo": "HC0360",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "VIVD": {
+          "codigo": "HC0358",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "XS": {
+        "JK": {
+          "codigo": "HC0353",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        },
+        "OLED": {
+          "codigo": "HC0354",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "VIVD": {
+          "codigo": "HC0352",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "XS MAX": {
+        "JK": {
+          "codigo": "HC0356",
+          "valor": 450.0,
+          "valor_str": "R$ 450,00"
+        },
+        "OLED": {
+          "codigo": "HC0357",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "VIVD": {
+          "codigo": "HC0355",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      }
+    },
+    "LG": {
+      "K10": {
+        "INC": {
+          "codigo": "HC0498",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "K10 2017": {
+        "INC": {
+          "codigo": "HC0499",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "K10 PRO": {
+        "INC": {
+          "codigo": "HC0497",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "K11 PLUS": {
+        "INC": {
+          "codigo": "HC0500",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K12": {
+        "INC": {
+          "codigo": "HC0503",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K12 MAX": {
+        "INC": {
+          "codigo": "HC0501",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "K12 PRIME": {
+        "INC": {
+          "codigo": "HC0502",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "K12+": {
+        "INC": {
+          "codigo": "HC0503",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K200": {
+        "INC": {
+          "codigo": "HC0504",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "K22": {
+        "INC": {
+          "codigo": "HC0505",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K22 PLUS": {
+        "INC": {
+          "codigo": "HC0505",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K220": {
+        "INC": {
+          "codigo": "HC0506",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "K4": {
+        "INC": {
+          "codigo": "HC0507",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "K40S": {
+        "INC": {
+          "codigo": "HC0508",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K40S C/A": {
+        "INC": {
+          "codigo": "HC0509",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "K41S": {
+        "INC": {
+          "codigo": "HC0510",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K41S C/A": {
+        "INC": {
+          "codigo": "HC0511",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0512",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "K42": {
+        "INC": {
+          "codigo": "HC0514",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0513",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "K5": {
+        "INC": {
+          "codigo": "HC0515",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "K50S": {
+        "INC": {
+          "codigo": "HC0516",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "K51S": {
+        "INC": {
+          "codigo": "HC0517",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K52": {
+        "INC": {
+          "codigo": "HC0514",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K52 C/A": {
+        "NAC": {
+          "codigo": "HC0513",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "K6": {
+        "INC": {
+          "codigo": "HC0518",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "K6 PLUS": {
+        "INC": {
+          "codigo": "HC0519",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "K61": {
+        "INC": {
+          "codigo": "HC0520",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0521",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "K61 NAC ARO": {
+        "NAC": {
+          "codigo": "HC0527",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "K62": {
+        "INC": {
+          "codigo": "HC0522",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "K8 2016": {
+        "INC": {
+          "codigo": "HC0524",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "K8 PLUS": {
+        "INC": {
+          "codigo": "HC0523",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "K9": {
+        "INC": {
+          "codigo": "HC0525",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "Q6": {
+        "INC": {
+          "codigo": "HC0526",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "Q6+": {
+        "INC": {
+          "codigo": "HC0526",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "X210": {
+        "INC": {
+          "codigo": "HC0525",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      }
+    },
+    "MOTOROLA": {
+      "ACTION S": {
+        "INC": {
+          "codigo": "HC0317",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "ARO NAC": {
+        "INC": {
+          "codigo": "HC0309",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "NAC": {
+          "codigo": "HC0328",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "E13": {
+        "INC": {
+          "codigo": "HC0219",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E13 C/A": {
+        "INC": {
+          "codigo": "HC0220",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0221",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "E15": {
+        "INC": {
+          "codigo": "HC0259",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "E20 C/A": {
+        "INC": {
+          "codigo": "HC0231",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "E20 S": {
+        "INC": {
+          "codigo": "HC0229",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0230",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "E22 C/A": {
+        "INC": {
+          "codigo": "HC0234",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "E22 S": {
+        "INC": {
+          "codigo": "HC0232",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0233",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "E30": {
+        "INC": {
+          "codigo": "HC0235",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E32": {
+        "INC": {
+          "codigo": "HC0236",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E32 C/A": {
+        "INC": {
+          "codigo": "HC0237",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "E4": {
+        "INC": {
+          "codigo": "HC0200",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E4 PLUS": {
+        "INC": {
+          "codigo": "HC0201",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E40 S": {
+        "INC": {
+          "codigo": "HC0235",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E5": {
+        "CHI": {
+          "codigo": "HC0280",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "INC": {
+          "codigo": "HC0202",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0281",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "E5 PLAY": {
+        "INC": {
+          "codigo": "HC0203",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E5 PLUS": {
+        "INC": {
+          "codigo": "HC0204",
+          "valor": 130.0,
+          "valor_str": "R$ 130,00"
+        }
+      },
+      "E6 PLAY": {
+        "INC": {
+          "codigo": "HC0205",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E6 PLUS": {
+        "INC": {
+          "codigo": "HC0206",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E6I": {
+        "INC": {
+          "codigo": "HC0208",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E6I C/A": {
+        "CHI": {
+          "codigo": "HC0207",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        },
+        "INC": {
+          "codigo": "HC0211",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "NAC": {
+          "codigo": "HC0212",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "E6S": {
+        "INC": {
+          "codigo": "HC0211",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "NAC": {
+          "codigo": "HC0212",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "E7": {
+        "INC": {
+          "codigo": "HC0217",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0218",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "E7 PLUS": {
+        "INC": {
+          "codigo": "HC0214",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        },
+        "NAC": {
+          "codigo": "HC0215",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "E7 PLUS C/A": {
+        "CHI": {
+          "codigo": "HC0213",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "E7 POWER": {
+        "INC": {
+          "codigo": "HC0216",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "E7 POWER C/A": {
+        "INC": {
+          "codigo": "HC0217",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0218",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "ED30": {
+        "INC": {
+          "codigo": "HC0270",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0271",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        }
+      },
+      "EDGE 20 LITE C/A": {
+        "CHI": {
+          "codigo": "HC0225",
+          "valor": 1200.0,
+          "valor_str": "R$ 1200,00"
+        }
+      },
+      "EDGE 20 LITE S": {
+        "CHI": {
+          "codigo": "HC0226",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        }
+      },
+      "EDGE 30": {
+        "CHI": {
+          "codigo": "HC0227",
+          "valor": 700.0,
+          "valor_str": "R$ 700,00"
+        }
+      },
+      "EDGE 30 NEO": {
+        "CHI": {
+          "codigo": "HC0228",
+          "valor": 760.0,
+          "valor_str": "R$ 760,00"
+        }
+      },
+      "EDGE 50 FUSION": {
+        "CHI": {
+          "codigo": "HC0238",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        }
+      },
+      "EDGE PLUS": {
+        "CHI": {
+          "codigo": "HC0223",
+          "valor": 960.0,
+          "valor_str": "R$ 960,00"
+        }
+      },
+      "EDGE S": {
+        "CHI": {
+          "codigo": "HC0222",
+          "valor": 780.0,
+          "valor_str": "R$ 780,00"
+        }
+      },
+      "EDGE20": {
+        "CHI": {
+          "codigo": "HC0224",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        }
+      },
+      "G04": {
+        "INC": {
+          "codigo": "HC0273",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G05": {
+        "INC": {
+          "codigo": "HC0259",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G05 S": {
+        "INC": {
+          "codigo": "HC0263",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G06": {
+        "INC": {
+          "codigo": "HC0279",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G1": {
+        "INC": {
+          "codigo": "HC0239",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G10": {
+        "INC": {
+          "codigo": "HC0241",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0242",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G100 S": {
+        "INC": {
+          "codigo": "HC0246",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "G13": {
+        "INC": {
+          "codigo": "HC0243",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0244",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G14": {
+        "INC": {
+          "codigo": "HC0245",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G15": {
+        "INC": {
+          "codigo": "HC0259",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G2": {
+        "INC": {
+          "codigo": "HC0239",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G20": {
+        "INC": {
+          "codigo": "HC0241",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0242",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G200": {
+        "INC": {
+          "codigo": "HC0250",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "G22": {
+        "INC": {
+          "codigo": "HC0247",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G22 C/A": {
+        "INC": {
+          "codigo": "HC0248",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "G23": {
+        "INC": {
+          "codigo": "HC0243",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0244",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G24": {
+        "INC": {
+          "codigo": "HC0273",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G24 C/A": {
+        "INC": {
+          "codigo": "HC0269",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G3": {
+        "INC": {
+          "codigo": "HC0239",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G30": {
+        "INC": {
+          "codigo": "HC0240",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G30 C/A": {
+        "INC": {
+          "codigo": "HC0241",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0242",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G31": {
+        "INC": {
+          "codigo": "HC0251",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0252",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "G32": {
+        "INC": {
+          "codigo": "HC0286",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0254",
+          "valor": 420.0,
+          "valor_str": "R$ 420,00"
+        }
+      },
+      "G34": {
+        "INC": {
+          "codigo": "HC0243",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0244",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G35": {
+        "INC": {
+          "codigo": "HC0249",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "G4": {
+        "INC": {
+          "codigo": "HC0256",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "G4 PLAY": {
+        "INC": {
+          "codigo": "HC0255",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G4 PLUS": {
+        "INC": {
+          "codigo": "HC0256",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "G41": {
+        "INC": {
+          "codigo": "HC0251",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0252",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "G42": {
+        "INC": {
+          "codigo": "HC0260",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0261",
+          "valor": 290.0,
+          "valor_str": "R$ 290,00"
+        }
+      },
+      "G5": {
+        "INC": {
+          "codigo": "HC0257",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "G5 PLUS": {
+        "INC": {
+          "codigo": "HC0258",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G50 4G S": {
+        "INC": {
+          "codigo": "HC0262",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G50 5G": {
+        "CHI": {
+          "codigo": "HC0267",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "INC": {
+          "codigo": "HC0266",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0268",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        }
+      },
+      "G51 5G": {
+        "INC": {
+          "codigo": "HC0283",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0284",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G52": {
+        "INC": {
+          "codigo": "HC0270",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0271",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        }
+      },
+      "G52 5G S": {
+        "INC": {
+          "codigo": "HC0264",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        },
+        "NAC": {
+          "codigo": "HC0265",
+          "valor": 920.0,
+          "valor_str": "R$ 920,00"
+        }
+      },
+      "G53": {
+        "INC": {
+          "codigo": "HC0243",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0244",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G54": {
+        "INC": {
+          "codigo": "HC0245",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G5G": {
+        "INC": {
+          "codigo": "HC0274",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G5G PLUS": {
+        "INC": {
+          "codigo": "HC0275",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "G5S": {
+        "INC": {
+          "codigo": "HC0276",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "G5S PLUS": {
+        "INC": {
+          "codigo": "HC0277",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G6": {
+        "CHI": {
+          "codigo": "HC0278",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G6 PLAY": {
+        "CHI": {
+          "codigo": "HC0280",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "INC": {
+          "codigo": "HC0202",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0281",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "G6 PLUS": {
+        "INC": {
+          "codigo": "HC0282",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G60": {
+        "INC": {
+          "codigo": "HC0283",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0284",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G60S": {
+        "INC": {
+          "codigo": "HC0283",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0284",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G62": {
+        "INC": {
+          "codigo": "HC0287",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G64": {
+        "INC": {
+          "codigo": "HC0245",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G7": {
+        "INC": {
+          "codigo": "HC0288",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G7 PLAY S": {
+        "INC": {
+          "codigo": "HC0289",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        },
+        "NAC": {
+          "codigo": "HC0290",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "G7 PLUS": {
+        "INC": {
+          "codigo": "HC0288",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G7 POWER": {
+        "INC": {
+          "codigo": "HC0291",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G71": {
+        "INC": {
+          "codigo": "HC0251",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0252",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "G71 C/A": {
+        "CHI": {
+          "codigo": "HC0285",
+          "valor": 760.0,
+          "valor_str": "R$ 760,00"
+        }
+      },
+      "G72": {
+        "INC": {
+          "codigo": "HC0270",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0271",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        }
+      },
+      "G73": {
+        "INC": {
+          "codigo": "HC0286",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G8": {
+        "INC": {
+          "codigo": "HC0292",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G8 PLAY": {
+        "INC": {
+          "codigo": "HC0293",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0294",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "G8 PLUS": {
+        "CHI": {
+          "codigo": "HC0295",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G8 POWER": {
+        "INC": {
+          "codigo": "HC0296",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "G8 POWER LITE": {
+        "INC": {
+          "codigo": "HC0297",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "G8 POWER LITE C/A": {
+        "INC": {
+          "codigo": "HC0298",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "NAC": {
+          "codigo": "HC0299",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "G82": {
+        "INC": {
+          "codigo": "HC0270",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0271",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        }
+      },
+      "G84": {
+        "INC": {
+          "codigo": "HC0272",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "G84 INCELL": {
+        "INC": {
+          "codigo": "HC0301",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "G84 INCELL C/A": {
+        "INC": {
+          "codigo": "HC0302",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G84 OLED S": {
+        "OLED": {
+          "codigo": "HC0300",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "G85": {
+        "CHI": {
+          "codigo": "HC0238",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        }
+      },
+      "G9 PLAY": {
+        "INC": {
+          "codigo": "HC0305",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        },
+        "NAC": {
+          "codigo": "HC0306",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "G9 PLAY C/A": {
+        "INC": {
+          "codigo": "HC0309",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "NAC": {
+          "codigo": "HC0328",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "G9 PLUS": {
+        "INC": {
+          "codigo": "HC0303",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0304",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "G9 POWER": {
+        "INC": {
+          "codigo": "HC0310",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "G9 POWER C/A": {
+        "INC": {
+          "codigo": "HC0311",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "ONE": {
+        "INC": {
+          "codigo": "HC0312",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "ONE C/A": {
+        "INC": {
+          "codigo": "HC0313",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "ONE FUSION": {
+        "INC": {
+          "codigo": "HC0315",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "ONE FUSION C/A": {
+        "INC": {
+          "codigo": "HC0314",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "ONE FUSION PLUS": {
+        "INC": {
+          "codigo": "HC0318",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0319",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "ONE FUSION PLUS C/A": {
+        "INC": {
+          "codigo": "HC0320",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "ONE HYPER": {
+        "INC": {
+          "codigo": "HC0316",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "ONE MAC TOP": {
+        "INC": {
+          "codigo": "HC0293",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0294",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "ONE VISION": {
+        "INC": {
+          "codigo": "HC0317",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "ONE ZOOM": {
+        "CHI": {
+          "codigo": "HC0321",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        }
+      },
+      "X PLAY": {
+        "CHI": {
+          "codigo": "HC0322",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "X2": {
+        "CHI": {
+          "codigo": "HC0323",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        }
+      },
+      "X4": {
+        "INC": {
+          "codigo": "HC0324",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "Z PLAY": {
+        "CHI": {
+          "codigo": "HC0325",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "Z2 PLAY": {
+        "CHI": {
+          "codigo": "HC0326",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "Z3 PLAY": {
+        "CHI": {
+          "codigo": "HC0327",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        }
+      }
+    },
+    "REALME": {
+      "C67": {
+        "INC": {
+          "codigo": "HC0558",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "C75": {
+        "INC": {
+          "codigo": "HC0559",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      }
+    },
+    "SAMSUNG": {
+      "A BORDA FINA": {
+        "INC": {
+          "codigo": "HC0095",
+          "valor": 460.0,
+          "valor_str": "R$ 460,00"
+        }
+      },
+      "A BORDA GROSSA": {
+        "CHI": {
+          "codigo": "HC0097",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        },
+        "INC": {
+          "codigo": "HC0096",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0098",
+          "valor": 1080.0,
+          "valor_str": "R$ 1080,00"
+        }
+      },
+      "A01 C/A": {
+        "CHI": {
+          "codigo": "HC0003",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        },
+        "INC": {
+          "codigo": "HC0002",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A01 CORE": {
+        "CHI": {
+          "codigo": "HC0006",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "INC": {
+          "codigo": "HC0005",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A01 PLUS": {
+        "INC": {
+          "codigo": "HC0004",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A02 C/A": {
+        "CHI": {
+          "codigo": "HC0008",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        },
+        "INC": {
+          "codigo": "HC0007",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A02 S": {
+        "INC": {
+          "codigo": "HC0029",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A02S": {
+        "INC": {
+          "codigo": "HC0009",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A02S C/A": {
+        "CHI": {
+          "codigo": "HC0011",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "INC": {
+          "codigo": "HC0010",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A03": {
+        "INC": {
+          "codigo": "HC0012",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A03 CORE": {
+        "CHI": {
+          "codigo": "HC0014",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "INC": {
+          "codigo": "HC0013",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A03S": {
+        "INC": {
+          "codigo": "HC0009",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A03S C/A": {
+        "INC": {
+          "codigo": "HC0012",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A04": {
+        "INC": {
+          "codigo": "HC0015",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A04E": {
+        "INC": {
+          "codigo": "HC0009",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A04E C/A": {
+        "INC": {
+          "codigo": "HC0016",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A05": {
+        "INC": {
+          "codigo": "HC0017",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A05S": {
+        "INC": {
+          "codigo": "HC0018",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A06": {
+        "INC": {
+          "codigo": "HC0019",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A07": {
+        "INC": {
+          "codigo": "HC0020",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A10": {
+        "INC": {
+          "codigo": "HC0023",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A10S C/A": {
+        "CHI": {
+          "codigo": "HC0026",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "INC": {
+          "codigo": "HC0025",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A10S S": {
+        "INC": {
+          "codigo": "HC0024",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A11 C/A": {
+        "INC": {
+          "codigo": "HC0027",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A11 S": {
+        "INC": {
+          "codigo": "HC0028",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A12": {
+        "INC": {
+          "codigo": "HC0029",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A12 C/A": {
+        "INC": {
+          "codigo": "HC0030",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A13": {
+        "CHI": {
+          "codigo": "HC0032",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        },
+        "INC": {
+          "codigo": "HC0033",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A14 5G C/A": {
+        "INC": {
+          "codigo": "HC0035",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A14 5G S": {
+        "INC": {
+          "codigo": "HC0034",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A15": {
+        "CHI": {
+          "codigo": "HC0037",
+          "valor": 350.0,
+          "valor_str": "R$ 350,00"
+        },
+        "INC": {
+          "codigo": "HC0036",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A16": {
+        "CHI": {
+          "codigo": "HC0039",
+          "valor": 540.0,
+          "valor_str": "R$ 540,00"
+        },
+        "INC": {
+          "codigo": "HC0038",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A20 C/A": {
+        "CHI": {
+          "codigo": "HC0041",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        },
+        "INC": {
+          "codigo": "HC0040",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A20S C/A": {
+        "CHI": {
+          "codigo": "HC0043",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "INC": {
+          "codigo": "HC0042",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A20S S": {
+        "INC": {
+          "codigo": "HC0044",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "A21": {
+        "INC": {
+          "codigo": "HC0046",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A21S": {
+        "INC": {
+          "codigo": "HC0046",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A21S C/A": {
+        "INC": {
+          "codigo": "HC0045",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A22 4G C/A": {
+        "CHI": {
+          "codigo": "HC0048",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        },
+        "INC": {
+          "codigo": "HC0047",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0049",
+          "valor": 600.0,
+          "valor_str": "R$ 600,00"
+        }
+      },
+      "A22 5G S": {
+        "INC": {
+          "codigo": "HC0050",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A23": {
+        "INC": {
+          "codigo": "HC0051",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A23 4G C/A": {
+        "CHI": {
+          "codigo": "HC0053",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        },
+        "INC": {
+          "codigo": "HC0052",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A23 5G": {
+        "INC": {
+          "codigo": "HC0051",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A24 S": {
+        "INC": {
+          "codigo": "HC0054",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "A25": {
+        "INC": {
+          "codigo": "HC0055",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A25 C/A": {
+        "INC": {
+          "codigo": "HC0056",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "A30": {
+        "CHI": {
+          "codigo": "HC0058",
+          "valor": 270.0,
+          "valor_str": "R$ 270,00"
+        },
+        "INC": {
+          "codigo": "HC0057",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0059",
+          "valor": 600.0,
+          "valor_str": "R$ 600,00"
+        }
+      },
+      "A30S C/A": {
+        "CHI": {
+          "codigo": "HC0061",
+          "valor": 290.0,
+          "valor_str": "R$ 290,00"
+        },
+        "INC": {
+          "codigo": "HC0060",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A31": {
+        "CHI": {
+          "codigo": "HC0078",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0077",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        },
+        "NAC": {
+          "codigo": "HC0076",
+          "valor": 740.0,
+          "valor_str": "R$ 740,00"
+        }
+      },
+      "A32 4G C/A": {
+        "CHI": {
+          "codigo": "HC0066",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "INC": {
+          "codigo": "HC0065",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0067",
+          "valor": 840.0,
+          "valor_str": "R$ 840,00"
+        }
+      },
+      "A32 5G": {
+        "CHI": {
+          "codigo": "HC0063",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "INC": {
+          "codigo": "HC0062",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A32 5G C/A": {
+        "CHI": {
+          "codigo": "HC0064",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        }
+      },
+      "A33 C/A": {
+        "CHI": {
+          "codigo": "HC0069",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        },
+        "INC": {
+          "codigo": "HC0068",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        },
+        "NAC": {
+          "codigo": "HC0070",
+          "valor": 500.0,
+          "valor_str": "R$ 500,00"
+        }
+      },
+      "A34 C/A": {
+        "CHI": {
+          "codigo": "HC0073",
+          "valor": 380.0,
+          "valor_str": "R$ 380,00"
+        },
+        "INC": {
+          "codigo": "HC0072",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "A5 2016": {
+        "INC": {
+          "codigo": "HC0079",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        }
+      },
+      "A5 2017": {
+        "INC": {
+          "codigo": "HC0071",
+          "valor": 420.0,
+          "valor_str": "R$ 420,00"
+        }
+      },
+      "A50 C/A": {
+        "CHI": {
+          "codigo": "HC0058",
+          "valor": 270.0,
+          "valor_str": "R$ 270,00"
+        },
+        "INC": {
+          "codigo": "HC0057",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0059",
+          "valor": 600.0,
+          "valor_str": "R$ 600,00"
+        }
+      },
+      "A51 G C/A": {
+        "CHI": {
+          "codigo": "HC0078",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0077",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A51 P C/A": {
+        "CHI": {
+          "codigo": "HC0075",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        },
+        "INC": {
+          "codigo": "HC0074",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0076",
+          "valor": 740.0,
+          "valor_str": "R$ 740,00"
+        }
+      },
+      "A510": {
+        "INC": {
+          "codigo": "HC0079",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        }
+      },
+      "A52": {
+        "CHI": {
+          "codigo": "HC0087",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        },
+        "INC": {
+          "codigo": "HC0086",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A52 4G": {
+        "CHI": {
+          "codigo": "HC0082",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "INC": {
+          "codigo": "HC0081",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        },
+        "NAC": {
+          "codigo": "HC0083",
+          "valor": 1240.0,
+          "valor_str": "R$ 1240,00"
+        }
+      },
+      "A52 5G": {
+        "CHI": {
+          "codigo": "HC0085",
+          "valor": 380.0,
+          "valor_str": "R$ 380,00"
+        },
+        "INC": {
+          "codigo": "HC0084",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        }
+      },
+      "A52 BORD": {
+        "INC": {
+          "codigo": "HC0088",
+          "valor": 480.0,
+          "valor_str": "R$ 480,00"
+        }
+      },
+      "A520": {
+        "INC": {
+          "codigo": "HC0080",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "A52S C/A": {
+        "CHI": {
+          "codigo": "HC0087",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        },
+        "INC": {
+          "codigo": "HC0086",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A53 C/A": {
+        "CHI": {
+          "codigo": "HC0090",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "INC": {
+          "codigo": "HC0089",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "NAC": {
+          "codigo": "HC0091",
+          "valor": 1160.0,
+          "valor_str": "R$ 1160,00"
+        }
+      },
+      "A530": {
+        "CHI": {
+          "codigo": "HC0115",
+          "valor": 440.0,
+          "valor_str": "R$ 440,00"
+        },
+        "INC": {
+          "codigo": "HC0114",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "A54": {
+        "INC": {
+          "codigo": "HC0092",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "A54 C/A": {
+        "CHI": {
+          "codigo": "HC0093",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        },
+        "NAC": {
+          "codigo": "HC0094",
+          "valor": 1180.0,
+          "valor_str": "R$ 1180,00"
+        }
+      },
+      "A6 PLUS": {
+        "INC": {
+          "codigo": "HC0021",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "A70 C/A": {
+        "CHI": {
+          "codigo": "HC0097",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        },
+        "INC": {
+          "codigo": "HC0096",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0098",
+          "valor": 1080.0,
+          "valor_str": "R$ 1080,00"
+        }
+      },
+      "A71 C/A": {
+        "CHI": {
+          "codigo": "HC0100",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "INC": {
+          "codigo": "HC0099",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0101",
+          "valor": 1080.0,
+          "valor_str": "R$ 1080,00"
+        }
+      },
+      "A71 VIVID C/A": {
+        "INC": {
+          "codigo": "HC0102",
+          "valor": 480.0,
+          "valor_str": "R$ 480,00"
+        }
+      },
+      "A710": {
+        "INC": {
+          "codigo": "HC0108",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        }
+      },
+      "A72 C/A": {
+        "CHI": {
+          "codigo": "HC0104",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        },
+        "INC": {
+          "codigo": "HC0103",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        },
+        "NAC": {
+          "codigo": "HC0105",
+          "valor": 900.0,
+          "valor_str": "R$ 900,00"
+        }
+      },
+      "A720": {
+        "INC": {
+          "codigo": "HC0109",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "A73": {
+        "CHI": {
+          "codigo": "HC0107",
+          "valor": 1160.0,
+          "valor_str": "R$ 1160,00"
+        },
+        "INC": {
+          "codigo": "HC0106",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "A750": {
+        "CHI": {
+          "codigo": "HC0111",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0110",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A8": {
+        "CHI": {
+          "codigo": "HC0115",
+          "valor": 440.0,
+          "valor_str": "R$ 440,00"
+        },
+        "INC": {
+          "codigo": "HC0114",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "A8 PLUS": {
+        "CHI": {
+          "codigo": "HC0117",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0116",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        }
+      },
+      "A80": {
+        "CHI": {
+          "codigo": "HC0113",
+          "valor": 1360.0,
+          "valor_str": "R$ 1360,00"
+        },
+        "INC": {
+          "codigo": "HC0112",
+          "valor": 660.0,
+          "valor_str": "R$ 660,00"
+        }
+      },
+      "A910 S": {
+        "INC": {
+          "codigo": "HC0118",
+          "valor": 960.0,
+          "valor_str": "R$ 960,00"
+        }
+      },
+      "A920": {
+        "INC": {
+          "codigo": "HC0119",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "F13 C/A": {
+        "INC": {
+          "codigo": "HC0033",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "F13 S": {
+        "CHI": {
+          "codigo": "HC0032",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        },
+        "INC": {
+          "codigo": "HC0031",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "J120": {
+        "INC": {
+          "codigo": "HC0120",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "J2 CORE": {
+        "INC": {
+          "codigo": "HC0121",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "J2 PRO": {
+        "CHI": {
+          "codigo": "HC0123",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        },
+        "INC": {
+          "codigo": "HC0122",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "J320": {
+        "INC": {
+          "codigo": "HC0124",
+          "valor": 135.0,
+          "valor_str": "R$ 135,00"
+        }
+      },
+      "J4 PLUS": {
+        "CHI": {
+          "codigo": "HC0126",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "INC": {
+          "codigo": "HC0125",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "J400": {
+        "CHI": {
+          "codigo": "HC0128",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        },
+        "INC": {
+          "codigo": "HC0127",
+          "valor": 130.0,
+          "valor_str": "R$ 130,00"
+        }
+      },
+      "J5 PRIME": {
+        "INC": {
+          "codigo": "HC0129",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "J5 PRO": {
+        "CHI": {
+          "codigo": "HC0131",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "INC": {
+          "codigo": "HC0130",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "J500": {
+        "CHI": {
+          "codigo": "HC0133",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        },
+        "INC": {
+          "codigo": "HC0132",
+          "valor": 135.0,
+          "valor_str": "R$ 135,00"
+        }
+      },
+      "J510": {
+        "CHI": {
+          "codigo": "HC0135",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        },
+        "INC": {
+          "codigo": "HC0134",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "J6 PLUS": {
+        "CHI": {
+          "codigo": "HC0126",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "INC": {
+          "codigo": "HC0125",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "J600": {
+        "CHI": {
+          "codigo": "HC0137",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "INC": {
+          "codigo": "HC0136",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "J7 PRIME": {
+        "INC": {
+          "codigo": "HC0138",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "J7 PRO": {
+        "CHI": {
+          "codigo": "HC0140",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "INC": {
+          "codigo": "HC0139",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "J700": {
+        "CHI": {
+          "codigo": "HC0142",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        },
+        "INC": {
+          "codigo": "HC0141",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "J701": {
+        "CHI": {
+          "codigo": "HC0144",
+          "valor": 210.0,
+          "valor_str": "R$ 210,00"
+        },
+        "INC": {
+          "codigo": "HC0143",
+          "valor": 130.0,
+          "valor_str": "R$ 130,00"
+        }
+      },
+      "J710": {
+        "CHI": {
+          "codigo": "HC0146",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "INC": {
+          "codigo": "HC0145",
+          "valor": 130.0,
+          "valor_str": "R$ 130,00"
+        }
+      },
+      "J8": {
+        "CHI": {
+          "codigo": "HC0148",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0147",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "J8 PLUS": {
+        "CHI": {
+          "codigo": "HC0148",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0147",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "J810": {
+        "CHI": {
+          "codigo": "HC0148",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0147",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "LCD G530": {
+        "INC": {
+          "codigo": "HC0149",
+          "valor": 135.0,
+          "valor_str": "R$ 135,00"
+        }
+      },
+      "M10 C/A": {
+        "INC": {
+          "codigo": "HC0023",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "M10S": {
+        "INC": {
+          "codigo": "HC0022",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "M12": {
+        "INC": {
+          "codigo": "HC0029",
+          "valor": 160.0,
+          "valor_str": "R$ 160,00"
+        }
+      },
+      "M13": {
+        "CHI": {
+          "codigo": "HC0032",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        },
+        "INC": {
+          "codigo": "HC0033",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "M13 S": {
+        "INC": {
+          "codigo": "HC0159",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "M20": {
+        "INC": {
+          "codigo": "HC0150",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "M20 C/A": {
+        "INC": {
+          "codigo": "HC0151",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "M21": {
+        "CHI": {
+          "codigo": "HC0158",
+          "valor": 270.0,
+          "valor_str": "R$ 270,00"
+        },
+        "INC": {
+          "codigo": "HC0157",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "M21S": {
+        "CHI": {
+          "codigo": "HC0153",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        },
+        "INC": {
+          "codigo": "HC0152",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "M22 C/A": {
+        "INC": {
+          "codigo": "HC0188",
+          "valor": 700.0,
+          "valor_str": "R$ 700,00"
+        }
+      },
+      "M23": {
+        "INC": {
+          "codigo": "HC0155",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "M23 C/A": {
+        "CHI": {
+          "codigo": "HC0154",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        }
+      },
+      "M30": {
+        "CHI": {
+          "codigo": "HC0158",
+          "valor": 270.0,
+          "valor_str": "R$ 270,00"
+        },
+        "INC": {
+          "codigo": "HC0157",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "M30S": {
+        "CHI": {
+          "codigo": "HC0158",
+          "valor": 270.0,
+          "valor_str": "R$ 270,00"
+        },
+        "INC": {
+          "codigo": "HC0157",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "M31": {
+        "CHI": {
+          "codigo": "HC0158",
+          "valor": 270.0,
+          "valor_str": "R$ 270,00"
+        },
+        "INC": {
+          "codigo": "HC0157",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "M32": {
+        "INC": {
+          "codigo": "HC0189",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "M32 C/A": {
+        "CHI": {
+          "codigo": "HC0190",
+          "valor": 1120.0,
+          "valor_str": "R$ 1120,00"
+        }
+      },
+      "M33": {
+        "INC": {
+          "codigo": "HC0051",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "M33 C/A": {
+        "CHI": {
+          "codigo": "HC0191",
+          "valor": 900.0,
+          "valor_str": "R$ 900,00"
+        }
+      },
+      "M34 S": {
+        "INC": {
+          "codigo": "HC0192",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "M51": {
+        "INC": {
+          "codigo": "HC0156",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        }
+      },
+      "M52 C/A": {
+        "CHI": {
+          "codigo": "HC0194",
+          "valor": 1100.0,
+          "valor_str": "R$ 1100,00"
+        }
+      },
+      "M52 S": {
+        "INC": {
+          "codigo": "HC0193",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "M53 C/A": {
+        "CHI": {
+          "codigo": "HC0195",
+          "valor": 1200.0,
+          "valor_str": "R$ 1200,00"
+        }
+      },
+      "M62 C/A": {
+        "CHI": {
+          "codigo": "HC0198",
+          "valor": 280.0,
+          "valor_str": "R$ 280,00"
+        },
+        "INC": {
+          "codigo": "HC0197",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "M62 S": {
+        "INC": {
+          "codigo": "HC0196",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "NOTE 10 C/A": {
+        "CHI": {
+          "codigo": "HC0187",
+          "valor": 2300.0,
+          "valor_str": "R$ 2300,00"
+        }
+      },
+      "NOTE 10 PLUS": {
+        "CHI": {
+          "codigo": "HC0186",
+          "valor": 3200.0,
+          "valor_str": "R$ 3200,00"
+        },
+        "INC": {
+          "codigo": "HC0185",
+          "valor": 800.0,
+          "valor_str": "R$ 800,00"
+        }
+      },
+      "S10": {
+        "INC": {
+          "codigo": "HC0165",
+          "valor": 1700.0,
+          "valor_str": "R$ 1700,00"
+        }
+      },
+      "S10 LITE": {
+        "INC": {
+          "codigo": "HC0169",
+          "valor": 1360.0,
+          "valor_str": "R$ 1360,00"
+        }
+      },
+      "S10 PLUS": {
+        "CHI": {
+          "codigo": "HC0167",
+          "valor": 2200.0,
+          "valor_str": "R$ 2200,00"
+        },
+        "INC": {
+          "codigo": "HC0166",
+          "valor": 2300.0,
+          "valor_str": "R$ 2300,00"
+        }
+      },
+      "S10E": {
+        "INC": {
+          "codigo": "HC0168",
+          "valor": 1200.0,
+          "valor_str": "R$ 1200,00"
+        }
+      },
+      "S20 C/A": {
+        "INC": {
+          "codigo": "HC0174",
+          "valor": 1500.0,
+          "valor_str": "R$ 1500,00"
+        }
+      },
+      "S20 LITE": {
+        "CHI": {
+          "codigo": "HC0170",
+          "valor": 2600.0,
+          "valor_str": "R$ 2600,00"
+        }
+      },
+      "S20 PLUS": {
+        "INC": {
+          "codigo": "HC0173",
+          "valor": 2200.0,
+          "valor_str": "R$ 2200,00"
+        }
+      },
+      "S20 ULTRA": {
+        "INC": {
+          "codigo": "HC0175",
+          "valor": 2760.0,
+          "valor_str": "R$ 2760,00"
+        }
+      },
+      "S20FE": {
+        "CHI": {
+          "codigo": "HC0172",
+          "valor": 1160.0,
+          "valor_str": "R$ 1160,00"
+        },
+        "INC": {
+          "codigo": "HC0171",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "S21": {
+        "INC": {
+          "codigo": "HC0176",
+          "valor": 1360.0,
+          "valor_str": "R$ 1360,00"
+        }
+      },
+      "S21 PLUS": {
+        "INC": {
+          "codigo": "HC0177",
+          "valor": 1400.0,
+          "valor_str": "R$ 1400,00"
+        }
+      },
+      "S21 ULTRA": {
+        "INC": {
+          "codigo": "HC0178",
+          "valor": 2800.0,
+          "valor_str": "R$ 2800,00"
+        }
+      },
+      "S22 PLUS": {
+        "INC": {
+          "codigo": "HC0179",
+          "valor": 1900.0,
+          "valor_str": "R$ 1900,00"
+        }
+      },
+      "S22 ULTRA": {
+        "CHI": {
+          "codigo": "HC0181",
+          "valor": 2800.0,
+          "valor_str": "R$ 2800,00"
+        },
+        "INC": {
+          "codigo": "HC0180",
+          "valor": 1500.0,
+          "valor_str": "R$ 1500,00"
+        }
+      },
+      "S23 PLUS": {
+        "INC": {
+          "codigo": "HC0182",
+          "valor": 2000.0,
+          "valor_str": "R$ 2000,00"
+        }
+      },
+      "S23 ULTRA": {
+        "CHI": {
+          "codigo": "HC0184",
+          "valor": 3000.0,
+          "valor_str": "R$ 3000,00"
+        },
+        "INC": {
+          "codigo": "HC0183",
+          "valor": 1600.0,
+          "valor_str": "R$ 1600,00"
+        }
+      },
+      "S7": {
+        "INC": {
+          "codigo": "HC0160",
+          "valor": 680.0,
+          "valor_str": "R$ 680,00"
+        }
+      },
+      "S8": {
+        "INC": {
+          "codigo": "HC0161",
+          "valor": 960.0,
+          "valor_str": "R$ 960,00"
+        }
+      },
+      "S8 PLUS": {
+        "INC": {
+          "codigo": "HC0162",
+          "valor": 1200.0,
+          "valor_str": "R$ 1200,00"
+        }
+      },
+      "S9 PLUS": {
+        "CHI": {
+          "codigo": "HC0164",
+          "valor": 1600.0,
+          "valor_str": "R$ 1600,00"
+        },
+        "INC": {
+          "codigo": "HC0163",
+          "valor": 1320.0,
+          "valor_str": "R$ 1320,00"
+        }
+      }
+    },
+    "XIAOMI": {
+      "10A": {
+        "INC": {
+          "codigo": "HC0396",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0397",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "10C": {
+        "INC": {
+          "codigo": "HC0474",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "10S G 4G": {
+        "CHI": {
+          "codigo": "HC0431",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "11S 4G": {
+        "CHI": {
+          "codigo": "HC0452",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0451",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "12 PRO 5G": {
+        "CHI": {
+          "codigo": "HC0495",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        },
+        "INC": {
+          "codigo": "HC0494",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "5A": {
+        "INC": {
+          "codigo": "HC0390",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "6A": {
+        "INC": {
+          "codigo": "HC0410",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "7A": {
+        "INC": {
+          "codigo": "HC0391",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "8A": {
+        "INC": {
+          "codigo": "HC0392",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "9 LITE": {
+        "CHI": {
+          "codigo": "HC0395",
+          "valor": 440.0,
+          "valor_str": "R$ 440,00"
+        },
+        "INC": {
+          "codigo": "HC0394",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "9A": {
+        "INC": {
+          "codigo": "HC0398",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0397",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "9C": {
+        "INC": {
+          "codigo": "HC0398",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        },
+        "NAC": {
+          "codigo": "HC0397",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "9I": {
+        "INC": {
+          "codigo": "HC0396",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0397",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "9I C/A": {
+        "INC": {
+          "codigo": "HC0398",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "A1": {
+        "INC": {
+          "codigo": "HC0399",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A2": {
+        "INC": {
+          "codigo": "HC0400",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "A2 LITE": {
+        "INC": {
+          "codigo": "HC0401",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "A3": {
+        "CHI": {
+          "codigo": "HC0403",
+          "valor": 540.0,
+          "valor_str": "R$ 540,00"
+        },
+        "INC": {
+          "codigo": "HC0402",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        },
+        "NAC": {
+          "codigo": "HC0404",
+          "valor": 980.0,
+          "valor_str": "R$ 980,00"
+        }
+      },
+      "C53": {
+        "INC": {
+          "codigo": "HC0468",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "C55": {
+        "CHI": {
+          "codigo": "HC0393",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "F1": {
+        "INC": {
+          "codigo": "HC0405",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "F3": {
+        "CHI": {
+          "codigo": "HC0407",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0406",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "M3": {
+        "INC": {
+          "codigo": "HC0408",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "M3 S": {
+        "INC": {
+          "codigo": "HC0481",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "MI 11 LITE": {
+        "CHI": {
+          "codigo": "HC0427",
+          "valor": 440.0,
+          "valor_str": "R$ 440,00"
+        },
+        "INC": {
+          "codigo": "HC0426",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "MI PLAY": {
+        "INC": {
+          "codigo": "HC0409",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "MI10T": {
+        "CHI": {
+          "codigo": "HC0425",
+          "valor": 960.0,
+          "valor_str": "R$ 960,00"
+        },
+        "INC": {
+          "codigo": "HC0424",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "MI6": {
+        "INC": {
+          "codigo": "HC0410",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "MI7": {
+        "INC": {
+          "codigo": "HC0411",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "MI8": {
+        "CHI": {
+          "codigo": "HC0413",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "INC": {
+          "codigo": "HC0412",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "NAC": {
+          "codigo": "HC0414",
+          "valor": 500.0,
+          "valor_str": "R$ 500,00"
+        }
+      },
+      "MI8 LITE": {
+        "INC": {
+          "codigo": "HC0415",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "MI9": {
+        "CHI": {
+          "codigo": "HC0417",
+          "valor": 640.0,
+          "valor_str": "R$ 640,00"
+        },
+        "INC": {
+          "codigo": "HC0416",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        }
+      },
+      "MI9 LITE": {
+        "CHI": {
+          "codigo": "HC0423",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "INC": {
+          "codigo": "HC0422",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "MI9SE": {
+        "CHI": {
+          "codigo": "HC0419",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        },
+        "INC": {
+          "codigo": "HC0418",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "MI9T": {
+        "CHI": {
+          "codigo": "HC0421",
+          "valor": 380.0,
+          "valor_str": "R$ 380,00"
+        },
+        "INC": {
+          "codigo": "HC0420",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 10": {
+        "CHI": {
+          "codigo": "HC0431",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "NOTE 10 4G": {
+        "CHI": {
+          "codigo": "HC0450",
+          "valor": 270.0,
+          "valor_str": "R$ 270,00"
+        },
+        "INC": {
+          "codigo": "HC0449",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 10 5G C/A": {
+        "CHI": {
+          "codigo": "HC0436",
+          "valor": 520.0,
+          "valor_str": "R$ 520,00"
+        }
+      },
+      "NOTE 10 5G S": {
+        "INC": {
+          "codigo": "HC0435",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "NOTE 10 LITE": {
+        "INC": {
+          "codigo": "HC0434",
+          "valor": 760.0,
+          "valor_str": "R$ 760,00"
+        }
+      },
+      "NOTE 10 PRO": {
+        "CHI": {
+          "codigo": "HC0433",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "INC": {
+          "codigo": "HC0432",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 10S": {
+        "INC": {
+          "codigo": "HC0466",
+          "valor": 760.0,
+          "valor_str": "R$ 760,00"
+        }
+      },
+      "NOTE 11": {
+        "CHI": {
+          "codigo": "HC0452",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        },
+        "INC": {
+          "codigo": "HC0451",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 11 4G C/A": {
+        "CHI": {
+          "codigo": "HC0454",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "INC": {
+          "codigo": "HC0453",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "NOTE 11 5G": {
+        "INC": {
+          "codigo": "HC0455",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 11 PRO": {
+        "CHI": {
+          "codigo": "HC0457",
+          "valor": 380.0,
+          "valor_str": "R$ 380,00"
+        },
+        "INC": {
+          "codigo": "HC0456",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 12 4G": {
+        "CHI": {
+          "codigo": "HC0459",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        },
+        "INC": {
+          "codigo": "HC0458",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 12 4G C/A": {
+        "CHI": {
+          "codigo": "HC0461",
+          "valor": 360.0,
+          "valor_str": "R$ 360,00"
+        },
+        "INC": {
+          "codigo": "HC0460",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "NOTE 12C": {
+        "INC": {
+          "codigo": "HC0469",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "NOTE 12S": {
+        "CHI": {
+          "codigo": "HC0470",
+          "valor": 320.0,
+          "valor_str": "R$ 320,00"
+        }
+      },
+      "NOTE 13 4G": {
+        "CHI": {
+          "codigo": "HC0463",
+          "valor": 340.0,
+          "valor_str": "R$ 340,00"
+        },
+        "INC": {
+          "codigo": "HC0462",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 13 PRO 4G": {
+        "CHI": {
+          "codigo": "HC0465",
+          "valor": 390.0,
+          "valor_str": "R$ 390,00"
+        },
+        "INC": {
+          "codigo": "HC0464",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "NOTE 4": {
+        "INC": {
+          "codigo": "HC0437",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "NOTE 4X": {
+        "INC": {
+          "codigo": "HC0471",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "NOTE 5": {
+        "INC": {
+          "codigo": "HC0438",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "NOTE 5 PLUS": {
+        "INC": {
+          "codigo": "HC0439",
+          "valor": 260.0,
+          "valor_str": "R$ 260,00"
+        }
+      },
+      "NOTE 5 PRO": {
+        "INC": {
+          "codigo": "HC0440",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "NOTE 50": {
+        "INC": {
+          "codigo": "HC0468",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "NOTE 6 PRO": {
+        "INC": {
+          "codigo": "HC0441",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "NOTE 7": {
+        "INC": {
+          "codigo": "HC0442",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "NOTE 8": {
+        "CHI": {
+          "codigo": "HC0443",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "NOTE 8 PRO": {
+        "INC": {
+          "codigo": "HC0444",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "NOTE 9 PRO": {
+        "CHI": {
+          "codigo": "HC0447",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "INC": {
+          "codigo": "HC0446",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "NOTE 9 S": {
+        "INC": {
+          "codigo": "HC0445",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "NOTE 9S": {
+        "CHI": {
+          "codigo": "HC0447",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        },
+        "INC": {
+          "codigo": "HC0446",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "NOTE 9S PRO": {
+        "INC": {
+          "codigo": "HC0467",
+          "valor": 290.0,
+          "valor_str": "R$ 290,00"
+        }
+      },
+      "NOTE 9T 5G": {
+        "CHI": {
+          "codigo": "HC0448",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "POCO C40": {
+        "INC": {
+          "codigo": "HC0492",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "POCO C55": {
+        "INC": {
+          "codigo": "HC0493",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "POCO M5 4G": {
+        "INC": {
+          "codigo": "HC0491",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "POCO X3": {
+        "INC": {
+          "codigo": "HC0482",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "POCO X3 PRO": {
+        "INC": {
+          "codigo": "HC0483",
+          "valor": 200.0,
+          "valor_str": "R$ 200,00"
+        }
+      },
+      "POCO X4 GT": {
+        "INC": {
+          "codigo": "HC0484",
+          "valor": 240.0,
+          "valor_str": "R$ 240,00"
+        }
+      },
+      "POCO X4 PRO": {
+        "CHI": {
+          "codigo": "HC0486",
+          "valor": 520.0,
+          "valor_str": "R$ 520,00"
+        },
+        "INC": {
+          "codigo": "HC0485",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        },
+        "NAC": {
+          "codigo": "HC0487",
+          "valor": 1160.0,
+          "valor_str": "R$ 1160,00"
+        }
+      },
+      "POCO X5 INC": {
+        "CHI": {
+          "codigo": "HC0489",
+          "valor": 440.0,
+          "valor_str": "R$ 440,00"
+        },
+        "INC": {
+          "codigo": "HC0488",
+          "valor": 220.0,
+          "valor_str": "R$ 220,00"
+        }
+      },
+      "POCO X6 INC": {
+        "INC": {
+          "codigo": "HC0490",
+          "valor": 230.0,
+          "valor_str": "R$ 230,00"
+        }
+      },
+      "REDMI 10 5G": {
+        "INC": {
+          "codigo": "HC0475",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "REDMI 10 POWER": {
+        "INC": {
+          "codigo": "HC0476",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "REDMI 10A": {
+        "INC": {
+          "codigo": "HC0474",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "REDMI 12": {
+        "INC": {
+          "codigo": "HC0477",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "REDMI 13C": {
+        "INC": {
+          "codigo": "HC0478",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "REDMI 14C": {
+        "INC": {
+          "codigo": "HC0479",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "REDMI 9 C/A": {
+        "INC": {
+          "codigo": "HC0473",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        }
+      },
+      "REDMI 9 S": {
+        "CHI": {
+          "codigo": "HC0472",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "REDMI A2 C/A": {
+        "INC": {
+          "codigo": "HC0429",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "REDMI A3": {
+        "INC": {
+          "codigo": "HC0428",
+          "valor": 170.0,
+          "valor_str": "R$ 170,00"
+        }
+      },
+      "REDMI NOTE 10 4G": {
+        "INC": {
+          "codigo": "HC0430",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      },
+      "S2": {
+        "INC": {
+          "codigo": "HC0480",
+          "valor": 300.0,
+          "valor_str": "R$ 300,00"
+        }
+      },
+      "X3 GT": {
+        "INC": {
+          "codigo": "HC0482",
+          "valor": 190.0,
+          "valor_str": "R$ 190,00"
+        }
+      },
+      "X5 PRO": {
+        "CHI": {
+          "codigo": "HC0495",
+          "valor": 400.0,
+          "valor_str": "R$ 400,00"
+        },
+        "INC": {
+          "codigo": "HC0494",
+          "valor": 195.0,
+          "valor_str": "R$ 195,00"
+        }
+      }
+    }
+  }
+}

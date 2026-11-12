@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+ * HC TECH — DESIGN SYSTEM PROFISSIONAL V2
+ * Alta Legibilidade | Contraste WCAG AAA | Inspirado em GitHub/Linear
+ * ============================================================================ */
+
+@layer base {
+  :root {
+    /* ===== TEMA CLARO - MÁXIMA LEGIBILIDADE ===== */
+    
+    /* Fundo: Branco levemente azulado */
+    --background: 210 17% 98%;
+    
+    /* Texto principal: Preto slate (contraste 16:1) */
+    --foreground: 222 47% 11%;
+    
+    /* Cards: Branco puro com sombra */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    
+    /* Popovers */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    
+    /* Primary: Verde Emerald forte e legível */
+    --primary: 158 64% 40%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary: Cinza claro */
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 222 47% 11%;
+    
+    /* Muted: Cinza suave */
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%;
+    
+    /* Accent */
+    --accent: 214 32% 91%;
+    --accent-foreground: 222 47% 11%;
+    
+    /* Destructive: Vermelho intenso */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border: Cinza médio visível */
+    --border: 214 20% 82%;
+    --input: 214 20% 82%;
+    
+    /* Ring */
+    --ring: 158 64% 40%;
+    
+    /* Success/Warning/Info */
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
+    --info: 199 89% 48%;
+    
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* ===== TEMA ESCURO - CONTRASTE ALTO ===== */
+    
+    /* Fundo: Cinza escuro profundo */
+    --background: 222 47% 11%;
+    
+    /* Texto: Branco com leve azul (contraste 15:1) */
+    --foreground: 210 40% 98%;
+    
+    /* Cards: Cinza slate médio */
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+    
+    /* Popovers */
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+    
+    /* Primary: Verde Emerald brilhante */
+    --primary: 158 64% 52%;
+    --primary-foreground: 222 47% 11%;
+    
+    /* Secondary */
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Muted */
+    --muted: 223 47% 11%;
+    --muted-foreground: 215 20% 65%;
+    
+    /* Accent */
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    
+    /* Destructive */
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border: Cinza médio visível */
+    --border: 217 33% 24%;
+    --input: 217 33% 24%;
+    
+    /* Ring */
+    --ring: 158 64% 52%;
+    
+    /* Success/Warning/Info */
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+    --info: 199 89% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    line-height: 1.6;
+  }
+  
+  /* Melhor legibilidade de texto */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-foreground;
+    letter-spacing: -0.02em;
+  }
+  
+  p {
+    @apply text-foreground;
+  }
+  
+  /* Links */
+  a {
+    @apply text-primary hover:underline;
+  }
+}
+
+/* ============================================================================
+ * COMPONENTES CUSTOMIZADOS
+ * ============================================================================ */
+
+@layer components {
+  /* Card moderno com sombra suave */
+  .card-modern {
+    @apply rounded-xl border-2 border-border bg-card shadow-md hover:shadow-lg transition-shadow;
+  }
+
+  /* Botão moderno */
+  .btn-modern {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  /* Input moderno com melhor contraste */
+  .input-modern {
+    @apply flex h-11 w-full rounded-lg border-2 border-input bg-card px-4 py-2 text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 transition-all;
+  }
+  
+  /* Badge moderno */
+  .badge-modern {
+    @apply inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold transition-colors;
+  }
+  
+  /* Tabela com boa legibilidade */
+  .table-modern {
+    @apply w-full border-collapse;
+  }
+  
+  .table-modern thead {
+    @apply border-b-2 border-border bg-muted/50;
+  }
+  
+  .table-modern th {
+    @apply px-4 py-3 text-left text-sm font-semibold text-foreground;
+  }
+  
+  .table-modern td {
+    @apply px-4 py-3 text-sm text-foreground border-b border-border;
+  }
+  
+  .table-modern tr:hover {
+    @apply bg-muted/50;
+  }
+}
