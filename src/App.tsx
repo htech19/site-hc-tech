@@ -34,13 +34,11 @@ const SistemaOrcamentosPage = lazy(() => import("./sistema/pages/SistemaOrcament
 const SistemaCaixaPage = lazy(() => import("./sistema/pages/SistemaCaixaPage"));
 const SistemaDevolucoesPage = lazy(() => import("./sistema/pages/SistemaDevolucoesPage"));
 const SistemaRelatoriosPage = lazy(() => import("./sistema/pages/SistemaRelatoriosPage"));
-// Vindas da main: orçamentos solicitados pelo site (Lovable).
-const SistemaImportarEstoquePage = lazy(() => import("./sistema/pages/SistemaImportarEstoquePage"));`nconst SistemaSolicitacoesPage = lazy(() => import("./sistema/pages/SistemaSolicitacoesPage"));
+const SistemaSolicitacoesPage = lazy(() => import("./sistema/pages/SistemaSolicitacoesPage"));
+const SistemaImportarEstoquePage = lazy(() => import("./sistema/pages/SistemaImportarEstoquePage"));
 
 const QuoteDialog = lazy(() => import("@/components/quote/QuoteDialog"));
 
-// QueryClient compartilhado com a store do /sistema (permite invalidação de cache
-// a partir das ações CRUD sem dependência circular). Ver src/sistema/queryClient.ts
 const queryClient = getQueryClient();
 
 const App = () => {
@@ -57,34 +55,24 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/index" element={<Navigate to="/telas" replace />} />
-
               <Route path="/loja" element={<LojaPage />} />
               <Route path="/loja/:slug" element={<LojaPage />} />
-
               <Route path="/produto/:slug" element={<ProdutoPage />} />
-
               <Route path="/telas" element={<TelasPage />} />
-              {/* Página antiga excluída: /telas absorveu o design e o conteúdo. */}
               <Route path="/trocas-de-tela" element={<Navigate to="/telas" replace />} />
               <Route path="/privacidade" element={<PrivacidadePage />} />
-              <Route
-                path="/sistema"
-                element={
-                  <SistemaAuthProvider>
-                    <Outlet />
-                  </SistemaAuthProvider>
-                }
-              >
-                <Route path="login" element={<SistemaLoginPage />} />\n                <Route path="auth/callback" element={<AuthCallback />} />
+              <Route path="/sistema" element={<SistemaAuthProvider><Outlet /></SistemaAuthProvider>}>
+                <Route path="login" element={<SistemaLoginPage />} />
+                <Route path="auth/callback" element={<AuthCallback />} />
                 <Route element={<SistemaLayout />}>
                   <Route index element={<SistemaDashboardPage />} />
                   <Route path="os" element={<SistemaOsPage />} />
                   <Route path="clientes" element={<SistemaClientesPage />} />
-                  
                   <Route path="solicitacoes" element={<SistemaSolicitacoesPage />} />
                   <Route path="servicos" element={<SistemaTabelaPrecosPage />} />
                   <Route path="tipos-servico" element={<SistemaServicosPage />} />
-                  <Route path="estoque-import" element={<SistemaImportarEstoquePage />} /><Route path="estoque-import" element={<SistemaImportarEstoquePage />} /><Route path="estoque" element={<SistemaEstoquePage />} />
+                  <Route path="estoque-import" element={<SistemaImportarEstoquePage />} />
+                  <Route path="estoque" element={<SistemaEstoquePage />} />
                   <Route path="orcamentos" element={<SistemaOrcamentosPage />} />
                   <Route path="caixa" element={<SistemaCaixaPage />} />
                   <Route path="devolucoes" element={<SistemaDevolucoesPage />} />
@@ -106,7 +94,3 @@ const App = () => {
 };
 
 export default App;
-
-
-
-
