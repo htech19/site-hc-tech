@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importar Produtos HC TECH</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; background: #09090b; color: #e4e4e7; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .container { background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 2rem; max-width: 600px; width: 100%; }
+        h1 { color: #00FF88; margin-bottom: 0.5rem; font-size: 1.5rem; }
+        p { color: #a1a1aa; margin-bottom: 1.5rem; }
+        button { width: 100%; padding: 1rem; background: #00FF88; color: #09090b; font-weight: bold; font-size: 1.1rem; border: none; border-radius: 8px; cursor: pointer; transition: opacity 0.2s; }
+        button:hover { opacity: 0.9; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .status { margin-top: 1rem; padding: 1rem; background: #27272a; border-radius: 8px; font-size: 0.9rem; }
+        .success { color: #00FF88; }
+        .error { color: #ef4444; }
+        .spinner { animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Importação de Produtos HC TECH</h1>
+        <p>16 produtos da planilha Excel serão cadastrados no estoque com proprietário "Mercado Livre".</p>
+        <button id="btnImportar" onclick="importar()">⬆️ IMPORTAR AGORA</button>
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.0";
+
+        const SUPABASE_URL = "https://chllhailtkuffciaanlx.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_H5gO5VPYh27e6lYU6fcxLg_Hn2sLXHn";
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const PRODUTOS = [
+            { sku:"001", aparelho:"Cartão de Memória Altomex 8GB Class 10 (AL-MO-8)", cat:"armazenamento", qtd:3, preco:50, marca:"Altomex", modelo:"AL-MO-8", forn:"Altomex" },
+            { sku:"002", aparelho:"Cabo de Áudio KAIDI P2 para P2 1m (KD-29)", cat:"cabos_conectores", qtd:7, preco:20, marca:"KAIDI", modelo:"KD-29", forn:"KAIDI" },
+            { sku:"003", aparelho:"Película de Câmera Olyps (iPhone 13 / 13 mini)", cat:"peliculas_protecao", qtd:9, preco:10, marca:"Olyps", modelo:"iPhone 13/13 mini", forn:"Olyps" },
+            { sku:"004", aparelho:"Cabo Tipo-C para Tipo-C KAIDI Turbo PD 60W (KD-27)", cat:"cabos_conectores", qtd:8, preco:35, marca:"KAIDI", modelo:"KD-27", forn:"KAIDI" },
+            { sku:"005", aparelho:"Cabo Micro USB KAIDI Carregamento Rápido 1m (KD-39M)", cat:"cabos_conectores", qtd:10, preco:25, marca:"KAIDI", modelo:"KD-39M", forn:"KAIDI" },
+            { sku:"006", aparelho:"Cabo USB Tipo-C KAIDI Carregamento Rápido 1m (KD-39C)", cat:"cabos_conectores", qtd:8, preco:25, marca:"KAIDI", modelo:"KD-39C", forn:"KAIDI" },
+            { sku:"007", aparelho:"Cabo USB para Lightning KAIDI com Tela Digital (KD-104A)", cat:"cabos_conectores", qtd:2, preco:30, marca:"KAIDI", modelo:"KD-104A", forn:"KAIDI" },
+            { sku:"008", aparelho:"Carregador Portátil Universal LEHMOX 5V-3.1A (LEY-235)", cat:"carregadores", qtd:4, preco:25, marca:"LEHMOX", modelo:"LEY-235", forn:"LEHMOX" },
+            { sku:"009", aparelho:"Adaptador Lightning para P2 3.5mm LEHMOX (LEY-234)", cat:"acessorios", qtd:6, preco:15, marca:"LEHMOX", modelo:"LEY-234", forn:"LEHMOX" },
+            { sku:"010", aparelho:"Cabo USB para Lightning LOGIC Timão Corinthians", cat:"cabos_conectores", qtd:1, preco:25, marca:"LOGIC", modelo:"Timão", forn:"LOGIC" },
+            { sku:"011", aparelho:"Capa Space Collection (iPhone 15 Pro Max)", cat:"capas", qtd:9, preco:null, marca:"Space Collection", modelo:"iPhone 15 Pro Max", forn:null },
+            { sku:"012", aparelho:"Bateria de Lítio 3V LE-BT2025 Lehmox (cartela)", cat:"baterias", qtd:17, preco:5, marca:"Lehmox", modelo:"LE-BT2025", forn:"Lehmox" },
+            { sku:"013", aparelho:"Cabo de Rede / Conexão Altomex Azul", cat:"cabos_conectores", qtd:4, preco:25, marca:"Altomex", modelo:null, forn:"Altomex" },
+            { sku:"014", aparelho:"Adaptador Dual Lightning Audio & Charge (J-008)", cat:"acessorios", qtd:2, preco:20, marca:null, modelo:"J-008", forn:null },
+            { sku:"015", aparelho:"Fone TWS Auricular KAIDI (KD-7026)", cat:"audio", qtd:3, preco:60, marca:"KAIDI", modelo:"KD-7026", forn:"KAIDI" },
+            { sku:"016", aparelho:"Suporte de Celular para Moto LEHMOX (LEY-1602)", cat:"acessorios", qtd:3, preco:25, marca:"LEHMOX", modelo:"LEY-1602", forn:"LEHMOX" },
+        ];
+
+        window.importar = async function() {
+            const btn = document.getElementById('btnImportar');
+            const status = document.getElementById('status');
+            btn.disabled = true;
+            btn.textContent = "⏳ Importando...";
+            
+            try {
+                // Excluir produtos com SKUs da lista (para limpar estoque existente)
+                const skus = PRODUTOS.map(p => p.sku);
+                const { error: deleteError } = await supabase
+                    .from('estoque')
+                    .delete()
+                    .in('sku', skus);
+                
+                if (deleteError) console.warn('Erro ao excluir:', deleteError.message);
+
+                // Inserir novos produtos com proprietário Mercado Livre
+                const insertData = PRODUTOS.map(p => ({
+                    sku: p.sku,
+                    aparelho: p.aparelho,
+                    categoria: p.cat,
+                    quantidade: p.qtd,
+                    custo: null,
+                    preco_venda: p.preco,
+                    proprietario: "Mercado Livre",
+                    canal_de_venda: "Mercado Livre",
+                    fornecedor: p.forn,
+                    marca: p.marca,
+                    modelo: p.modelo,
+                    condicao: "Novo",
+                }));
+
+                const { data, error } = await supabase.from('estoque').insert(insertData);
+                
+                if (error) {
+                    throw error;
+                }
+
+                status.innerHTML = `<div class="status success">✅ Concluído! ${PRODUTOS.length} produtos importados com proprietário "Mercado Livre".</div>`;
+                btn.textContent = "✅ CONCLUÍDO!";
+            } catch (err) {
+                status.innerHTML = `<div class="status error">❌ Erro: ${err.message}</div>`;
+                btn.disabled = false;
+                btn.textContent = "⬆️ TENTAR NOVAMENTE";
+            }
+        };
+    </script>
+</body>
+</html>
