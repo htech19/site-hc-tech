@@ -35,7 +35,7 @@ const SistemaCaixaPage = lazy(() => import("./sistema/pages/SistemaCaixaPage"));
 const SistemaDevolucoesPage = lazy(() => import("./sistema/pages/SistemaDevolucoesPage"));
 const SistemaRelatoriosPage = lazy(() => import("./sistema/pages/SistemaRelatoriosPage"));
 // Vindas da main: orçamentos solicitados pelo site (Lovable).
-const SistemaSolicitacoesPage = lazy(() => import("./sistema/pages/SistemaSolicitacoesPage"));
+const SistemaImportarEstoquePage = lazy(() => import("./sistema/pages/SistemaImportarEstoquePage"));`nconst SistemaSolicitacoesPage = lazy(() => import("./sistema/pages/SistemaSolicitacoesPage"));
 
 const QuoteDialog = lazy(() => import("@/components/quote/QuoteDialog"));
 
@@ -84,7 +84,7 @@ const App = () => {
                   <Route path="solicitacoes" element={<SistemaSolicitacoesPage />} />
                   <Route path="servicos" element={<SistemaTabelaPrecosPage />} />
                   <Route path="tipos-servico" element={<SistemaServicosPage />} />
-                  <Route path="estoque" element={<SistemaEstoquePage />} />
+                  <Route path="estoque-import" element={<SistemaImportarEstoquePage />} /><Route path="estoque-import" element={<SistemaImportarEstoquePage />} /><Route path="estoque" element={<SistemaEstoquePage />} />
                   <Route path="orcamentos" element={<SistemaOrcamentosPage />} />
                   <Route path="caixa" element={<SistemaCaixaPage />} />
                   <Route path="devolucoes" element={<SistemaDevolucoesPage />} />
@@ -106,4 +106,7 @@ const App = () => {
 };
 
 export default App;
+
+
+
 
