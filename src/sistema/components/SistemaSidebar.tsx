@@ -1,9 +1,10 @@
 import { memo, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   BarChart3,
   ClipboardList,
   CreditCard,
+  Home,
   KeyRound,
   LayoutDashboard,
   LogOut,
@@ -109,7 +110,10 @@ export const SistemaSidebar = memo(function SistemaSidebar({ aberto, aoFechar, c
         aria-label="Navegação principal"
       >
         {/* Cabeçalho da marca */}
-        <div className="flex items-center gap-3 border-b border-border px-4 py-4">
+        <div className="flex items-center gap-3 border-b border-border px-4 py-4 cursor-pointer hover:bg-secondary/50 rounded-lg mx-2"
+          onClick={() => { window.location.href = "/sistema"; }}
+          title="Ir para Dashboard"
+        >
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-sm font-black text-primary-foreground shadow-sm">
             HC
           </div>
@@ -184,9 +188,6 @@ export const SistemaSidebar = memo(function SistemaSidebar({ aberto, aoFechar, c
           <button
             type="button"
             onClick={() => {
-              void import("@/integrations/supabase/client").then(({ supabase }) =>
-                supabase.auth.signOut()
-              );
               window.location.href = "/sistema/login";
             }}
             className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition hover:bg-secondary hover:text-destructive"
