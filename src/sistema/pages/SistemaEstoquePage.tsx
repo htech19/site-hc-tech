@@ -253,68 +253,81 @@ const SistemaEstoquePage = memo(function SistemaEstoquePage() {
       <EstoqueAlert itens={itens ?? []} />
 
       {/* 2. KPI Cards no Topo — Padrão ShOficina / ERP Pro */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
         {/* Card 1: Saldo & SKUs */}
-        <div className="rounded-2xl border border-border bg-card p-3.5 shadow-sm transition hover:border-border">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-semibold uppercase tracking-wider">Total de Itens</span>
-            <Boxes size={18} className="text-primary" />
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-4 shadow-sm backdrop-blur transition-all hover:border-[#00FF88]/40 hover:shadow-md">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-zinc-300">Total em Estoque</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-[#00FF88]">
+              <Boxes size={18} />
+            </div>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black text-foreground">{metricas.totalUnidades}</span>
-            <span className="text-xs text-muted-foreground">unidade(s)</span>
+          <div className="mt-2.5 flex items-baseline gap-2">
+            <span className="text-3xl font-extrabold tracking-tight text-white">{metricas.totalUnidades}</span>
+            <span className="text-xs font-semibold text-zinc-400">unidades físicas</span>
           </div>
-          <div className="mt-1 text-[11px] text-muted-foreground">
-            {metricas.totalSkus} produtos/modelos cadastrados
+          <div className="mt-1.5 flex items-center gap-1.5 text-xs text-zinc-400">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#00FF88]" />
+            <span><strong className="text-zinc-200">{metricas.totalSkus}</strong> produtos cadastrados</span>
           </div>
         </div>
 
         {/* Card 2: Mercado Livre */}
-        <div className="rounded-2xl border border-border bg-card p-3.5 shadow-sm transition hover:border-border">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-semibold uppercase tracking-wider">Mercado Livre</span>
-            <ShoppingCart size={18} className="text-amber-400" />
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-4 shadow-sm backdrop-blur transition-all hover:border-amber-400/40 hover:shadow-md">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-zinc-300">Mercado Livre</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-500/10 text-amber-400">
+              <ShoppingCart size={18} />
+            </div>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black text-amber-300">{metricas.unidadesML}</span>
-            <span className="text-xs text-muted-foreground">un. no canal</span>
+          <div className="mt-2.5 flex items-baseline gap-2">
+            <span className="text-3xl font-extrabold tracking-tight text-amber-300">{metricas.unidadesML}</span>
+            <span className="text-xs font-semibold text-amber-400/80">un. no canal</span>
           </div>
-          <div className="mt-1 text-[11px] text-muted-foreground">
-            Itens vinculados ao Mercado Livre
+          <div className="mt-1.5 flex items-center gap-1.5 text-xs text-zinc-400">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-amber-400" />
+            <span>Propriedade <strong className="text-amber-200">Mercado Livre</strong></span>
           </div>
         </div>
 
         {/* Card 3: Valor Financeiro */}
-        <div className="rounded-2xl border border-border bg-card p-3.5 shadow-sm transition hover:border-border">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-semibold uppercase tracking-wider">Valor em Estoque</span>
-            <DollarSign size={18} className="text-primary" />
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-4 shadow-sm backdrop-blur transition-all hover:border-[#00FF88]/40 hover:shadow-md">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-zinc-300">Valor em Estoque</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-[#00FF88]">
+              <DollarSign size={18} />
+            </div>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-lg font-bold text-primary">
-              {metricas.valorVenda > 0 ? `R$ ${metricas.valorVenda.toFixed(2)}` : "—"}
+          <div className="mt-2.5 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#00FF88]">
+              {metricas.valorVenda > 0 ? `R$ ${metricas.valorVenda.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "—"}
             </span>
-            <span className="text-[10px] text-muted-foreground">(venda)</span>
           </div>
-          <div className="mt-1 text-[11px] text-muted-foreground">
-            Custo: {metricas.valorCusto > 0 ? `R$ ${metricas.valorCusto.toFixed(2)}` : "A calcular"}
+          <div className="mt-1.5 flex items-center gap-1.5 text-xs text-zinc-400">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#00FF88]" />
+            <span>Potencial bruto de venda</span>
           </div>
         </div>
 
         {/* Card 4: Atenção / Reposição */}
-        <div className="rounded-2xl border border-border bg-card p-3.5 shadow-sm transition hover:border-border">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs font-semibold uppercase tracking-wider">Reposição Crítica</span>
-            <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-300">
-              {metricas.estoqueBaixo} item(ns)
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-4 shadow-sm backdrop-blur transition-all hover:border-rose-400/40 hover:shadow-md">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-zinc-300">Reposição</span>
+            <span className={
+              metricas.estoqueBaixo > 0
+                ? "rounded-full border border-amber-500/30 bg-amber-500/15 px-2.5 py-0.5 text-xs font-bold text-amber-300"
+                : "rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-xs font-bold text-emerald-400"
+            }>
+              {metricas.estoqueBaixo > 0 ? `${metricas.estoqueBaixo} atenção` : "Normal"}
             </span>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black text-amber-400">{metricas.estoqueBaixo}</span>
-            <span className="text-xs text-muted-foreground">com ≤ 1 un.</span>
+          <div className="mt-2.5 flex items-baseline gap-2">
+            <span className="text-3xl font-extrabold tracking-tight text-white">{metricas.estoqueBaixo}</span>
+            <span className="text-xs font-semibold text-zinc-400">item(ns) crítico(s)</span>
           </div>
-          <div className="mt-1 text-[11px] text-muted-foreground">
-            Aparelhos ou peças perto de zerar
+          <div className="mt-1.5 flex items-center gap-1.5 text-xs text-zinc-400">
+            <span className={`inline-block h-1.5 w-1.5 rounded-full ${metricas.estoqueBaixo > 0 ? "bg-amber-400" : "bg-[#00FF88]"}`} />
+            <span>Saldo igual ou menor a 1 un.</span>
           </div>
         </div>
       </div>
@@ -576,3 +589,4 @@ const SistemaEstoquePage = memo(function SistemaEstoquePage() {
 });
 
 export default SistemaEstoquePage;
+
