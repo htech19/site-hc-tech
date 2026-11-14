@@ -78,6 +78,7 @@ const App = () => {
                   <Route path="caixa" element={<SistemaCaixaPage />} />
                   <Route path="devolucoes" element={<SistemaDevolucoesPage />} />
                   <Route path="relatorios" element={<SistemaRelatoriosPage />} />
+                  <Route path="usuarios" element={<SistemaUsuariosPage />} />
                 </Route>
               </Route>
               <Route path="*" element={<NotFound />} />
@@ -95,5 +96,8 @@ const App = () => {
 };
 
 export default App;
+
+
+
 
 

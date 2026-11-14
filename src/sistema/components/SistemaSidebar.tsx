@@ -14,6 +14,7 @@ import {
   UserRound,
   Wallet,
   Wrench,
+  Shield,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -65,6 +66,7 @@ export const SECOES_MENU: SecaoMenu[] = [
     itens: [
       { para: "/sistema/devolucoes", rotulo: "Devoluções", icone: Undo2 },
       { para: "/sistema/relatorios", rotulo: "Relatórios", icone: BarChart3 },
+      { para: "/sistema/usuarios", rotulo: "Usuários", icone: Shield },
     ],
   },
 ];
