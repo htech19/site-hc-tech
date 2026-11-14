@@ -61,6 +61,7 @@ const App = () => {
               <Route path="/telas" element={<TelasPage />} />
               <Route path="/trocas-de-tela" element={<Navigate to="/telas" replace />} />
               <Route path="/privacidade" element={<PrivacidadePage />} />
+              <Route path="/login" element={<Navigate to="/sistema/login" replace />} />
               <Route path="/sistema" element={<SistemaAuthProvider><Outlet /></SistemaAuthProvider>}>
                 <Route path="login" element={<SistemaLoginPage />} />
                 <Route path="auth/callback" element={<AuthCallback />} />
@@ -94,3 +95,5 @@ const App = () => {
 };
 
 export default App;
+
+
