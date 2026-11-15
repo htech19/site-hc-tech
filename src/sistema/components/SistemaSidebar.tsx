@@ -77,6 +77,8 @@ interface Props {
   aoFechar: () => void;
   /** Total de OS — exibido como badge no item "Ordens de Serviço". */
   contagemOS?: number;
+  /** Navegador para redirecionamento (usado pelo header). */
+  navegar?: (path: string) => void;
 }
 
 /**
@@ -85,9 +87,25 @@ interface Props {
  * No desktop é estático; no mobile desliza por cima do conteúdo. O item ativo
  * recebe destaque em verde neon (#00FF88), conforme spec FASE 6.
  */
-export const SistemaSidebar = memo(function SistemaSidebar({ aberto, aoFechar, contagemOS }: Props) {
-  const { session, loading } = useSistemaAuth();
+export const SistemaSidebar = memo(function SistemaSidebar({ aberto, aoFechar, contagemOS, navegar }: Props) {
+  const { session, loading, signOut } = useSistemaAuth();
   const [dialogSenhaAberto, setDialogSenhaAberto] = useState(false);
+
+  const irParaHome = () => {
+    if (navegar) {
+      navegar("/");
+    } else {
+      window.location.href = "/";
+    }
+  };
+
+  const handleSair = async () => {
+    if (signOut) {
+      await signOut();
+    } else {
+      window.location.href = "/sistema/login";
+    }
+  };
 
   return (
     <>
@@ -187,9 +205,7 @@ export const SistemaSidebar = memo(function SistemaSidebar({ aberto, aoFechar, c
           </button>
           <button
             type="button"
-            onClick={() => {
-              window.location.href = "/sistema/login";
-            }}
+            onClick={handleSair}
             className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition hover:bg-secondary hover:text-destructive"
           >
             <LogOut size={16} /> Sair
