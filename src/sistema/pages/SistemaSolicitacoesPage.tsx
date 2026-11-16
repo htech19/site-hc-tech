@@ -180,16 +180,22 @@ export default function SistemaSolicitacoesPage() {
 
   const excluirSolicitacao = async (s: Sol) => {
     if (!window.confirm(`Deseja realmente enviar a solicitação ${s.protocolo} para a lixeira (excluídos)?`)) return;
+    
+    // Remove o item visualmente da lista IMEDIATAMENTE
+    setRows(prevRows => prevRows.filter(row => row.id !== s.id));
+    setTotal(prevTotal => Math.max(0, prevTotal - 1));
+    
     const { error: err } = await supabase
       .from("orcamento_solicitacoes")
       .update({ status: "cancelada" })
       .eq("id", s.id);
     if (err) {
+      // Se der erro no backend, restaura o item
+      void load();
       return toast({ title: "Erro ao excluir", description: err.message, variant: "destructive" });
     }
     toast({ title: "Solicitação movida para excluídos", description: `Protocolo ${s.protocolo}` });
     setSel(null);
-    void load();
     void recarregarResumo();
   };
 

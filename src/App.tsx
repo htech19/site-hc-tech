@@ -37,6 +37,9 @@ const SistemaRelatoriosPage = lazy(() => import("./sistema/pages/SistemaRelatori
 const SistemaSolicitacoesPage = lazy(() => import("./sistema/pages/SistemaSolicitacoesPage"));
 const SistemaImportarEstoquePage = lazy(() => import("./sistema/pages/SistemaImportarEstoquePage"));
 
+// Temporarily disabled - causing SistemaUsuariosPage is not defined error
+// const SistemaUsuariosPage = lazy(() => import("./sistema/pages/SistemaUsuariosPage"));
+
 const QuoteDialog = lazy(() => import("@/components/quote/QuoteDialog"));
 
 const queryClient = getQueryClient();
@@ -78,7 +81,7 @@ const App = () => {
                   <Route path="caixa" element={<SistemaCaixaPage />} />
                   <Route path="devolucoes" element={<SistemaDevolucoesPage />} />
                   <Route path="relatorios" element={<SistemaRelatoriosPage />} />
-                  <Route path="usuarios" element={<SistemaUsuariosPage />} />
+                  
                 </Route>
               </Route>
               <Route path="*" element={<NotFound />} />
