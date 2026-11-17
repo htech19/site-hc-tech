@@ -95,7 +95,9 @@ function ModalUsuario({ usuario, onClose, onSalvo }: ModalUsuarioProps) {
 export default function SistemaUsuariosPage() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
-  const [modalAberto, setModalAberto] = useState<Usuario | null>(null);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [usuarioEditando, setUsuarioEditando] = useState<Usuario | null>(null);
+  const [saving, setSaving] = useState(false);
   const [busca, setBusca] = useState("");
 
   const carregarUsuarios = async () => {
@@ -147,15 +149,101 @@ export default function SistemaUsuariosPage() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Gestão de Usuários</h1>
-        <Dialog open={!!modalAberto} onOpenChange={v => setModalAberto(v ? (modalAberto || null) : null)}>
-          <DialogTrigger asChild>
-            <Button>
-              <Shield className="h-4 w-4 mr-2" /> Novo Usuário
-            </Button>
-          </DialogTrigger>
-          <ModalUsuario usuario={modalAberto} onClose={() => setModalAberto(null)} onSalvo={carregarUsuarios} />
-        </Dialog>
+        <Button onClick={() => { setUsuarioEditando(null); setMostrarModal(true); }}>
+          <Shield className="h-4 w-4 mr-2" /> Novo Usuário
+        </Button>
       </div>
+
+      {mostrarModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-background rounded-lg p-6 w-full max-w-md m-4">
+            <DialogHeader>
+              <DialogTitle>{usuarioEditando ? "Editar Usuário" : "Novo Usuário"}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <Input 
+                placeholder="Nome completo *" 
+                value={usuarioEditando?.nome || ""} 
+                onChange={e => setUsuarioEditando({ ...(usuarioEditando || {}), nome: e.target.value } as Usuario)} 
+              />
+              <Input 
+                placeholder="E-mail *" 
+                value={usuarioEditando?.email || ""} 
+                onChange={e => setUsuarioEditando({ ...(usuarioEditando || {}), email: e.target.value } as Usuario)} 
+                type="email" 
+              />
+              <Input 
+                placeholder="CPF ou CNPJ" 
+                value={usuarioEditando?.cpf_cnpj || ""} 
+                onChange={e => {
+                  const valor = e.target.value.replace(/\D/g, '').slice(0, 14);
+                  setUsuarioEditando({ ...((usuarioEditando || {}) as Usuario), cpf_cnpj: valor });
+                }} 
+                maxLength={14}
+              />
+              <Input 
+                placeholder="Telefone (opcional)" 
+                value={usuarioEditando?.telefone || ""} 
+                onChange={e => setUsuarioEditando({ ...(usuarioEditando || {}), telefone: e.target.value } as Usuario)} 
+                type="tel" 
+              />
+              <select 
+                value={usuarioEditando?.role || "user"} 
+                onChange={e => setUsuarioEditando({ ...(usuarioEditando || {}), role: e.target.value } as Usuario)}
+                className="w-full border rounded p-2 bg-background"
+              >
+                <option value="admin">Admin</option>
+                <option value="super_admin">Super Admin</option>
+                <option value="manager">Gerente</option>
+                <option value="user">Usuário</option>
+                <option value="viewer">Visualizador</option>
+              </select>
+            </div>
+            <div className="flex gap-2">
+              <Button onClick={async () => {
+                if (!usuarioEditando?.nome || !usuarioEditando?.email) {
+                  toast({ title: "Preencha nome e e-mail", variant: "destructive" });
+                  return;
+                }
+                setSaving(true);
+                try {
+                  if (usuarioEditando.id) {
+                    const { error } = await supabase.from("user_roles").update({ 
+                      nome: usuarioEditando.nome, 
+                      cpf_cnpj: usuarioEditando.cpf_cnpj || null, 
+                      role: usuarioEditando.role 
+                    }).eq("user_id", usuarioEditando.id);
+                    if (error) throw error;
+                  } else {
+                    const { data: newUser, error: err } = await supabase.auth.admin.createUser({
+                      email: usuarioEditando.email,
+                      password: "senha_temporaria_123!",
+                      email_confirmated: true,
+                    });
+                    if (err) throw err;
+                    await supabase.from("user_roles").insert({
+                      user_id: newUser.user.id,
+                      nome: usuarioEditando.nome,
+                      cpf_cnpj: usuarioEditando.cpf_cnpj || null,
+                      role: usuarioEditando.role,
+                    });
+                  }
+                  toast({ title: "Usuário salvo com sucesso!" });
+                  setMostrarModal(false);
+                  carregarUsuarios();
+                } catch (error: any) {
+                  toast({ title: "Erro ao salvar", description: error.message, variant: "destructive" });
+                } finally {
+                  setSaving(false);
+                }
+              }} disabled={saving || !usuarioEditando?.nome || !usuarioEditando?.email}>
+                {saving ? "Salvando..." : "Salvar"}
+              </Button>
+              <Button variant="outline" onClick={() => setMostrarModal(false)}>Cancelar</Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Input placeholder="Buscar por nome ou e-mail..." value={busca} onChange={e => setBusca(e.target.value)} className="max-w-sm" />
 
