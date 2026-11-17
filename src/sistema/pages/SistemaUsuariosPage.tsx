@@ -12,6 +12,7 @@ type Usuario = {
   id: string;
   email: string | null;
   nome: string;
+  cpf_cnpj: string | null;
   telefone: string | null;
   avatar_url: string | null;
   role: string;
@@ -28,6 +29,7 @@ type ModalUsuarioProps = {
 function ModalUsuario({ usuario, onClose, onSalvo }: ModalUsuarioProps) {
   const [nome, setNome] = useState(usuario?.nome || "");
   const [email, setEmail] = useState(usuario?.email || "");
+  const [cpfCnpj, setCpfCnpj] = useState(usuario?.cpf_cnpj || "");
   const [telefone, setTelefone] = useState(usuario?.telefone || "");
   const [role, setRole] = useState(usuario?.role || "user");
   const [saving, setSaving] = useState(false);
@@ -35,7 +37,7 @@ function ModalUsuario({ usuario, onClose, onSalvo }: ModalUsuarioProps) {
   const salvar = async () => {
     setSaving(true);
     if (usuario) {
-      const { error } = await supabase.from("user_roles").update({ nome, role }).eq("user_id", usuario.id);
+      const { error } = await supabase.from("user_roles").update({ nome, cpf_cnpj: cpfCnpj || null, role }).eq("user_id", usuario.id);
       if (error) {
         toast({ title: "Erro ao salvar", description: error.message, variant: "destructive" });
         setSaving(false);
@@ -55,6 +57,7 @@ function ModalUsuario({ usuario, onClose, onSalvo }: ModalUsuarioProps) {
       await supabase.from("user_roles").insert({
         user_id: newUser.user.id,
         nome,
+        cpf_cnpj: cpfCnpj || null,
         role,
       });
     }
@@ -72,6 +75,7 @@ function ModalUsuario({ usuario, onClose, onSalvo }: ModalUsuarioProps) {
       <div className="space-y-4 py-4">
         <Input placeholder="Nome completo" value={nome} onChange={e => setNome(e.target.value)} />
         <Input placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} type="email" />
+        <Input placeholder="CPF ou CNPJ" value={cpfCnpj} onChange={e => setCpfCnpj(e.target.value.replace(/\D/g, '').slice(0, 14))} maxLength={14} />
         <Input placeholder="Telefone (opcional)" value={telefone} onChange={e => setTelefone(e.target.value)} type="tel" />
         <select value={role} onChange={e => setRole(e.target.value)} className="w-full border rounded p-2">
           <option value="admin">Admin</option>
