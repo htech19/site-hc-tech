@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Shield, User, ShieldCheck, ShieldAlert, Trash2, Pencil } from "lucide-react";
+import { Shield, User, ShieldCheck, ShieldAlert, Trash2, Pencil, X } from "lucide-react";
 
 type Usuario = {
   id: string;
@@ -19,78 +18,6 @@ type Usuario = {
   created_at: string;
   updated_at: string;
 };
-
-type ModalUsuarioProps = {
-  usuario?: Usuario | null;
-  onClose: () => void;
-  onSalvo: () => void;
-};
-
-function ModalUsuario({ usuario, onClose, onSalvo }: ModalUsuarioProps) {
-  const [nome, setNome] = useState(usuario?.nome || "");
-  const [email, setEmail] = useState(usuario?.email || "");
-  const [cpfCnpj, setCpfCnpj] = useState(usuario?.cpf_cnpj || "");
-  const [telefone, setTelefone] = useState(usuario?.telefone || "");
-  const [role, setRole] = useState(usuario?.role || "user");
-  const [saving, setSaving] = useState(false);
-
-  const salvar = async () => {
-    setSaving(true);
-    if (usuario) {
-      const { error } = await supabase.from("user_roles").update({ nome, cpf_cnpj: cpfCnpj || null, role }).eq("user_id", usuario.id);
-      if (error) {
-        toast({ title: "Erro ao salvar", description: error.message, variant: "destructive" });
-        setSaving(false);
-        return;
-      }
-    } else {
-      const { data: newUser, error: err } = await supabase.auth.admin.createUser({
-        email,
-        password: "senha_temporaria_123!",
-        email_confirmated: true,
-      });
-      if (err) {
-        toast({ title: "Erro ao criar usuário", description: err.message, variant: "destructive" });
-        setSaving(false);
-        return;
-      }
-      await supabase.from("user_roles").insert({
-        user_id: newUser.user.id,
-        nome,
-        cpf_cnpj: cpfCnpj || null,
-        role,
-      });
-    }
-    toast({ title: "Usuário salvo com sucesso" });
-    setSaving(false);
-    onClose();
-    onSalvo();
-  };
-
-  return (
-    <DialogContent className="max-w-md">
-      <DialogHeader>
-        <DialogTitle>{usuario ? "Editar Usuário" : "Novo Usuário"}</DialogTitle>
-      </DialogHeader>
-      <div className="space-y-4 py-4">
-        <Input placeholder="Nome completo" value={nome} onChange={e => setNome(e.target.value)} />
-        <Input placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} type="email" />
-        <Input placeholder="CPF ou CNPJ" value={cpfCnpj} onChange={e => setCpfCnpj(e.target.value.replace(/\D/g, '').slice(0, 14))} maxLength={14} />
-        <Input placeholder="Telefone (opcional)" value={telefone} onChange={e => setTelefone(e.target.value)} type="tel" />
-        <select value={role} onChange={e => setRole(e.target.value)} className="w-full border rounded p-2">
-          <option value="admin">Admin</option>
-          <option value="super_admin">Super Admin</option>
-          <option value="user">Usuário</option>
-          <option value="manager">Gerente</option>
-          <option value="viewer">Visualizador</option>
-        </select>
-      </div>
-      <Button onClick={salvar} disabled={saving} className="w-full">
-        {saving ? "Salvando..." : "Salvar"}
-      </Button>
-    </DialogContent>
-  );
-}
 
 export default function SistemaUsuariosPage() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
