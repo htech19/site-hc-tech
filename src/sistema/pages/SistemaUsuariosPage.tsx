@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Shield, User, ShieldCheck, ShieldAlert, Trash2, Pencil, X } from "lucide-react";
+import { Shield, User, ShieldCheck, ShieldAlert, Trash2, Pencil, X, Share2 } from "lucide-react";
 
 type Usuario = {
   id: string;
@@ -15,7 +15,7 @@ type Usuario = {
   cpf_cnpj: string | null;
   telefone: string | null;
   avatar_url: string | null;
-  role: string;
+  role: "user" | "admin" | "manager" | "super_admin" | "viewer";
   created_at: string;
   updated_at: string;
 };
@@ -167,9 +167,14 @@ export default function SistemaUsuariosPage() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Gestão de Usuários</h1>
-        <Button onClick={() => { setUsuarioEditando(null); setMostrarModal(true); }}>
-          <Shield className="h-4 w-4 mr-2" /> Novo Usuário
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={abrirCompartilhar} variant="outline">
+            <Share2 className="h-4 w-4 mr-2" /> Compartilhar Acesso
+          </Button>
+          <Button onClick={abrirNovo}>
+            <Shield className="h-4 w-4 mr-2" /> Novo Usuário
+          </Button>
+        </div>
       </div>
 
       {mostrarModal && (
