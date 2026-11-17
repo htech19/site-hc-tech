@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Shield, User, ShieldCheck, ShieldAlert, Trash2, Pencil } from "lucide-react";
+import { Shield, User, ShieldCheck, ShieldAlert, Trash2, Pencil, X } from "lucide-react";
 
 type Usuario = {
   id: string;
@@ -157,9 +156,12 @@ export default function SistemaUsuariosPage() {
       {mostrarModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background rounded-lg p-6 w-full max-w-md m-4">
-            <DialogHeader>
-              <DialogTitle>{usuarioEditando ? "Editar Usuário" : "Novo Usuário"}</DialogTitle>
-            </DialogHeader>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">{usuarioEditando ? "Editar Usuário" : "Novo Usuário"}</h2>
+              <Button variant="ghost" size="sm" onClick={() => setMostrarModal(false)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
             <div className="space-y-4 py-4">
               <Input 
                 placeholder="Nome completo *" 
