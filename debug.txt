@@ -1,0 +1,108 @@
+import { lazy, Suspense } from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Navigate, Routes, Route, Outlet } from "react-router-dom";
+import { CartProvider } from "@/contexts/CartContext";
+import ChatWidget from "@/components/ChatWidget";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import CookieConsent from "@/components/CookieConsent";
+import Index from "./pages/Index";
+import { getQueryClient } from "./sistema/queryClient";
+import { ThemeProvider } from "@/components/ThemeProvider";
+
+const LojaPage = lazy(() => import("./pages/LojaPage"));
+const ProdutoPage = lazy(() => import("./pages/ProdutoPage"));
+const TelasPage = lazy(() => import("./pages/TelasPage"));
+const PrivacidadePage = lazy(() => import("./pages/PrivacidadePage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+const SistemaAuthProvider = lazy(() =>
+  import("./sistema/auth").then((m) => ({ default: m.SistemaAuthProvider }))
+);
+const SistemaLayout = lazy(() => import("./sistema/SistemaLayout"));
+const SistemaLoginPage = lazy(() => import("./sistema/pages/SistemaLoginPage"));
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const SistemaDashboardPage = lazy(() => import("./sistema/pages/SistemaDashboardPage"));
+const SistemaOsPage = lazy(() => import("./sistema/pages/SistemaOsPage"));
+const SistemaClientesPage = lazy(() => import("./sistema/pages/SistemaClientesPage"));
+const SistemaServicosPage = lazy(() => import("./sistema/pages/SistemaServicosPage"));
+const SistemaTabelaPrecosPage = lazy(() => import("./sistema/pages/SistemaTabelaPrecosPage"));
+const SistemaEstoquePage = lazy(() => import("./sistema/pages/SistemaEstoquePage"));
+const SistemaOrcamentosPage = lazy(() => import("./sistema/pages/SistemaOrcamentosPage"));
+const SistemaCaixaPage = lazy(() => import("./sistema/pages/SistemaCaixaPage"));
+const SistemaDevolucoesPage = lazy(() => import("./sistema/pages/SistemaDevolucoesPage"));
+const SistemaRelatoriosPage = lazy(() => import("./sistema/pages/SistemaRelatoriosPage"));
+const SistemaSolicitacoesPage = lazy(() => import("./sistema/pages/SistemaSolicitacoesPage"));
+const SistemaImportarEstoquePage = lazy(() => import("./sistema/pages/SistemaImportarEstoquePage"));
+
+// Temporarily disabled - causing SistemaUsuariosPage is not defined error
+// const SistemaUsuariosPage = lazy(() => import("./sistema/pages/SistemaUsuariosPage"));
+
+const QuoteDialog = lazy(() => import("@/components/quote/QuoteDialog"));
+
+const queryClient = getQueryClient();
+
+const App = () => {
+  return (
+    <ThemeProvider defaultTheme="system">
+    <QueryClientProvider client={queryClient}>
+    <CartProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <GoogleAnalytics />
+          <Suspense fallback={null}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/index" element={<Navigate to="/telas" replace />} />
+              <Route path="/loja" element={<LojaPage />} />
+              <Route path="/loja/:slug" element={<LojaPage />} />
+              <Route path="/produto/:slug" element={<ProdutoPage />} />
+              <Route path="/telas" element={<TelasPage />} />
+              <Route path="/trocas-de-tela" element={<Navigate to="/telas" replace />} />
+              <Route path="/privacidade" element={<PrivacidadePage />} />
+              <Route path="/login" element={<Navigate to="/sistema/login" replace />} />
+              <Route path="/sistema" element={<SistemaAuthProvider><Outlet /></SistemaAuthProvider>}>
+                <Route path="login" element={<SistemaLoginPage />} />
+                <Route path="auth/callback" element={<AuthCallback />} />
+                <Route element={<SistemaLayout />}>
+                  <Route index element={<SistemaDashboardPage />} />
+                  <Route path="os" element={<SistemaOsPage />} />
+                  <Route path="clientes" element={<SistemaClientesPage />} />
+                  <Route path="solicitacoes" element={<SistemaSolicitacoesPage />} />
+                  <Route path="servicos" element={<SistemaTabelaPrecosPage />} />
+                  <Route path="tipos-servico" element={<SistemaServicosPage />} />
+                  <Route path="estoque-import" element={<SistemaImportarEstoquePage />} />
+                  <Route path="estoque" element={<SistemaEstoquePage />} />
+                  <Route path="orcamentos" element={<SistemaOrcamentosPage />} />
+                  <Route path="caixa" element={<SistemaCaixaPage />} />
+                  <Route path="devolucoes" element={<SistemaDevolucoesPage />} />
+                  <Route path="relatorios" element={<SistemaRelatoriosPage />} />
+                  
+                </Route>
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          <Suspense fallback={null}><QuoteDialog /></Suspense>
+          <ChatWidget />
+          <CookieConsent />
+        </BrowserRouter>
+      </TooltipProvider>
+    </CartProvider>
+  </QueryClientProvider>
+  </ThemeProvider>
+  );
+};
+
+export default App;
+
+
+
+
+
+
+
