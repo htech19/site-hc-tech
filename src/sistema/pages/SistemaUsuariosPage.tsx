@@ -36,35 +36,53 @@ function ModalUsuario({ usuario, onClose, onSalvo }: ModalUsuarioProps) {
 
   const salvar = async () => {
     setSaving(true);
-    if (usuario) {
-      const { error } = await supabase.from("user_roles").update({ nome, cpf_cnpj: cpfCnpj || null, role }).eq("user_id", usuario.id);
-      if (error) {
-        toast({ title: "Erro ao salvar", description: error.message, variant: "destructive" });
-        setSaving(false);
-        return;
+    try {
+      if (usuario) {
+        // Edição: atualizar apenas user_roles
+        const { error } = await supabase.from("user_roles").update({ 
+          nome, 
+          cpf_cnpj: cpfCnpj || null, 
+          role 
+        }).eq("user_id", usuario.id);
+        
+        if (error) throw error;
+        toast({ title: "Usuário atualizado com sucesso!" });
+      } else {
+        // Criação via Edge Function
+        const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${await supabase.auth.getSession().then(s => s.data.session?.access_token || "")}`,
+          },
+          body: JSON.stringify({
+            nome,
+            email,
+            password: "senha_temporaria_123!",
+            role,
+            cpf_cnpj,
+            telefone,
+          }),
+        });
+        
+        const result = await response.json();
+        
+        if (result.error) throw new Error(result.error);
+        
+        toast({ title: "Usuário criado com sucesso!" });
       }
-    } else {
-      const { data: newUser, error: err } = await supabase.auth.admin.createUser({
-        email,
-        password: "senha_temporaria_123!",
-        email_confirmated: true,
+      
+      onClose();
+      onSalvo();
+    } catch (error: any) {
+      toast({ 
+        title: "Erro ao salvar", 
+        description: error.message || "Tente novamente", 
+        variant: "destructive" 
       });
-      if (err) {
-        toast({ title: "Erro ao criar usuário", description: err.message, variant: "destructive" });
-        setSaving(false);
-        return;
-      }
-      await supabase.from("user_roles").insert({
-        user_id: newUser.user.id,
-        nome,
-        cpf_cnpj: cpfCnpj || null,
-        role,
-      });
+    } finally {
+      setSaving(false);
     }
-    toast({ title: "Usuário salvo com sucesso" });
-    setSaving(false);
-    onClose();
-    onSalvo();
   };
 
   return (
