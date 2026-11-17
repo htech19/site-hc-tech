@@ -276,7 +276,7 @@ export default function SistemaUsuariosPage() {
                         <Icon className="h-3 w-3 mr-1" />
                         {u.role.replace("_", " ").toUpperCase()}
                       </Badge>
-                      <Button variant="ghost" size="sm" onClick={() => setModalAberto(u)}>
+                      <Button variant="ghost" size="sm" onClick={() => { setUsuarioEditando(u); setMostrarModal(true); }}>
                         <Pencil className="h-4 w-4" />
                       </Button>
                       <Button variant="ghost" size="sm" onClick={() => excluirUsuario(u.id)} className="text-red-600">
